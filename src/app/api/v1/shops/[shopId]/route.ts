@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "../../../../../prisma/prismaClient";
+import prisma from "@/db/prismaClient";
 
 type paramsType = { params: { shopId: string } };
 
