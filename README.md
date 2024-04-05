@@ -20,16 +20,17 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ```graphql
 POS_NEXTJS/
-├── prisma/                 # Prisma folder for database schema and migrations
+├── src/prisma/                 # Prisma folder for database schema and migrations
 │   └── schema.prisma       # Define your database schema here
 ├── src/                    # Source code directory
 │   ├── components/         # Reusable components
-│   ├── containers/         # Page level components
+│   │    └── ui/            # Shadcn UI components
+│   ├── containers/         # Page level components(Option)
 │   ├── utils/              # Utility functions
 │   └── app/                # Next.js app folder
 │          api/             # API routes folder
 │          controllers/     # Controllers folder
-└── .env.local              # Environment variables
+└── .env.example            #Example Environment variables
 
 ```
 
