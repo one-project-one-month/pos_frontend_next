@@ -23,7 +23,7 @@ model Staff {
   mobileNo    String
   address     String
   gender      Gender
-  position    Position      @default(casher)
+  position    Position      @default(cashier)
   SaleInvoice SaleInvoice[]
 }
 
@@ -83,6 +83,6 @@ enum Gender {
 }
 
 enum Position {
-  casher
+  cashier
   admin
 }
