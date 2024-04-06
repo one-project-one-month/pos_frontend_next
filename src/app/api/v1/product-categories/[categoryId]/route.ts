@@ -1,5 +1,5 @@
+import prisma from "@/db/prismaClient";
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "../../../../../prisma/prismaClient";
 
 type paramsType = { params: { categoryId: string } };
 
