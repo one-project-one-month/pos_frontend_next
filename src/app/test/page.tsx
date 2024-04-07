@@ -1,9 +1,9 @@
-import TestView from "@/containers/views/TestView";
+import Test from "@/components/pages/test";
 
-export default async function TestPage() {
+export default async function Test_Page() {
     return (
         <main>
-            <TestView />
+            <Test />
         </main>
     );
 }

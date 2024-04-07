@@ -74,6 +74,7 @@ export function CreateProductFrom() {
                                 <FormControl>
                                     <Input
                                         type="text"
+                                        value={field.value}
                                         onChange={(e) => {
                                             form.setValue("price", Number(e.target.value));
                                         }}
