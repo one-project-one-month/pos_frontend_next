@@ -10,6 +10,10 @@ export async function GET(req: NextRequest, { params }: paramsType) {
             where: {
                 saleInvoiceId: params.invoiceId,
             },
+            include: {
+                staff: true,
+                saleInvoiceDetails: true,
+            },
         });
 
         if (!saleInvoice)
