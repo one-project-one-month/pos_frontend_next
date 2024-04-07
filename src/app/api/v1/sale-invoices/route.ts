@@ -5,6 +5,7 @@ import { PaymentType } from "@prisma/client";
 
 import { SaleInvoiceDetailType } from "@/types/saleInvoice";
 
+/* GET /api/v1/sale-invoices */
 export async function GET(req: NextRequest) {
     try {
         const saleInvoices = await prisma.saleInvoice.findMany({
@@ -17,6 +18,13 @@ export async function GET(req: NextRequest) {
     }
 }
 
+/* POST /api/v1/sale-invoices
+body: {
+    paymentType
+    staffCode
+    products
+}
+*/
 export async function POST(req: NextRequest) {
     try {
         const body: {
