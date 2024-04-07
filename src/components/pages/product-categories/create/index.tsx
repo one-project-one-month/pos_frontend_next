@@ -1,4 +1,4 @@
-import { CreateProductCategoryFrom } from "@/components/pages/product-categories/create/form";
+import { CreateProductCategoryFrom } from "@/components/pages/product-categories/form";
 
 const CreateProductCategory = () => {
     return (

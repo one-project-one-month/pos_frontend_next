@@ -12,7 +12,7 @@ export default function Navbar() {
                     className="border-none text-sm outline-none"
                 />
             </div>
-            <div className="flex items-center gap-3">
+            <div className="ml-auto flex items-center gap-3">
                 <div className="border-0.5 grid h-8 w-8 place-items-center rounded-full border">
                     <MoonIcon />
                 </div>
