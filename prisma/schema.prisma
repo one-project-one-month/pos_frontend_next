@@ -24,7 +24,7 @@ model Staff {
   address     String
   gender      Gender
   position    Position      @default(cashier)
-  SaleInvoice SaleInvoice[]
+  saleInvoice SaleInvoice[]
 }
 
 model Product {
@@ -34,7 +34,7 @@ model Product {
   price              Float
   categoryCode       String?
   category           ProductCategory?     @relation(fields: [categoryCode], references: [productCategoryCode])
-  SaleInvoiceDetails SaleInvoiceDetails[]
+  saleInvoiceDetails SaleInvoiceDetails[]
 }
 
 model ProductCategory {
@@ -55,7 +55,7 @@ model SaleInvoice {
   paymentAmount      Float?
   receiveAmount      Float?
   change             Float?
-  SaleInvoiceDetails SaleInvoiceDetails[]
+  saleInvoiceDetails SaleInvoiceDetails[]
   staffCode          String
   staff              Staff                @relation(fields: [staffCode], references: [staffCode])
 }
