@@ -1,11 +1,12 @@
-import ReactQueryProvider from "@/providers/react-query-provider";
+import Navbar from "@/components/navbar";
 import { PropsWithChildren } from "react";
 
 function MainLayout({ children }: PropsWithChildren) {
     return (
-        <div>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
-        </div>
+        <main>
+            <Navbar />
+            <div className="px-6 py-4">{children}</div>
+        </main>
     );
 }
 

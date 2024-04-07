@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Product, ProductCategory } from "@prisma/client";
 import { productCategoryFormSchema, productFormSchema } from "@/lib/zodFormSchema";
-import SelectScrollable from "../SelectScrollable";
+import SelectScrollable from "../category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
 // let ggg = { productCategoryCode, productCategoryId, productCategoryName } as ProductCategory;
 // const formSchema = z.object({

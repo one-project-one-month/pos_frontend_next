@@ -10,14 +10,16 @@ export default function Sidebar() {
                 <li>
                     <Link
                         href={"/dashboard"}
-                        className="flex items-center gap-2 rounded-md p-3 hover:bg-blue-100 focus:bg-blue-100">
+                        className="flex items-center gap-2 rounded-md p-3 hover:bg-blue-100 focus:bg-blue-100"
+                    >
                         <DashboardIcon /> Dashboard
                     </Link>
                 </li>
                 <li>
                     <Link
                         href={"/order-line"}
-                        className="flex items-center gap-2 rounded-md p-3 hover:bg-blue-100 focus:bg-blue-100">
+                        className="flex items-center gap-2 rounded-md p-3 hover:bg-blue-100 focus:bg-blue-100"
+                    >
                         <PaddingIcon />
                         Order Line
                     </Link>
