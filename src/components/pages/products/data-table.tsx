@@ -1,40 +1,59 @@
+import TableHeader from "@/components/shared/table-header";
+import TablePagination from "@/components/shared/table-pagination";
 import CommonTable from "@/components/ui/table";
 import {
     ColumnDef,
+    ColumnFiltersState,
     getCoreRowModel,
+    getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import { useState } from "react";
 
 interface PCategoriesProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
-    data: TData[];
+    data: TData[] | undefined;
     isLoading?: boolean;
 }
 
-function ProductCategoriesDataTable<TData, TValue>({
+function ProductsDataTable<TData, TValue>({
     columns,
     data,
     isLoading,
 }: PCategoriesProps<TData, TValue>) {
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const table = useReactTable({
         columns,
-        data,
+        data: data ?? [],
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+        state: {
+            columnFilters,
+        },
     });
     return (
         <div>
-            {isLoading ? (
+            {!isLoading || data ? (
+                <>
+                    <div>
+                        <TableHeader table={table} name="Product Name" filterKey="productName" />
+                    </div>
+                    <CommonTable table={table} />
+                    <div className="flex items-center justify-end">
+                        <TablePagination table={table} />
+                    </div>
+                </>
+            ) : (
                 // Loading Skelton Ui
                 <div>Loading...</div>
-            ) : (
-                <CommonTable table={table} />
             )}
         </div>
     );
 }
 
-export default ProductCategoriesDataTable;
+export default ProductsDataTable;
