@@ -63,9 +63,9 @@ model SaleInvoice {
 model SaleInvoiceDetails {
   saleInvoiceDetailsId String      @id @default(uuid())
   voucherNo            String
-  saleInvoice          SaleInvoice @relation(fields: [voucherNo], references: [voucherNo])
+  saleInvoice          SaleInvoice @relation(fields: [voucherNo], references: [voucherNo], onDelete: Cascade)
   productCode          String
-  product              Product     @relation(fields: [productCode], references: [productCode])
+  product              Product     @relation(fields: [productCode], references: [productCode], onDelete: Restrict)
   quantity             Int
   price                Float
   amount               Float
