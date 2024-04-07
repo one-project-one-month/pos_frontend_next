@@ -1,10 +1,16 @@
 "use client";
 
 import { BaseProps } from "@/types/baseType";
-import ThemeProvider from "../providers/ThemeProvider";
+import ThemeProvider from "@/components/providers/ThemeProvider";
+import Header from "@/components/Header";
 
 const BaseLayout = ({ children }: BaseProps) => {
-    return <ThemeProvider>{children}</ThemeProvider>;
+    return (
+        <ThemeProvider>
+            <Header />
+            {children}
+        </ThemeProvider>
+    );
 };
 
 export default BaseLayout;

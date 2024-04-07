@@ -10,7 +10,8 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
             attribute="class"
             defaultTheme="light"
             enableSystem
-            disableTransitionOnChange>
+            disableTransitionOnChange
+        >
             {children}
         </NextThemesProvider>
     );

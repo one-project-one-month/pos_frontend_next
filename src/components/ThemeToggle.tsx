@@ -12,7 +12,7 @@ function ThemeToggle() {
             size="icon"
             // className="h-8 w-8"
         >
-            {theme === "light" ? <SunIcon size={16} /> : <MoonIcon size={16} />}
+            {theme === "light" ? <SunIcon fontSize={16} /> : <MoonIcon fontSize={16} />}
         </Button>
     );
 }
