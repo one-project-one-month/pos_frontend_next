@@ -57,12 +57,5 @@ export async function createSaleInvoiceDetails({
             amount: product.price * p!.quantity,
         };
     });
-    await prisma.saleInvoiceDetails.createMany({ data: saleInvoiceDetailsInputs });
-
-    // finding sale invoice details
-    return prisma.saleInvoiceDetails.findMany({
-        where: {
-            voucherNo,
-        },
-    });
+    return prisma.saleInvoiceDetails.createMany({ data: saleInvoiceDetailsInputs });
 }

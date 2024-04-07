@@ -59,23 +59,30 @@ export async function POST(req: NextRequest) {
         const taxAmount = originalTotalAmount * 0.05;
         const totalAmount = originalTotalAmount + taxAmount;
 
-        const saleInvoice = await createSaleInvoice({
+        const created_SaleInvoice = await createSaleInvoice({
             paymentType: body.paymentType,
             voucherNo,
             totalAmount,
             staffCode: body.staffCode,
         });
 
-        const saleInvoiceDetails = await createSaleInvoiceDetails({
-            voucherNo: saleInvoice!.voucherNo,
+        await createSaleInvoiceDetails({
+            voucherNo: created_SaleInvoice!.voucherNo,
             inputProducts: body.products,
             dbProducts: products,
         });
 
-        return NextResponse.json(
-            { message: "success", data: { saleInvoice, saleInvoiceDetails } },
-            { status: 201 },
-        );
+        const saleInvoice = await prisma.saleInvoice.findUnique({
+            where: {
+                saleInvoiceId: created_SaleInvoice?.saleInvoiceId,
+            },
+            include: {
+                staff: true,
+                saleInvoiceDetails: true,
+            },
+        });
+
+        return NextResponse.json({ message: "success", data: { saleInvoice } }, { status: 201 });
     } catch (error) {
         console.log(error);
         return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
