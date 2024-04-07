@@ -1,25 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/prismaClient";
+import { catchAsyncError } from "@/lib/errorhandler";
 
 /* GET /api/v1/shops */
 export async function GET(req: NextRequest) {
-    const shops = await prisma.shop.findMany();
+    const response = await catchAsyncError("[SHOP_GETMANY]", async () => {
+        const shops = await prisma.shop.findMany();
 
-    return NextResponse.json(shops);
+        if (shops.length < 1) return new NextResponse("No shop found!", { status: 404 });
+
+        return NextResponse.json({
+            status: "success",
+            result: shops.length,
+            data: {
+                shops,
+            },
+        });
+    });
+
+    return response;
 }
 
 /* POST /api/v1/shops */
 export async function POST(req: NextRequest) {
-    const body = await req.json();
+    const response = catchAsyncError("[SHOP_POST]", async () => {
+        const body = await req.json();
 
-    const newShop = await prisma.shop.create({
-        data: {
-            shopCode: body.shopCode,
-            shopName: body.shopName,
-            mobileNo: body.mobileNo,
-            address: body.address,
-        },
+        const newShop = await prisma.shop.create({
+            data: {
+                shopCode: body.shopCode,
+                shopName: body.shopName,
+                mobileNo: body.mobileNo,
+                address: body.address,
+            },
+        });
+
+        return NextResponse.json(
+            {
+                status: "success",
+                data: {
+                    shop: newShop,
+                },
+            },
+            { status: 201 },
+        );
     });
 
-    return NextResponse.json(newShop, { status: 201 });
+    return response;
 }
