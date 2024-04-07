@@ -1,9 +1,9 @@
 import { v4 as uuid } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/prismaClient";
-import { PaymentType } from "@prisma/client";
 
-import { SaleInvoiceDetailType } from "@/types/saleInvoice";
+import { SaleInvoiceType } from "@/types/saleInvoice";
+import { createSaleInvoice, createSaleInvoiceDetails } from "./utils";
 
 /* GET /api/v1/sale-invoices */
 export async function GET(req: NextRequest) {
@@ -27,57 +27,49 @@ body: {
 */
 export async function POST(req: NextRequest) {
     try {
-        const body: {
-            paymentType: PaymentType;
-            staffCode: string;
-            products: { productCode: string; quantity: number }[];
-        } = await req.json();
+        const body: SaleInvoiceType = await req.json();
+
+        // making sure payment type is cash or mobile
+        if (body.paymentType !== "cash" && body.paymentType !== "mobileBanking")
+            return NextResponse.json({ message: "Invalid payment type" }, { status: 400 });
+
+        const productCodes = body.products.map((p) => p.productCode);
+        const products = await prisma.product.findMany({
+            where: {
+                productCode: {
+                    in: productCodes,
+                },
+            },
+        });
+
+        // making sure there is no invalid product codes and duplicate product codes
+        if (products.length !== productCodes.length)
+            return NextResponse.json(
+                { message: "Invalide product code included." },
+                { status: 404 },
+            );
 
         const voucherNo = uuid();
-        let totalAmount = 0;
-        const saleInvoiceDetailsInputs: SaleInvoiceDetailType[] = [];
 
-        body.products.forEach(async (product) => {
-            const p = await prisma.product.findUnique({
-                where: { productCode: product.productCode },
-                select: { price: true },
-            });
+        // calculating total amount
+        const originalTotalAmount = products.reduce((accumulator, currentValue) => {
+            const p = body.products.find((p) => p.productCode === currentValue.productCode);
+            return accumulator + currentValue.price * p!.quantity;
+        }, 0);
+        const taxAmount = originalTotalAmount * 0.05;
+        const totalAmount = originalTotalAmount + taxAmount;
 
-            if (!p)
-                return NextResponse.json(
-                    { message: `Product ${product.productCode} not found.` },
-                    { status: 404 },
-                );
-
-            saleInvoiceDetailsInputs.push({
-                voucherNo,
-                productCode: product.productCode,
-                quantity: product.quantity,
-                price: p.price,
-                amount: product.quantity * p.price,
-            });
-
-            totalAmount += product.quantity * p.price;
+        const saleInvoice = await createSaleInvoice({
+            paymentType: body.paymentType,
+            voucherNo,
+            totalAmount,
+            staffCode: body.staffCode,
         });
 
-        await prisma.saleInvoiceDetails.createMany({ data: saleInvoiceDetailsInputs });
-
-        const saleInvoice = await prisma.saleInvoice.create({
-            data: {
-                paymentType: body.paymentType,
-                voucherNo,
-                totalAmount,
-                staffCode: body.staffCode,
-            },
-        });
-
-        const saleInvoiceDetails = await prisma.saleInvoiceDetails.findMany({
-            where: {
-                voucherNo: saleInvoice.voucherNo,
-            },
-            include: {
-                product: true,
-            },
+        const saleInvoiceDetails = await createSaleInvoiceDetails({
+            voucherNo: saleInvoice!.voucherNo,
+            inputProducts: body.products,
+            dbProducts: products,
         });
 
         return NextResponse.json(
@@ -85,6 +77,7 @@ export async function POST(req: NextRequest) {
             { status: 201 },
         );
     } catch (error) {
+        console.log(error);
         return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
     }
 }
