@@ -5,7 +5,7 @@ type paramsType = { params: { productId: string } };
 
 export async function GET(req: NextRequest, { params }: paramsType) {
     try {
-        const product = await prisma.Product.findUnique({
+        const product = await prisma.product.findUnique({
             where: {
                 productId: params.productId,
             },
@@ -23,7 +23,7 @@ export async function PUT(req: NextRequest, { params }: paramsType) {
     try {
         const body = await req.json();
 
-        const updatedProduct = await prisma.Product.update({
+        const updatedProduct = await prisma.product.update({
             where: {
                 productId: params.productId,
             },
@@ -50,7 +50,7 @@ export async function PUT(req: NextRequest, { params }: paramsType) {
 
 export async function DELETE(req: NextRequest, { params }: paramsType) {
     try {
-        const deletedProduct = await prisma.Product.delete({
+        const deletedProduct = await prisma.product.delete({
             where: { productId: params.productId },
         });
         if (!deletedProduct) {
