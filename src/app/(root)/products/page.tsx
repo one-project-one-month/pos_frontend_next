@@ -1,8 +1,8 @@
-import ProductCategories from "@/components/pages/product-categories";
+import Products from "@/components/pages/products";
 import { NextPage } from "next";
 
-const ProductCategoriesPage: NextPage = () => {
-    return <ProductCategories />;
+const ProductsPage: NextPage = () => {
+    return <Products />;
 };
 
-export default ProductCategoriesPage;
+export default ProductsPage;

@@ -8,8 +8,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { data } from "@/data/data";
-import { LegacyRef, forwardRef, useEffect, useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 
 type SetValue = UseFormSetValue<{
@@ -21,11 +19,10 @@ type SetValue = UseFormSetValue<{
 //
 interface Props {
     setValue: SetValue;
+    values: any[] | undefined;
 }
 
-const SelectScrollable = ({ setValue }: Props) => {
-    const [productCategories, setProductCategories] = useState(data.productCategories);
-
+const SelectScrollable = ({ setValue, values }: Props) => {
     return (
         <Select onValueChange={(value) => setValue("categoryCode", value)}>
             <SelectTrigger className="w-full">
@@ -34,7 +31,7 @@ const SelectScrollable = ({ setValue }: Props) => {
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Product Category</SelectLabel>
-                    {productCategories.map((pc) => (
+                    {values?.map((pc) => (
                         <SelectItem key={pc.productCategoryId} value={pc.productCategoryCode}>
                             {pc.productCategoryCode} : {pc.productCategoryName}
                         </SelectItem>

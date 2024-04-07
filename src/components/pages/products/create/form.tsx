@@ -17,7 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Product, ProductCategory } from "@prisma/client";
 import { productCategoryFormSchema, productFormSchema } from "@/lib/zodFormSchema";
-import SelectScrollable from "../SelectScrollable";
+import SelectScrollable from "../category-select";
+import { useGetProductCategories } from "@/services/api/product-categories";
 // let ggg = { productCategoryCode, productCategoryId, productCategoryName } as ProductCategory;
 // const formSchema = z.object({
 //     productCategoryName: z.string().min(2, {
@@ -28,7 +29,8 @@ import SelectScrollable from "../SelectScrollable";
 //     }),
 // });
 
-export function CreateProductFrom() {
+export function CreateProductForm() {
+    const { data: productCategories, isLoading } = useGetProductCategories();
     // 1. Define your form.
     const form = useForm<z.infer<typeof productFormSchema.create>>({
         resolver: zodResolver(productFormSchema.create),
@@ -112,7 +114,10 @@ export function CreateProductFrom() {
                             <FormItem>
                                 <FormLabel>categoryCode</FormLabel>
                                 <FormControl>
-                                    <SelectScrollable setValue={form.setValue} />
+                                    <SelectScrollable
+                                        values={productCategories}
+                                        setValue={form.setValue}
+                                    />
                                 </FormControl>
                                 <FormDescription>must put unique value</FormDescription>
                                 <FormMessage />

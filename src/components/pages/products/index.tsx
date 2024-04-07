@@ -1,48 +1,31 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import ProductCategoriesDataTable from "./data-table";
-import { ProductCategory } from "@prisma/client";
+import ProductsDataTable from "./data-table";
+import { Product } from "@prisma/client";
+import { data } from "@/data/data";
 
-function ProductCategories() {
-    // replace with response data from '/api/v1/product-categories'
-    const demoData: ProductCategory[] = [
+function Products() {
+    // replace with response data from '/api/v1/products'
+    const columns: ColumnDef<Product>[] = [
         {
-            productCategoryId: "1",
-            productCategoryCode: "P0001",
-            productCategoryName: "Fruits",
-        },
-        {
-            productCategoryId: "2",
-            productCategoryCode: "P0002",
-            productCategoryName: "Snacks",
-        },
-        {
-            productCategoryId: "3",
-            productCategoryCode: "P0003",
-            productCategoryName: "Vegetables",
-        },
-    ];
-
-    const columns: ColumnDef<ProductCategory>[] = [
-        {
-            accessorKey: "productCategoryId",
+            accessorKey: "productId",
             header: "Id",
         },
         {
-            accessorKey: "productCategoryCode",
+            accessorKey: "productCode",
             header: "Code",
         },
         {
-            accessorKey: "productCategoryName",
+            accessorKey: "productName",
             header: "Name",
         },
     ];
 
     return (
         <div>
-            <ProductCategoriesDataTable columns={columns} data={demoData} />
+            <ProductsDataTable columns={columns} data={data.products} />
         </div>
     );
 }
 
-export default ProductCategories;
+export default Products;
