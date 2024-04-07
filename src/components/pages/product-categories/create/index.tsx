@@ -1,4 +1,4 @@
-import { CreateProductCategoriesFrom } from "@/components/pages/product-categories/create/form";
+import { CreateProductCategoryFrom } from "@/components/pages/product-categories/create/form";
 
 const CreateProductCategory = () => {
     return (
@@ -6,7 +6,7 @@ const CreateProductCategory = () => {
             <h1 className="my-9 text-center text-xl">Create Product Category</h1>
             <div className="flex  justify-center">
                 <div className="w-80">
-                    <CreateProductCategoriesFrom />
+                    <CreateProductCategoryFrom />
                 </div>
             </div>
         </section>

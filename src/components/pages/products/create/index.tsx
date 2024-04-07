@@ -1,4 +1,3 @@
-import { CreateProductCategoriesFrom } from "@/components/pages/product-categories/create/form";
 import { CreateProductFrom } from "./form";
 
 const CreateProduct = () => {

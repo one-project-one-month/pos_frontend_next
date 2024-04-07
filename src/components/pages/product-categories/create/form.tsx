@@ -27,7 +27,7 @@ import { productCategoryFormSchema } from "@/lib/zodFormSchema";
 //     }),
 // });
 
-export function CreateProductCategoriesFrom() {
+export function CreateProductCategoryFrom() {
     // 1. Define your form.
     const form = useForm<z.infer<typeof productCategoryFormSchema.create>>({
         resolver: zodResolver(productCategoryFormSchema.create),
