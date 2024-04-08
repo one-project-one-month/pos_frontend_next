@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -53,9 +52,9 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                     console.error(error);
                 },
             });
-        } else {
+        } else if (initialValues?.productId && isEditMode) {
             updateProduct(
-                { payload: values, id: initialValues?.productId! },
+                { payload: values, id: initialValues.productId },
                 {
                     onSuccess: () => {
                         router.push("/products");
@@ -108,7 +107,6 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                         );
                     }}
                 />
-
                 <FormField
                     control={form.control}
                     name="productCode"
@@ -127,13 +125,14 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                     control={form.control}
                     name="categoryCode"
                     shouldUnregister
-                    render={() => {
+                    render={({ field }) => {
                         // console.log(field);
                         return (
                             <FormItem>
                                 <FormLabel>Category Code</FormLabel>
                                 <FormControl>
                                     <CategorySelect
+                                        value={field.value}
                                         values={productCategories}
                                         setValue={form.setValue}
                                     />
@@ -144,8 +143,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                         );
                     }}
                 />
-
-                <Button type="submit" disabled={isUpdating || isCreating}>
+                <Button type="submit" size="lg" disabled={isUpdating || isCreating}>
                     Save
                 </Button>
             </form>
