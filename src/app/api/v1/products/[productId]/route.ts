@@ -16,14 +16,14 @@ export async function GET(req: NextRequest, { params }: paramsType) {
             return NextResponse.json({ message: "Product not found." }, { status: 404 });
         }
 
-        return NextResponse.json(product, { status: 200 });
+        return NextResponse.json({ message: "success", data: { product } }, { status: 200 });
     });
 
     return response;
 }
 
-export async function PUT(req: NextRequest, { params }: paramsType) {
-    const response = await catchAsyncError("[PRODUCT_PUT]", async () => {
+export async function PATCH(req: NextRequest, { params }: paramsType) {
+    const response = await catchAsyncError("[PRODUCT_PATCH]", async () => {
         const body = await req.json();
 
         const updatedProduct = await prisma.product.update({
@@ -42,12 +42,15 @@ export async function PUT(req: NextRequest, { params }: paramsType) {
                 saleInvoiceDetails: body?.saleInvoiceDetails,
             },
         });
-        
+
         if (!updatedProduct) {
             return NextResponse.json({ message: "Product not found." }, { status: 404 });
         }
 
-        return NextResponse.json(updatedProduct, { status: 200 });
+        return NextResponse.json(
+            { message: "success", data: { product: updatedProduct } },
+            { status: 200 },
+        );
     });
 
     return response;
@@ -63,7 +66,13 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
             return NextResponse.json({ message: "Product not found." }, { status: 404 });
         }
 
-        return NextResponse.json(deletedProduct, { status: 200 });
+        return NextResponse.json(
+            {
+                message: "success",
+                data: null,
+            },
+            { status: 204 },
+        );
     });
 
     return response;

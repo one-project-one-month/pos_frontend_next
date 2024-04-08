@@ -6,7 +6,10 @@ export async function GET() {
     const response = await catchAsyncError("[PRODUCT_GETMANY]", async () => {
         const products = await prisma.product.findMany();
 
-        return NextResponse.json(products, { status: 200 });
+        return NextResponse.json(
+            { message: "success", result: products.length, data: { products } },
+            { status: 200 },
+        );
     });
 
     return response;
@@ -29,7 +32,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        return NextResponse.json(newProduct, { status: 201 });
+        return NextResponse.json({ message: "success", data: { product: newProduct } }, { status: 201 });
     });
 
     return response;
