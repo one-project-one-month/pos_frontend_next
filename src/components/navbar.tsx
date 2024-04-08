@@ -1,5 +1,7 @@
 import React from "react";
-import { MagnifyingGlassIcon, MoonIcon, BellIcon } from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon, MoonIcon } from "@radix-ui/react-icons";
+import { Button } from "./ui/button";
+import SaleCart from "./sale-cart";
 
 export default function Navbar() {
     return (
@@ -12,13 +14,10 @@ export default function Navbar() {
                     className="border-none text-sm outline-none"
                 />
             </div>
-            <div className="flex items-center gap-3">
-                <div className="border-0.5 grid h-8 w-8 place-items-center rounded-full border">
+            <div className="ml-auto flex items-center gap-3">
+                <Button variant="outline" size="icon" className="place-items-center rounded-full">
                     <MoonIcon />
-                </div>
-                <div className="border-0.5 grid h-8 w-8 place-items-center rounded-full border">
-                    <BellIcon />
-                </div>
+                </Button>
                 <div className="flex items-center gap-1">
                     <div className="h-10 w-10 rounded-full bg-red-400"></div>
                     <div>
@@ -26,6 +25,7 @@ export default function Navbar() {
                         <p className="text-xs text-gray-400">admin</p>
                     </div>
                 </div>
+                <SaleCart />
             </div>
         </div>
     );

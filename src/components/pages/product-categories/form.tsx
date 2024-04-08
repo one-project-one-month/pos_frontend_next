@@ -1,9 +1,7 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,20 +13,13 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ProductCategory } from "@prisma/client";
 import { productCategoryFormSchema } from "@/lib/zodFormSchema";
-// let ggg = { productCategoryCode, productCategoryId, productCategoryName } as ProductCategory;
-// const formSchema = z.object({
-//     productCategoryName: z.string().min(2, {
-//         message: "productCategoryName must be at least 2 characters.",
-//     }),
-//     productCategoryCode: z.string().min(3, {
-//         message: "productCategoryCode must be at least 3 characters.",
-//     }),
-// });
+import { useCreateProductCategory } from "@/services/api/product-categories";
+import { useRouter } from "next/navigation";
 
-export function CreateProductCategoryFrom() {
-    // 1. Define your form.
+export function CreateProductCategoryForm() {
+    const router = useRouter();
+    const { mutate: createProductCategory, isPending } = useCreateProductCategory();
     const form = useForm<z.infer<typeof productCategoryFormSchema.create>>({
         resolver: zodResolver(productCategoryFormSchema.create),
         defaultValues: {
@@ -37,11 +28,15 @@ export function CreateProductCategoryFrom() {
         },
     });
 
-    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof productCategoryFormSchema.create>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
+        createProductCategory(values, {
+            onSuccess: () => {
+                router.push("/product-categories");
+            },
+            onError: (error) => {
+                console.error(error);
+            },
+        });
     }
 
     return (
@@ -52,11 +47,11 @@ export function CreateProductCategoryFrom() {
                     name="productCategoryName"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>productCategoryName</FormLabel>
+                            <FormLabel className="text-base">Product Category Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="name" {...field} />
                             </FormControl>
-                            <FormDescription></FormDescription>
+                            <FormDescription>Descriptive name for the category</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -66,16 +61,18 @@ export function CreateProductCategoryFrom() {
                     name="productCategoryCode"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>productCategoryCode</FormLabel>
+                            <FormLabel className="text-base">Product Category Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="code" {...field} />
                             </FormControl>
-                            <FormDescription>must put unique value</FormDescription>
+                            <FormDescription>Unique code for the category</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={isPending}>
+                    Save
+                </Button>
             </form>
         </Form>
     );

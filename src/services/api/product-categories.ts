@@ -13,7 +13,7 @@ export const useGetProductCategories = () => {
 export const useCreateProductCategory = () => {
     return useMutation({
         mutationKey: ["product-category", "create"],
-        mutationFn: (payload: ProductCategory) => {
+        mutationFn: (payload: Omit<ProductCategory, "productCategoryId">) => {
             return axiosInstance.post("/product-categories", payload);
         },
     });

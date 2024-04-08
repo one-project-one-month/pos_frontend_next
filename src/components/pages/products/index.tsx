@@ -2,10 +2,12 @@
 import { ColumnDef } from "@tanstack/react-table";
 import ProductsDataTable from "./data-table";
 import { Product } from "@prisma/client";
-import { data } from "@/data/data";
+import { useGetProducts } from "@/services/api/products";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function Products() {
-    // replace with response data from '/api/v1/products'
+    const { data: products, isLoading } = useGetProducts();
     const columns: ColumnDef<Product>[] = [
         {
             accessorKey: "productId",
@@ -19,11 +21,21 @@ function Products() {
             accessorKey: "productName",
             header: "Name",
         },
+        {
+            accessorKey: "price",
+            header: "Price",
+        },
     ];
 
     return (
         <div>
-            <ProductsDataTable columns={columns} data={data.products} />
+            <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-2xl font-medium">Products List</h2>
+                <Link href="/products/create">
+                    <Button variant="outline">Add New Product</Button>
+                </Link>
+            </div>
+            <ProductsDataTable columns={columns} data={products} isLoading={isLoading} />
         </div>
     );
 }
