@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
             return new NextResponse("No shop found! You need to create one first", { status: 404 });
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             result: shops.length,
             data: {
                 shops,
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(
             {
-                status: "success",
+                message: "success",
                 data: {
                     shop: newShop,
                 },
