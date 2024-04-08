@@ -8,12 +8,15 @@ export async function GET(req: NextRequest) {
         const staffs = await prisma.staff.findMany();
 
         if (staffs.length < 1)
-            return new NextResponse("No staff found! You need to create one first", {
-                status: 404,
-            });
+            return NextResponse.json(
+                { message: "No staff found! You need to create one first" },
+                {
+                    status: 404,
+                },
+            );
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             result: staffs.length,
             data: {
                 staffs,
@@ -43,7 +46,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(
             {
-                status: "success",
+                message: "success",
                 data: {
                     staff: newStaff,
                 },

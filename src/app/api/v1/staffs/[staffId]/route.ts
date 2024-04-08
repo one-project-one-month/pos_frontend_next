@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: { staffId: str
         if (!staff) return NextResponse.json({ message: "Staff not found." }, { status: 404 });
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             data: {
                 staff,
             },
@@ -45,7 +45,7 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
             return NextResponse.json({ message: "Staff not found." }, { status: 404 });
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             data: {
                 staff: updatedStaff,
             },
@@ -67,7 +67,7 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
 
         return NextResponse.json(
             {
-                status: "success",
+                message: "success",
                 data: null,
             },
             { status: 204 },

@@ -4,18 +4,19 @@ import prisma from "@/db/prismaClient";
 
 import { SaleInvoiceType } from "@/types/saleInvoice";
 import { createSaleInvoice, createSaleInvoiceDetails } from "./utils";
+import { catchAsyncError } from "@/lib/errorhandler";
 
 /* GET /api/v1/sale-invoices */
 export async function GET() {
-    try {
+    const response = await catchAsyncError("[SALE_INVOICE_GETMAN]", async () => {
         const saleInvoices = await prisma.saleInvoice.findMany({
             include: { staff: true, saleInvoiceDetails: true },
         });
 
         return NextResponse.json({ message: "success", data: { saleInvoices } });
-    } catch (error) {
-        return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
-    }
+    });
+
+    return response;
 }
 
 /* POST /api/v1/sale-invoices
@@ -26,7 +27,7 @@ body: {
 }
 */
 export async function POST(req: NextRequest) {
-    try {
+    const response = await catchAsyncError("[SALE_INVOICE_POST]", async () => {
         const body: SaleInvoiceType = await req.json();
 
         // making sure payment type is cash or mobile
@@ -83,8 +84,7 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({ message: "success", data: { saleInvoice } }, { status: 201 });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
-    }
+    });
+
+    return response;
 }

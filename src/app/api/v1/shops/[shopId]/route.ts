@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: { shopId: stri
         if (!shop) return NextResponse.json({ message: "Shop not found." }, { status: 404 });
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             data: {
                 shop,
             },
@@ -44,7 +44,7 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
         if (!updatedShop) return NextResponse.json({ message: "Shop not found." }, { status: 404 });
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             data: {
                 shop: updatedShop,
             },
@@ -65,7 +65,7 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
 
         return NextResponse.json(
             {
-                status: "success",
+                message: "success",
                 data: null,
             },
             { status: 204 },
