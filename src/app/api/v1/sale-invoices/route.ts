@@ -13,7 +13,11 @@ export async function GET() {
             include: { staff: true, saleInvoiceDetails: true },
         });
 
-        return NextResponse.json({ message: "success", data: { saleInvoices } });
+        return NextResponse.json({
+            message: "success",
+            result: saleInvoices.length,
+            data: { saleInvoices },
+        });
     });
 
     return response;

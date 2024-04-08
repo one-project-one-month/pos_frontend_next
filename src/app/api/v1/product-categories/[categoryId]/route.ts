@@ -16,15 +16,18 @@ export async function GET(req: NextRequest, { params }: paramsType) {
         if (!productCategory)
             return NextResponse.json({ message: "Product category not found." }, { status: 404 });
 
-        return NextResponse.json(productCategory, { status: 200 });
+        return NextResponse.json(
+            { message: "success", data: { category: productCategory } },
+            { status: 200 },
+        );
     });
 
     return response;
 }
 
-/* PUT /api/v1/product-categories/:categoryId */
-export async function PUT(req: NextRequest, { params }: paramsType) {
-    const response = await catchAsyncError("[CATEGORY_PUT]", async () => {
+/* PATCH /api/v1/product-categories/:categoryId */
+export async function PATCH(req: NextRequest, { params }: paramsType) {
+    const response = await catchAsyncError("[CATEGORY_PATCH]", async () => {
         const body = await req.json();
 
         const updatedCategory = await prisma.productCategory.update({
@@ -40,7 +43,10 @@ export async function PUT(req: NextRequest, { params }: paramsType) {
         if (!updatedCategory)
             return NextResponse.json({ message: "Product category not found." }, { status: 404 });
 
-        return NextResponse.json(updatedCategory, { status: 200 });
+        return NextResponse.json(
+            { message: "success", data: { category: updatedCategory } },
+            { status: 200 },
+        );
     });
 
     return response;
@@ -58,10 +64,10 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
 
         return NextResponse.json(
             {
-                message: "Product category deleted.",
-                productCategoryId: deletedCategory.productCategoryId,
+                message: "success",
+                data: null,
             },
-            { status: 200 },
+            { status: 204 },
         );
     });
 

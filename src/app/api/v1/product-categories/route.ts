@@ -7,7 +7,10 @@ export async function GET() {
     const response = await catchAsyncError("[CATEGORY_GETMANY]", async () => {
         const categories = await prisma.productCategory.findMany();
 
-        return NextResponse.json(categories, { status: 200 });
+        return NextResponse.json(
+            { message: "success", result: categories.length, data: { categories } },
+            { status: 200 },
+        );
     });
 
     return response;
@@ -24,7 +27,15 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        return NextResponse.json(newCategory, { status: 201 });
+        return NextResponse.json(
+            {
+                message: "success",
+                data: {
+                    category: newCategory,
+                },
+            },
+            { status: 201 },
+        );
     });
 
     return response;

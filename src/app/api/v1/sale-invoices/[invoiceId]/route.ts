@@ -35,10 +35,16 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
             },
         });
 
-        return NextResponse.json({
-            message: "success",
-            data: { saleInvoiceId: deletedSaleInvoice.saleInvoiceId },
-        });
+        if (!deletedSaleInvoice)
+            return NextResponse.json({ message: "Sale invoice not found." }, { status: 404 });
+
+        return NextResponse.json(
+            {
+                message: "success",
+                data: null,
+            },
+            { status: 204 },
+        );
     });
 
     return response;
