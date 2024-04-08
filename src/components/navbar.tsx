@@ -1,7 +1,6 @@
 import React from "react";
 import { MagnifyingGlassIcon, MoonIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
-import SaleCart from "./sale-cart";
 
 export default function Navbar() {
     return (
@@ -25,7 +24,6 @@ export default function Navbar() {
                         <p className="text-xs text-gray-400">admin</p>
                     </div>
                 </div>
-                <SaleCart />
             </div>
         </div>
     );

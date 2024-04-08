@@ -1,4 +1,4 @@
-import { CreateProductForm } from "../form";
+import { ProductForm } from "../form";
 
 const CreateProduct = () => {
     return (
@@ -6,7 +6,7 @@ const CreateProduct = () => {
             <h1 className="mb-6 text-2xl font-medium">Add Product</h1>
             <div className="flex">
                 <div className="w-full">
-                    <CreateProductForm />
+                    <ProductForm />
                 </div>
             </div>
         </section>

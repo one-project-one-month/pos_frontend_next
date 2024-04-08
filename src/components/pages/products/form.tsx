@@ -18,33 +18,54 @@ import { Input } from "@/components/ui/input";
 import { productFormSchema } from "@/lib/zodFormSchema";
 import CategorySelect from "./category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
-import { useCreateProduct } from "@/services/api/products";
+import { useCreateProduct, useUpdateProduct } from "@/services/api/products";
 import { useRouter } from "next/navigation";
+import { Product } from "@prisma/client";
 
-export function CreateProductForm() {
+interface CreateProductFormProps {
+    initialValues?: Product;
+    isEditMode?: boolean;
+}
+export function ProductForm({ initialValues, isEditMode = false }: CreateProductFormProps) {
     const router = useRouter();
-    const { mutate: createProduct, isPending } = useCreateProduct();
+    const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
+    const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
     const { data: productCategories } = useGetProductCategories();
     const form = useForm<z.infer<typeof productFormSchema.create>>({
         resolver: zodResolver(productFormSchema.create),
         defaultValues: {
-            categoryCode: "",
-            price: 0,
-            productCode: "",
-            productName: "",
+            categoryCode: initialValues?.categoryCode ?? "",
+            price: initialValues?.price ?? 0,
+            productCode: initialValues?.productCode ?? "",
+            productName: initialValues?.productName ?? "",
         },
     });
 
     function onSubmit(values: z.infer<typeof productFormSchema.create>) {
         console.log("submit:", values);
-        createProduct(values, {
-            onSuccess: () => {
-                router.push("/products");
-            },
-            onError: (error) => {
-                console.error(error);
-            },
-        });
+
+        if (!isEditMode) {
+            createProduct(values, {
+                onSuccess: () => {
+                    router.push("/products");
+                },
+                onError: (error) => {
+                    console.error(error);
+                },
+            });
+        } else {
+            updateProduct(
+                { payload: values, id: initialValues?.productId! },
+                {
+                    onSuccess: () => {
+                        router.push("/products");
+                    },
+                    onError: (error) => {
+                        console.error(error);
+                    },
+                },
+            );
+        }
     }
 
     return (
@@ -106,7 +127,7 @@ export function CreateProductForm() {
                     control={form.control}
                     name="categoryCode"
                     shouldUnregister
-                    render={({ field }) => {
+                    render={() => {
                         // console.log(field);
                         return (
                             <FormItem>
@@ -124,7 +145,7 @@ export function CreateProductForm() {
                     }}
                 />
 
-                <Button type="submit" disabled={isPending}>
+                <Button type="submit" disabled={isUpdating || isCreating}>
                     Save
                 </Button>
             </form>

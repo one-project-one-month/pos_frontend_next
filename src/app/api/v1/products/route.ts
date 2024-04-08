@@ -32,7 +32,10 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        return NextResponse.json({ message: "success", data: { product: newProduct } }, { status: 201 });
+        return NextResponse.json(
+            { message: "success", data: { product: newProduct } },
+            { status: 201 },
+        );
     });
 
     return response;
