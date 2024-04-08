@@ -6,7 +6,7 @@ import { SaleInvoiceType } from "@/types/saleInvoice";
 import { createSaleInvoice, createSaleInvoiceDetails } from "./utils";
 
 /* GET /api/v1/sale-invoices */
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const saleInvoices = await prisma.saleInvoice.findMany({
             include: { staff: true, saleInvoiceDetails: true },
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         const voucherNo = uuid();
 
         // calculating total amount
-        const originalTotalAmount = products.reduce((accumulator, currentValue) => {
+        const originalTotalAmount = products.reduce((accumulator: any, currentValue: any) => {
             const p = body.products.find((p) => p.productCode === currentValue.productCode);
             return accumulator + currentValue.price * p!.quantity;
         }, 0);
