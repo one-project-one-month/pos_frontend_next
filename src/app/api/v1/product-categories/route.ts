@@ -1,23 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/prismaClient";
+import { catchAsyncError } from "@/lib/errorhandler";
 
 /* GET /api/v1/product-categories */
 export async function GET() {
-    try {
+    const response = await catchAsyncError("[CATEGORY_GETMANY]", async () => {
         const categories = await prisma.productCategory.findMany();
+
         return NextResponse.json(categories, { status: 200 });
-    } catch (error) {
-        console.error("Error fetching product categories:", error);
-        return NextResponse.json(
-            { message: "Failed to fetch product categories" },
-            { status: 500 },
-        );
-    }
+    });
+
+    return response;
 }
 
 /* POST /api/v1/product-categories */
 export async function POST(req: NextRequest) {
-    try {
+    const response = await catchAsyncError("[CATEGORY_POST]", async () => {
         const body = await req.json();
         const newCategory = await prisma.productCategory.create({
             data: {
@@ -25,9 +23,9 @@ export async function POST(req: NextRequest) {
                 productCategoryCode: body.productCategoryCode,
             },
         });
+
         return NextResponse.json(newCategory, { status: 201 });
-    } catch (error) {
-        console.error("Error creating product category:", error);
-        return NextResponse.json({ message: "Failed to create product category" }, { status: 500 });
-    }
+    });
+
+    return response;
 }

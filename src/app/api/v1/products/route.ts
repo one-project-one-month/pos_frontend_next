@@ -1,17 +1,19 @@
 import prisma from "@/db/prismaClient";
+import { catchAsyncError } from "@/lib/errorhandler";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
-    try {
+    const response = await catchAsyncError("[PRODUCT_GETMANY]", async () => {
         const products = await prisma.product.findMany();
+
         return NextResponse.json(products, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
-    }
+    });
+
+    return response;
 }
 
 export async function POST(req: NextRequest) {
-    try {
+    const response = await catchAsyncError("[PRODUCT_POST]", async () => {
         const body = await req.json();
         const newProduct = await prisma.product.create({
             data: {
@@ -26,9 +28,9 @@ export async function POST(req: NextRequest) {
                 saleInvoiceDetails: body?.saleInvoiceDetails,
             },
         });
+
         return NextResponse.json(newProduct, { status: 201 });
-    } catch (error) {
-        console.error("Error creating product:", error);
-        return NextResponse.json({ message: "Can not create the product" }, { status: 500 });
-    }
+    });
+
+    return response;
 }
