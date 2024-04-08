@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const products = await prisma.Product.findMany();
+        const products = await prisma.product.findMany();
         return NextResponse.json(products, { status: 200 });
     } catch (error) {
         return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
@@ -13,7 +13,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const newProduct = await prisma.Product.create({
+        const newProduct = await prisma.product.create({
             data: {
                 productCode: body.productCode,
                 productName: body.productName,

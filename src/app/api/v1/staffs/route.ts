@@ -1,28 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../db/prismaClient";
+import { catchAsyncError } from "@/lib/errorhandler";
 
 /* GET /api/v1/staffs */
 export async function GET(req: NextRequest) {
-    const staffs = await prisma.staff.findMany();
+    const response = await catchAsyncError("[STAFF_GETMANY]", async () => {
+        const staffs = await prisma.staff.findMany();
 
-    return NextResponse.json(staffs);
+        if (staffs.length < 1)
+            return new NextResponse("No staff found! You need to create one first", {
+                status: 404,
+            });
+
+        return NextResponse.json({
+            status: "success",
+            result: staffs.length,
+            data: {
+                staffs,
+            },
+        });
+    });
+
+    return response;
 }
 
 /* POST /api/v1/staffs */
 export async function POST(req: NextRequest) {
-    const body = await req.json();
+    const response = await catchAsyncError("[STAFF_POST]", async () => {
+        const body = await req.json();
 
-    const newStaff = await prisma.staff.create({
-        data: {
-            staffCode: body.staffCode,
-            staffName: body.staffName,
-            dateOfBirth: body.dateOfBirth,
-            mobileNo: body.mobileNo,
-            gender: body.gender,
-            address: body.address,
-            position: body.position,
-        },
+        const newStaff = await prisma.staff.create({
+            data: {
+                staffCode: body.staffCode,
+                staffName: body.staffName,
+                dateOfBirth: body.dateOfBirth,
+                mobileNo: body.mobileNo,
+                gender: body.gender,
+                address: body.address,
+                position: body.position,
+            },
+        });
+
+        return NextResponse.json(
+            {
+                status: "success",
+                data: {
+                    staff: newStaff,
+                },
+            },
+            { status: 201 },
+        );
     });
 
-    return NextResponse.json(newStaff, { status: 201 });
+    return response;
 }
