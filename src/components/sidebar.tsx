@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function Sidebar() {
     const pathname = usePathname();
     return (
-        <div className="sticky top-0 flex min-h-screen min-w-[280px] flex-col justify-between border-r p-4">
+        <div className="sticky top-0 flex min-h-screen min-w-[200px] flex-col justify-between border-r p-4">
             <ul className="flex flex-col gap-2">
                 <h3 className="mb-4 px-3 text-3xl font-bold">POS</h3>
                 {routeLinks.map((link) => {

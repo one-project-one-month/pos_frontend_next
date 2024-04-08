@@ -26,16 +26,20 @@ const SelectScrollable = ({ setValue, values }: Props) => {
     return (
         <Select onValueChange={(value) => setValue("categoryCode", value)}>
             <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a productCategory" />
+                <SelectValue placeholder="Select a Product Category" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Product Category</SelectLabel>
-                    {values?.map((pc) => (
-                        <SelectItem key={pc.productCategoryId} value={pc.productCategoryCode}>
-                            {pc.productCategoryCode} : {pc.productCategoryName}
-                        </SelectItem>
-                    ))}
+                    {values ? (
+                        values.map((pc) => (
+                            <SelectItem key={pc.productCategoryId} value={pc.productCategoryCode}>
+                                {pc.productCategoryCode} : {pc.productCategoryName}
+                            </SelectItem>
+                        ))
+                    ) : (
+                        <div>No Category</div>
+                    )}
                 </SelectGroup>
             </SelectContent>
         </Select>

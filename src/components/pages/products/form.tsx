@@ -15,49 +15,47 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Product, ProductCategory } from "@prisma/client";
-import { productCategoryFormSchema, productFormSchema } from "@/lib/zodFormSchema";
-import SelectScrollable from "../category-select";
+import { productFormSchema } from "@/lib/zodFormSchema";
+import CategorySelect from "./category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
-// let ggg = { productCategoryCode, productCategoryId, productCategoryName } as ProductCategory;
-// const formSchema = z.object({
-//     productCategoryName: z.string().min(2, {
-//         message: "productCategoryName must be at least 2 characters.",
-//     }),
-//     productCategoryCode: z.string().min(3, {
-//         message: "productCategoryCode must be at least 3 characters.",
-//     }),
-// });
+import { useCreateProduct } from "@/services/api/products";
+import { useRouter } from "next/navigation";
 
 export function CreateProductForm() {
-    const { data: productCategories, isLoading } = useGetProductCategories();
-    // 1. Define your form.
+    const router = useRouter();
+    const { mutate: createProduct, isPending } = useCreateProduct();
+    const { data: productCategories } = useGetProductCategories();
     const form = useForm<z.infer<typeof productFormSchema.create>>({
         resolver: zodResolver(productFormSchema.create),
         defaultValues: {
             categoryCode: "",
-            price: 20,
-            productCode: "sdsdff",
-            productName: "spoon",
+            price: 0,
+            productCode: "",
+            productName: "",
         },
     });
 
-    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof productFormSchema.create>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         console.log("submit:", values);
+        createProduct(values, {
+            onSuccess: () => {
+                router.push("/products");
+            },
+            onError: (error) => {
+                console.error(error);
+            },
+        });
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                     control={form.control}
                     name="productName"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>productName</FormLabel>
+                            <FormLabel>Product Name</FormLabel>
                             <FormControl>
                                 <Input placeholder="shadcn" {...field} />
                             </FormControl>
@@ -72,7 +70,7 @@ export function CreateProductForm() {
                     render={({ field }) => {
                         return (
                             <FormItem>
-                                <FormLabel>price</FormLabel>
+                                <FormLabel>Price</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="text"
@@ -95,7 +93,7 @@ export function CreateProductForm() {
                     name="productCode"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>productCode</FormLabel>
+                            <FormLabel>Product Code</FormLabel>
                             <FormControl>
                                 <Input placeholder="shadcn" {...field} />
                             </FormControl>
@@ -112,9 +110,9 @@ export function CreateProductForm() {
                         // console.log(field);
                         return (
                             <FormItem>
-                                <FormLabel>categoryCode</FormLabel>
+                                <FormLabel>Category Code</FormLabel>
                                 <FormControl>
-                                    <SelectScrollable
+                                    <CategorySelect
                                         values={productCategories}
                                         setValue={form.setValue}
                                     />
@@ -126,7 +124,9 @@ export function CreateProductForm() {
                     }}
                 />
 
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={isPending}>
+                    Save
+                </Button>
             </form>
         </Form>
     );

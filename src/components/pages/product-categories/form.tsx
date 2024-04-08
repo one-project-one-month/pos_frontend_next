@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,9 +17,9 @@ import { productCategoryFormSchema } from "@/lib/zodFormSchema";
 import { useCreateProductCategory } from "@/services/api/product-categories";
 import { useRouter } from "next/navigation";
 
-export function CreateProductCategoryFrom() {
+export function CreateProductCategoryForm() {
     const router = useRouter();
-    const { mutate, isPending } = useCreateProductCategory();
+    const { mutate: createProductCategory, isPending } = useCreateProductCategory();
     const form = useForm<z.infer<typeof productCategoryFormSchema.create>>({
         resolver: zodResolver(productCategoryFormSchema.create),
         defaultValues: {
@@ -30,7 +29,7 @@ export function CreateProductCategoryFrom() {
     });
 
     function onSubmit(values: z.infer<typeof productCategoryFormSchema.create>) {
-        mutate(values, {
+        createProductCategory(values, {
             onSuccess: () => {
                 router.push("/product-categories");
             },
@@ -48,7 +47,7 @@ export function CreateProductCategoryFrom() {
                     name="productCategoryName"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Product Category Name</FormLabel>
+                            <FormLabel className="text-base">Product Category Name</FormLabel>
                             <FormControl>
                                 <Input placeholder="name" {...field} />
                             </FormControl>
@@ -62,7 +61,7 @@ export function CreateProductCategoryFrom() {
                     name="productCategoryCode"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Product Category Code</FormLabel>
+                            <FormLabel className="text-base">Product Category Code</FormLabel>
                             <FormControl>
                                 <Input placeholder="code" {...field} />
                             </FormControl>
@@ -72,7 +71,7 @@ export function CreateProductCategoryFrom() {
                     )}
                 />
                 <Button type="submit" disabled={isPending}>
-                    Submit
+                    Save
                 </Button>
             </form>
         </Form>
