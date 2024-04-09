@@ -1,5 +1,9 @@
-import AuthButton from "@/components/auth-button";
+import ShopPage from "@/components/pages/shop";
 
 export default async function Home() {
-    return <>Home page</>;
+    return (
+        <main>
+            <ShopPage />
+        </main>
+    );
 }

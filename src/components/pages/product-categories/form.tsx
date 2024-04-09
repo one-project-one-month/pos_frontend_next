@@ -71,7 +71,7 @@ export function CreateProductCategoryForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" disabled={isPending}>
+                <Button type="submit" disabled={isPending} size="lg">
                     Save
                 </Button>
             </form>

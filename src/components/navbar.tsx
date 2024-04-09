@@ -37,7 +37,6 @@ export default function Navbar() {
                         <p className="text-xs text-gray-400">admin</p>
                     </div>
                 </div>
-                <SaleCart />
             </div>
         </div>
     );

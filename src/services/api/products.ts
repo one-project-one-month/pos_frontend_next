@@ -4,9 +4,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetProducts = () => {
     return useQuery({
-        queryKey: ["products", "get"],
+        queryKey: ["products", "get-many"],
         queryFn: (): Promise<Product[]> => {
-            return axiosInstance.get("/products").then((res) => res.data);
+            return axiosInstance.get("/products").then((res) => res.data.data.products);
+        },
+    });
+};
+
+export const useGetProductById = (id: string) => {
+    return useQuery({
+        queryKey: ["product", "get", id],
+        queryFn: (): Promise<Product> => {
+            return axiosInstance.get(`/products/${id}`).then((res) => res.data.data.product);
         },
     });
 };
@@ -19,11 +28,21 @@ export const useCreateProduct = () => {
         },
     });
 };
+
 export const useUpdateProduct = () => {
     return useMutation({
-        mutationKey: ["products", "update"],
-        mutationFn: (payload: Omit<Product, "productId">) => {
-            return axiosInstance.put(`/products/${payload.productCode}`);
+        mutationKey: ["product", "update"],
+        mutationFn: ({ payload, id }: { payload: Omit<Product, "productId">; id: string }) => {
+            return axiosInstance.patch(`/products/${id}`, payload);
+        },
+    });
+};
+
+export const useDeleteProduct = () => {
+    return useMutation({
+        mutationKey: ["product", "delete"],
+        mutationFn: (id: string) => {
+            return axiosInstance.delete(`/products/${id}`);
         },
     });
 };

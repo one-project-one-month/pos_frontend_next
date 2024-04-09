@@ -23,9 +23,9 @@ interface Props {
     values?: ProductCategory[];
 }
 
-const SelectScrollable = ({ setValue, values }: Props) => {
+const SelectScrollable = ({ setValue, values, value }: Props) => {
     return (
-        <Select onValueChange={(value) => setValue("categoryCode", value)}>
+        <Select onValueChange={(value) => setValue("categoryCode", value)} value={value}>
             <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a Product Category" />
             </SelectTrigger>
