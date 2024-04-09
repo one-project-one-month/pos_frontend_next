@@ -6,7 +6,7 @@ export const useGetProductCategories = () => {
     return useQuery({
         queryKey: ["product-categories", "get"],
         queryFn: (): Promise<ProductCategory[]> =>
-            axiosInstance.get("/product-categories").then((res) => res.data),
+            axiosInstance.get("/product-categories").then((res) => res.data.data.categories),
     });
 };
 

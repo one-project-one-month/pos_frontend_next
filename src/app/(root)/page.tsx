@@ -1,7 +1,9 @@
+import ShopPage from "@/components/pages/shop";
+
 export default async function Home() {
     return (
         <main>
-            <div>Hello</div>
+            <ShopPage />
         </main>
     );
 }

@@ -2,17 +2,18 @@
 import { ColumnDef } from "@tanstack/react-table";
 import ProductsDataTable from "./data-table";
 import { Product } from "@prisma/client";
-import { useGetProducts } from "@/services/api/products";
+import { useDeleteProduct, useGetProducts } from "@/services/api/products";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 import Link from "next/link";
+import { useRef } from "react";
 
 function Products() {
-    const { data: products, isLoading } = useGetProducts();
+    const { data: products, isLoading, refetch: refetchProducts } = useGetProducts();
+    const { mutate: deleteProduct } = useDeleteProduct();
+    const popoverRef = useRef<HTMLButtonElement>(null);
     const columns: ColumnDef<Product>[] = [
-        {
-            accessorKey: "productId",
-            header: "Id",
-        },
         {
             accessorKey: "productCode",
             header: "Code",
@@ -24,6 +25,53 @@ function Products() {
         {
             accessorKey: "price",
             header: "Price",
+        },
+        {
+            header: "Actions",
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center gap-2">
+                        <Link href={`/products/edit/${row.original.productId}`}>
+                            <Button size="sm" variant="outline">
+                                Edit
+                            </Button>
+                        </Link>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="destructive" size="sm">
+                                    Delete
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent side="top" className="flex flex-col gap-4">
+                                <h4>Are you sure to delete this item?</h4>
+                                <div className="ml-auto flex items-center gap-2">
+                                    <PopoverClose asChild>
+                                        <Button size="sm" variant="outline">
+                                            Cancel
+                                        </Button>
+                                    </PopoverClose>
+                                    <PopoverClose asChild ref={popoverRef} />
+                                    <Button
+                                        size="sm"
+                                        variant="destructive"
+                                        onClick={() => {
+                                            const id = row.original.productId;
+                                            deleteProduct(id, {
+                                                onSuccess: () => {
+                                                    refetchProducts();
+                                                    popoverRef.current?.click();
+                                                },
+                                            });
+                                        }}
+                                    >
+                                        Sure
+                                    </Button>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                );
+            },
         },
     ];
 
