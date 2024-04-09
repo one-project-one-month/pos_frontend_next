@@ -8,8 +8,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { data } from "@/data/data";
-import { LegacyRef, forwardRef, useEffect, useState } from "react";
+import { ProductCategory } from "@prisma/client";
 import { UseFormSetValue } from "react-hook-form";
 
 type SetValue = UseFormSetValue<{
@@ -21,24 +20,27 @@ type SetValue = UseFormSetValue<{
 //
 interface Props {
     setValue: SetValue;
+    values?: ProductCategory[];
 }
 
-const SelectScrollable = ({ setValue }: Props) => {
-    const [productCategories, setProductCategories] = useState(data.productCategories);
-
+const SelectScrollable = ({ setValue, values }: Props) => {
     return (
         <Select onValueChange={(value) => setValue("categoryCode", value)}>
             <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a productCategory" />
+                <SelectValue placeholder="Select a Product Category" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Product Category</SelectLabel>
-                    {productCategories.map((pc) => (
-                        <SelectItem key={pc.productCategoryId} value={pc.productCategoryCode}>
-                            {pc.productCategoryCode} : {pc.productCategoryName}
-                        </SelectItem>
-                    ))}
+                    {values && values.length ? (
+                        values.map((pc) => (
+                            <SelectItem key={pc.productCategoryId} value={pc.productCategoryCode}>
+                                {pc.productCategoryCode} : {pc.productCategoryName}
+                            </SelectItem>
+                        ))
+                    ) : (
+                        <div>No Category</div>
+                    )}
                 </SelectGroup>
             </SelectContent>
         </Select>

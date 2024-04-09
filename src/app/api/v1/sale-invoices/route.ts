@@ -4,18 +4,23 @@ import prisma from "@/db/prismaClient";
 
 import { SaleInvoiceType } from "@/types/saleInvoice";
 import { createSaleInvoice, createSaleInvoiceDetails } from "./utils";
+import { catchAsyncError } from "@/lib/errorhandler";
 
 /* GET /api/v1/sale-invoices */
-export async function GET(req: NextRequest) {
-    try {
+export async function GET() {
+    const response = await catchAsyncError("[SALE_INVOICE_GETMAN]", async () => {
         const saleInvoices = await prisma.saleInvoice.findMany({
             include: { staff: true, saleInvoiceDetails: true },
         });
 
-        return NextResponse.json({ message: "success", data: { saleInvoices } });
-    } catch (error) {
-        return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
-    }
+        return NextResponse.json({
+            message: "success",
+            result: saleInvoices.length,
+            data: { saleInvoices },
+        });
+    });
+
+    return response;
 }
 
 /* POST /api/v1/sale-invoices
@@ -26,7 +31,7 @@ body: {
 }
 */
 export async function POST(req: NextRequest) {
-    try {
+    const response = await catchAsyncError("[SALE_INVOICE_POST]", async () => {
         const body: SaleInvoiceType = await req.json();
 
         // making sure payment type is cash or mobile
@@ -52,7 +57,7 @@ export async function POST(req: NextRequest) {
         const voucherNo = uuid();
 
         // calculating total amount
-        const originalTotalAmount = products.reduce((accumulator, currentValue) => {
+        const originalTotalAmount = products.reduce((accumulator: any, currentValue: any) => {
             const p = body.products.find((p) => p.productCode === currentValue.productCode);
             return accumulator + currentValue.price * p!.quantity;
         }, 0);
@@ -83,8 +88,7 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({ message: "success", data: { saleInvoice } }, { status: 201 });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ message: "Something went wrong." }, { status: 500 });
-    }
+    });
+
+    return response;
 }

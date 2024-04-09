@@ -6,7 +6,7 @@ type paramsType = { params: { shopId: string } };
 
 /* GET /api/v1/shops/:shopId */
 export async function GET(req: NextRequest, { params }: { params: { shopId: string } }) {
-    const response = catchAsyncError("[SHOP_GETONE]", async () => {
+    const response = await catchAsyncError("[SHOP_GETONE]", async () => {
         const shop = await prisma.shop.findUnique({
             where: {
                 shopId: params.shopId,
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: { shopId: stri
         if (!shop) return NextResponse.json({ message: "Shop not found." }, { status: 404 });
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             data: {
                 shop,
             },
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, { params }: { params: { shopId: stri
 
 /* PATCH /api/v1/shops/:shopId */
 export async function PATCH(req: NextRequest, { params }: paramsType) {
-    const response = catchAsyncError("[SHOP_PATCH]", async () => {
+    const response = await catchAsyncError("[SHOP_PATCH]", async () => {
         const body = await req.json();
 
         const updatedShop = await prisma.shop.update({
@@ -44,7 +44,7 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
         if (!updatedShop) return NextResponse.json({ message: "Shop not found." }, { status: 404 });
 
         return NextResponse.json({
-            status: "success",
+            message: "success",
             data: {
                 shop: updatedShop,
             },
@@ -56,7 +56,7 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
 
 /* DELETE /api/v1/shops/:shopId */
 export async function DELETE(req: NextRequest, { params }: paramsType) {
-    const response = catchAsyncError("[SHOP_GETONE]", async () => {
+    const response = await catchAsyncError("[SHOP_DELETE]", async () => {
         const deletedShop = await prisma.shop.delete({
             where: { shopId: params.shopId },
         });
@@ -65,7 +65,7 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
 
         return NextResponse.json(
             {
-                status: "success",
+                message: "success",
                 data: null,
             },
             { status: 204 },

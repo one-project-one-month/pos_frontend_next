@@ -1,48 +1,43 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import ProductCategoriesDataTable from "./data-table";
-import { ProductCategory } from "@prisma/client";
+import ProductsDataTable from "./data-table";
+import { Product } from "@prisma/client";
+import { useGetProducts } from "@/services/api/products";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-function ProductCategories() {
-    // replace with response data from '/api/v1/product-categories'
-    const demoData: ProductCategory[] = [
+function Products() {
+    const { data: products, isLoading } = useGetProducts();
+    const columns: ColumnDef<Product>[] = [
         {
-            productCategoryId: "1",
-            productCategoryCode: "P0001",
-            productCategoryName: "Fruits",
-        },
-        {
-            productCategoryId: "2",
-            productCategoryCode: "P0002",
-            productCategoryName: "Snacks",
-        },
-        {
-            productCategoryId: "3",
-            productCategoryCode: "P0003",
-            productCategoryName: "Vegetables",
-        },
-    ];
-
-    const columns: ColumnDef<ProductCategory>[] = [
-        {
-            accessorKey: "productCategoryId",
+            accessorKey: "productId",
             header: "Id",
         },
         {
-            accessorKey: "productCategoryCode",
+            accessorKey: "productCode",
             header: "Code",
         },
         {
-            accessorKey: "productCategoryName",
+            accessorKey: "productName",
             header: "Name",
+        },
+        {
+            accessorKey: "price",
+            header: "Price",
         },
     ];
 
     return (
         <div>
-            <ProductCategoriesDataTable columns={columns} data={demoData} />
+            <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-2xl font-medium">Products List</h2>
+                <Link href="/products/create">
+                    <Button variant="outline">Add New Product</Button>
+                </Link>
+            </div>
+            <ProductsDataTable columns={columns} data={products} isLoading={isLoading} />
         </div>
     );
 }
 
-export default ProductCategories;
+export default Products;

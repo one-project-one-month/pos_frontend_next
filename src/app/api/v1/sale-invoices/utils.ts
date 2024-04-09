@@ -15,25 +15,14 @@ export async function createSaleInvoice({
     staffCode: string;
 }) {
     // create sale invoice according to payment type
-    if (paymentType === "cash") {
-        return prisma.saleInvoice.create({
-            data: {
-                paymentType: paymentType,
-                voucherNo,
-                totalAmount,
-                staffCode: staffCode,
-            },
-        });
-    } else if (paymentType === "mobileBanking") {
-        return prisma.saleInvoice.create({
-            data: {
-                paymentType: paymentType,
-                voucherNo,
-                totalAmount,
-                staffCode: staffCode,
-            },
-        });
-    }
+    return prisma.saleInvoice.create({
+        data: {
+            paymentType,
+            voucherNo,
+            totalAmount,
+            staffCode,
+        },
+    });
 }
 
 export async function createSaleInvoiceDetails({

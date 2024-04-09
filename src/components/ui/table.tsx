@@ -5,7 +5,7 @@ interface Props<TData> {
 }
 function CommonTable<TData>({ table }: Props<TData>) {
     return (
-        <div className="customize__scroll m-auto flex w-full flex-col">
+        <div className="m-auto flex w-full flex-col">
             <table className="table w-full">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -35,10 +35,11 @@ function CommonTable<TData>({ table }: Props<TData>) {
                         table.getRowModel().rows.map((row) => (
                             <tr
                                 key={row.id}
-                                className="border-b-base-300/30 hover:bg-base-100 h-[69px] border-b transition-all last-of-type:border-none"
+                                className="h-[68px] border-b border-b-slate-300/50 transition-all last-of-type:border-none hover:bg-slate-200/50"
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <td
+                                        colSpan={1}
                                         key={cell.id}
                                         className="text-base-600 px-3 py-4 text-left text-sm"
                                     >

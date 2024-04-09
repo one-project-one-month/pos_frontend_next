@@ -8,6 +8,6 @@ export async function catchAsyncError(fnName: string, asyncFn: () => Promise<Nex
         // other error handling logic here
 
         // this is default error response, if nothing above match
-        return new NextResponse("Internal error", { status: 500 });
+        return NextResponse.json({ message: "Internal error" }, { status: 500 });
     }
 }

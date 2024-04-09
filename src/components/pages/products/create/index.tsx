@@ -1,12 +1,12 @@
-import { CreateProductFrom } from "./form";
+import { CreateProductForm } from "./form";
 
 const CreateProduct = () => {
     return (
-        <section id="CreateProduct" className="">
-            <h1 className="my-9 text-center text-xl">Create Product </h1>
-            <div className="flex  justify-center">
-                <div className="w-80">
-                    <CreateProductFrom />
+        <section id="CreateProduct">
+            <h1 className="mb-6 text-2xl font-medium">Add Product</h1>
+            <div className="w-full ">
+                <div className="w-[80%] sm:w-[70%] md:w-[77%] lg:w-[50%]  ">
+                    <CreateProductForm />
                 </div>
             </div>
         </section>
