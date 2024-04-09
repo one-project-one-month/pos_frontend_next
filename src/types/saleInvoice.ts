@@ -1,3 +1,8 @@
+import { z } from "zod";
+import { createSaleInvoiceSchema } from "@/validations/saleInvoice";
+
+export type CreateSaleInvoiceType = z.infer<typeof createSaleInvoiceSchema>;
+
 export type SaleInvoiceDetailType = {
     voucherNo: string;
     productCode: string;
@@ -7,19 +12,3 @@ export type SaleInvoiceDetailType = {
 };
 
 export type InputProductType = { productCode: string; quantity: number };
-
-type SaleInvoiceCashType = {
-    paymentType: "cash";
-    staffCode: string;
-    products: InputProductType[];
-};
-
-type SaleInvoiceMobileBankingType = {
-    paymentType: "mobileBanking";
-    paymentAmount: number;
-    receiveAmount: number;
-    staffCode: string;
-    products: InputProductType[];
-};
-
-export type SaleInvoiceType = SaleInvoiceCashType | SaleInvoiceMobileBankingType;

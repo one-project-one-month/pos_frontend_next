@@ -51,7 +51,7 @@ model SaleInvoice {
   totalAmount        Float
   discount           Float                @default(0)
   tax                Float                @default(5)
-  paymentType        PaymentType
+  paymentType        PaymentType?
   paymentAmount      Float?
   receiveAmount      Float?
   change             Float?

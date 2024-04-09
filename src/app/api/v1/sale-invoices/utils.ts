@@ -1,23 +1,19 @@
 import prisma from "@/db/prismaClient";
 
-import type { Product, PaymentType } from "@prisma/client";
-import type { SaleInvoiceDetailType, InputProductType } from "@/types/saleInvoice";
+import type { InputProductType, SaleInvoiceDetailType } from "@/types/saleInvoice";
+import type { Product } from "@prisma/client";
 
 export async function createSaleInvoice({
-    paymentType,
     voucherNo,
     totalAmount,
     staffCode,
 }: {
-    paymentType: PaymentType;
     voucherNo: string;
     totalAmount: number;
     staffCode: string;
 }) {
-    // create sale invoice according to payment type
     return prisma.saleInvoice.create({
         data: {
-            paymentType,
             voucherNo,
             totalAmount,
             staffCode,
