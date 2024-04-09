@@ -1,10 +1,10 @@
-import { v4 as uuid } from "uuid";
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/prismaClient";
+import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuid } from "uuid";
 
-import { SaleInvoiceType } from "@/types/saleInvoice";
-import { createSaleInvoice, createSaleInvoiceDetails } from "./utils";
 import { catchAsyncError } from "@/lib/errorhandler";
+import { createSaleInvoiceSchema } from "@/validations/saleInvoice";
+import { createSaleInvoice, createSaleInvoiceDetails } from "./utils";
 
 /* GET /api/v1/sale-invoices */
 export async function GET() {
@@ -25,20 +25,30 @@ export async function GET() {
 
 /* POST /api/v1/sale-invoices
 body: {
-    paymentType
     staffCode
     products
 }
 */
 export async function POST(req: NextRequest) {
     const response = await catchAsyncError("[SALE_INVOICE_POST]", async () => {
-        const body: SaleInvoiceType = await req.json();
+        const body = await req.json();
 
-        // making sure payment type is cash or mobile
-        if (body.paymentType !== "cash" && body.paymentType !== "mobileBanking")
-            return NextResponse.json({ message: "Invalid payment type" }, { status: 400 });
+        const validation = createSaleInvoiceSchema.safeParse(body);
 
-        const productCodes = body.products.map((p) => p.productCode);
+        if (!validation.success)
+            return NextResponse.json(
+                { message: "Invalid inputs.", errors: validation.error.format() },
+                { status: 400 },
+            );
+
+        const staff = await prisma.staff.findUnique({
+            where: { staffCode: validation.data.staffCode },
+        });
+
+        // making sure that staff code is valid
+        if (!staff) return NextResponse.json({ message: "Staff not found." }, { status: 404 });
+
+        const productCodes = validation.data.products.map((p) => p.productCode);
         const products = await prisma.product.findMany({
             where: {
                 productCode: {
@@ -50,7 +60,7 @@ export async function POST(req: NextRequest) {
         // making sure there is no invalid product codes and duplicate product codes
         if (products.length !== productCodes.length)
             return NextResponse.json(
-                { message: "Invalide product code included." },
+                { message: "Invalid product code(s) included." },
                 { status: 404 },
             );
 
@@ -58,22 +68,23 @@ export async function POST(req: NextRequest) {
 
         // calculating total amount
         const originalTotalAmount = products.reduce((accumulator: any, currentValue: any) => {
-            const p = body.products.find((p) => p.productCode === currentValue.productCode);
+            const p = validation.data.products.find(
+                (p) => p.productCode === currentValue.productCode,
+            );
             return accumulator + currentValue.price * p!.quantity;
         }, 0);
         const taxAmount = originalTotalAmount * 0.05;
         const totalAmount = originalTotalAmount + taxAmount;
 
         const created_SaleInvoice = await createSaleInvoice({
-            paymentType: body.paymentType,
             voucherNo,
             totalAmount,
-            staffCode: body.staffCode,
+            staffCode: validation.data.staffCode,
         });
 
         await createSaleInvoiceDetails({
             voucherNo: created_SaleInvoice!.voucherNo,
-            inputProducts: body.products,
+            inputProducts: validation.data.products,
             dbProducts: products,
         });
 
