@@ -19,7 +19,8 @@ const Logout = () => {
                     <span>You are logging out already </span>
                     <Link
                         href={"/"}
-                        className="font-medium text-blue-600 underline dark:text-blue-500">
+                        className="font-medium text-blue-600 underline dark:text-blue-500"
+                    >
                         go your homepage
                     </Link>
                 </>

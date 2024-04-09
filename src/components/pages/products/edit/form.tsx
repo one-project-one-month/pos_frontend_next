@@ -16,16 +16,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { productFormSchema } from "@/lib/zodFormSchema";
-import CategorySelect from "./category-select";
+import CategorySelect from "../category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
-import { useCreateProduct } from "@/services/api/products";
+import { useCreateProduct, useUpdateProduct } from "@/services/api/products";
 import { useRouter } from "next/navigation";
 
-export function CreateProductForm() {
+export function EditProductForm() {
     const router = useRouter();
-    const { mutate: createProduct, isPending } = useCreateProduct();
+    const { mutate: updateProduct, isPending } = useUpdateProduct();
     const { data: productCategories } = useGetProductCategories();
-    const form = useForm<z.infer<typeof productFormSchema.create>>({
+    const form = useForm<z.infer<typeof productFormSchema.update>>({
         resolver: zodResolver(productFormSchema.create),
         defaultValues: {
             categoryCode: "",
@@ -36,8 +36,7 @@ export function CreateProductForm() {
     });
 
     function onSubmit(values: z.infer<typeof productFormSchema.create>) {
-        console.log("submit:", values);
-        createProduct(values, {
+        updateProduct(values, {
             onSuccess: () => {
                 router.push("/products");
             },
@@ -46,6 +45,8 @@ export function CreateProductForm() {
             },
         });
     }
+
+    const disabled = true;
 
     return (
         <Form {...form}>
@@ -124,8 +125,8 @@ export function CreateProductForm() {
                     }}
                 />
 
-                <Button type="submit" disabled={isPending}>
-                    Save
+                <Button type="submit" disabled={disabled}>
+                    Update
                 </Button>
             </form>
         </Form>

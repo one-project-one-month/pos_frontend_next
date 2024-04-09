@@ -32,7 +32,7 @@ const SelectScrollable = ({ setValue, values }: Props) => {
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Product Category</SelectLabel>
-                    {!!values?.length ? (
+                    {values && values.length ? (
                         values.map((pc) => (
                             <SelectItem key={pc.productCategoryId} value={pc.productCategoryCode}>
                                 {pc.productCategoryCode} : {pc.productCategoryName}

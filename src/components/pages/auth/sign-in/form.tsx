@@ -48,7 +48,8 @@ const SignInForm = () => {
                             <div>
                                 <label
                                     htmlFor="email"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                >
                                     Your email
                                 </label>
                                 <input
@@ -62,7 +63,8 @@ const SignInForm = () => {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                >
                                     Password
                                 </label>
                                 <input
@@ -86,36 +88,31 @@ const SignInForm = () => {
                                     <div className="ml-3 text-sm">
                                         <label
                                             htmlFor="remember"
-                                            className="text-gray-500 dark:text-gray-300">
+                                            className="text-gray-500 dark:text-gray-300"
+                                        >
                                             Remember me
                                         </label>
                                     </div>
                                 </div>
                                 <a
                                     href="#"
-                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline">
+                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
+                                >
                                     Forgot password?
                                 </a>
                             </div>
-                            {/* <button
-                                type="submit"
-                                className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
-                                Sign in
-                            </button> */}
 
                             <Button variant={"default"} type="submit" className="w-full">
                                 Sign in
                             </Button>
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                <span> Don’t have an account yet? </span>
-                                <a
-                                    href="#"
-                                    className="text-primary-600 dark:text-primary-500 font-medium hover:underline">
-                                    Sign up
-                                </a>
-                            </p>
                         </form>
+                        <div className="flex items-center">
+                            <div className="flex-grow border-t border-gray-500"></div>
+                            <span className="mx-4 text-gray-500">or</span>
+                            <div className="flex-grow border-t border-gray-500"></div>
+                        </div>
                         <GoogleSignInBtn
+                            className="w-full overflow-hidden "
                             onClick={() => signIn("google", { redirect: true, callbackUrl: "/" })}
                         />
                     </div>

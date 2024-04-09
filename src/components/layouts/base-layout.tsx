@@ -1,5 +1,5 @@
 "use client";
-
+import ReactQueryProvider from "@/providers/react-query-provider";
 import ThemeProvider from "@/providers/theme-provider";
 import { PropsWithChildren } from "react";
 import { Session } from "next-auth";
@@ -8,12 +8,14 @@ interface Props extends PropsWithChildren {
     session: Session | null;
 }
 const BaseLayout = ({ children, session }: Props) => {
-    console.log(session?.user?.email);
+    // console.log(session?.user?.email);
 
     return (
-        <ThemeProvider>
-            <SessionProvider session={session}>{children}</SessionProvider>
-        </ThemeProvider>
+        <ReactQueryProvider>
+            <SessionProvider session={session}>
+                <ThemeProvider>{children}</ThemeProvider>
+            </SessionProvider>
+        </ReactQueryProvider>
     );
 };
 

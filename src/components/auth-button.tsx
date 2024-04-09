@@ -12,7 +12,8 @@ export default function AuthButton() {
                 {session?.user?.name} <br />
                 <button
                     className="rounde bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                    onClick={() => signOut()}>
+                    onClick={() => signOut()}
+                >
                     Sign out bt
                 </button>
             </>
@@ -23,7 +24,8 @@ export default function AuthButton() {
             Not signed in <br />
             <button
                 className="rounde bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                onClick={() => signIn("google", { redirect: true, callbackUrl: "/dashboard" })}>
+                onClick={() => signIn("google", { redirect: true, callbackUrl: "/dashboard" })}
+            >
                 Sign in bt
             </button>
         </>

@@ -2,6 +2,10 @@ import { getSession } from "next-auth/react";
 import { NextResponse, type NextRequest } from "next/server";
 import { handler } from "./services/auth";
 
+/*
+
+------------- custom middleware if you want to --------------
+
 // const protectedRoutes = ["/dashboard", "/profile"];
 // const unprotectedRoutes = ["/auth/sign-in", "/auth/sign-out"];
 
@@ -22,7 +26,12 @@ import { handler } from "./services/auth";
 //     return NextResponse.redirect(absoluteURL.toString());
 // }
 
+*/
+
 export { default } from "next-auth/middleware";
+
+// define the protected route here
+
 export const config = {
     matcher: ["/products/:path*", "/dashboard/:path*", "/product-categories/:path*"],
 };

@@ -19,3 +19,11 @@ export const useCreateProduct = () => {
         },
     });
 };
+export const useUpdateProduct = () => {
+    return useMutation({
+        mutationKey: ["products", "update"],
+        mutationFn: (payload: Omit<Product, "productId">) => {
+            return axiosInstance.put(`/products/${payload.productCode}`);
+        },
+    });
+};

@@ -2,12 +2,13 @@ import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/db/prismaClient";
+import { configs } from "./configs";
 
 export default <AuthOptions>{
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_ID ?? "",
-            clientSecret: process.env.GOOGLE_SECRET ?? "",
+            clientId: configs.googleClientId,
+            clientSecret: configs.googleClientSecret,
         }),
         CredentialsProvider({
             name: "Credentials",
@@ -33,10 +34,10 @@ export default <AuthOptions>{
                     },
                 });
                 if (!staff) {
-                    return { id: "X1", email: "admin@admin" };
+                    return { id: "X1", name: "AdminX", email: "admin@admin" };
                 }
 
-                return { id: staff.staffId, email: staff.staffCode };
+                return { id: staff.staffId, email: staff.staffCode, name: "AdminX" };
             },
         }),
     ],
@@ -45,7 +46,7 @@ export default <AuthOptions>{
         signIn: "/auth/sign-in",
         signOut: "/auth/sign-out",
     },
-    secret: process.env.NEXTAUTH_SECRET as string,
+    secret: configs.nextAuthSecret,
 
     // callbacks: { authorized: ({ token }: any) => !!token },
 };
