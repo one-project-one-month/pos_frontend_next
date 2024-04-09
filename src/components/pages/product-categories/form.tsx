@@ -30,8 +30,9 @@ export function CreateProductCategoryForm() {
 
     function onSubmit(values: z.infer<typeof productCategoryFormSchema.create>) {
         createProductCategory(values, {
-            onSuccess: () => {
-                router.push("/product-categories");
+            onSuccess: (res) => {
+                // router.push("/product-categories");
+                console.log(res);
             },
             onError: (error) => {
                 console.error(error);

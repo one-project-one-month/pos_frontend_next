@@ -8,6 +8,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ProductCategory } from "@prisma/client";
 import { UseFormSetValue } from "react-hook-form";
 
 type SetValue = UseFormSetValue<{
@@ -19,8 +20,7 @@ type SetValue = UseFormSetValue<{
 //
 interface Props {
     setValue: SetValue;
-    values: any[] | undefined;
-    value: any;
+    values?: ProductCategory[];
 }
 
 const SelectScrollable = ({ setValue, values, value }: Props) => {
@@ -32,7 +32,7 @@ const SelectScrollable = ({ setValue, values, value }: Props) => {
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Product Category</SelectLabel>
-                    {values ? (
+                    {values && values.length ? (
                         values.map((pc) => (
                             <SelectItem key={pc.productCategoryId} value={pc.productCategoryCode}>
                                 {pc.productCategoryCode} : {pc.productCategoryName}
