@@ -21,8 +21,7 @@ export default function Sidebar() {
                                 className={cn(
                                     "flex items-center gap-2 rounded-md p-3 hover:bg-slate-200/60 focus:bg-slate-200/60",
                                     pathname === link.href && "bg-slate-200/60",
-                                )}
-                            >
+                                )}>
                                 {link.icon}
                                 {link.label}
                             </Link>
@@ -31,7 +30,7 @@ export default function Sidebar() {
                 })}
             </ul>
             <div className="flex align-bottom">
-                <Link href={"/"} className="flex items-center gap-2 p-3">
+                <Link href={"/auth/sign-out"} className="flex items-center gap-2 p-3">
                     <LogOut />
                     Logout
                 </Link>

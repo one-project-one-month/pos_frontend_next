@@ -6,15 +6,8 @@ import { Session } from "next-auth";
 
 const queryClient = new QueryClient();
 
-interface Props extends PropsWithChildren {
-    session: Session | null;
-}
-function ReactQueryProvider({ children, session }: Props) {
-    return (
-        <SessionProvider session={session}>
-            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-        </SessionProvider>
-    );
+function ReactQueryProvider({ children }: PropsWithChildren) {
+    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
 
 export default ReactQueryProvider;

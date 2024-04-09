@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "@/providers/react-query-provider";
 import { getServerSession } from "next-auth";
+import BaseLayout from "@/components/layouts/base-layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default async function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={inter.className}>
-                <ReactQueryProvider session={session}>{children}</ReactQueryProvider>
+                <BaseLayout session={session}>
+                    <ReactQueryProvider>{children}</ReactQueryProvider>
+                </BaseLayout>
             </body>
         </html>
     );
