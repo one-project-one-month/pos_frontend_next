@@ -4,6 +4,7 @@ import ThemeProvider from "@/providers/theme-provider";
 import { PropsWithChildren } from "react";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { SaleInvoiceStoreContextProvider } from "@/providers/sale-invoice-store-provider";
 interface Props extends PropsWithChildren {
     session: Session | null;
 }
@@ -13,7 +14,9 @@ const BaseLayout = ({ children, session }: Props) => {
     return (
         <ReactQueryProvider>
             <SessionProvider session={session}>
-                <ThemeProvider>{children}</ThemeProvider>
+                <ThemeProvider>
+                    <SaleInvoiceStoreContextProvider>{children}</SaleInvoiceStoreContextProvider>
+                </ThemeProvider>
             </SessionProvider>
         </ReactQueryProvider>
     );

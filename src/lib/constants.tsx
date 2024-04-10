@@ -1,4 +1,4 @@
-import { BarChartBig, Home, PackageSearch, SquareGanttChart } from "lucide-react";
+import { BarChartBig, PackageSearch, SquareGanttChart, Store } from "lucide-react";
 import { ReactNode } from "react";
 
 export const routeLinks: {
@@ -9,9 +9,9 @@ export const routeLinks: {
 }[] = [
     {
         href: "/",
-        label: "Home",
-        iconName: "home",
-        icon: <Home />,
+        label: "Store",
+        iconName: "store",
+        icon: <Store />,
     },
     {
         href: "/dashboard",

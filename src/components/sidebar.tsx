@@ -6,7 +6,6 @@ import { routeLinks } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-// import { DashboardIcon, PaddingIcon, ExitIcon } from "@radix-ui/react-icons";
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -24,8 +23,9 @@ export default function Sidebar() {
                             <Link
                                 href={link.href}
                                 className={cn(
-                                    "flex items-center gap-2 rounded-md p-3 hover:bg-slate-200/60 focus:bg-slate-200/60",
-                                    pathname === link.href && "bg-slate-200/60",
+                                    "flex items-center gap-2 rounded-md p-3 transition-all hover:bg-slate-200/60 focus:bg-slate-200/60 dark:hover:bg-slate-800/60 dark:focus:bg-slate-800/60",
+                                    pathname === link.href &&
+                                        "bg-slate-200/60 dark:bg-slate-800/60",
                                 )}
                             >
                                 {link.icon}
