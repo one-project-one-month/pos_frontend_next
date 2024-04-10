@@ -78,18 +78,19 @@ export async function POST(req: NextRequest) {
         const voucherNo = uuid();
 
         // calculating total amount
-        const originalTotalAmount = products.reduce((accumulator: any, currentValue: any) => {
+        const totalAmount = products.reduce((accumulator: any, currentValue: any) => {
             const p = validation.data.products.find(
                 (p) => p.productCode === currentValue.productCode,
             );
             return accumulator + currentValue.price * p!.quantity;
         }, 0);
-        const taxAmount = originalTotalAmount * 0.05;
-        const totalAmount = originalTotalAmount + taxAmount;
+        const taxAmount = totalAmount * 0.05;
+        const paymentAmount = totalAmount + taxAmount;
 
         const created_SaleInvoice = await createSaleInvoice({
             voucherNo,
             totalAmount,
+            paymentAmount,
             staffCode: validation.data.staffCode,
         });
 

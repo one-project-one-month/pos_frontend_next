@@ -51,16 +51,19 @@ export async function getSaleInvoicesByRange({
 export async function createSaleInvoice({
     voucherNo,
     totalAmount,
+    paymentAmount,
     staffCode,
 }: {
     voucherNo: string;
     totalAmount: number;
+    paymentAmount: number;
     staffCode: string;
 }) {
     return prisma.saleInvoice.create({
         data: {
             voucherNo,
             totalAmount,
+            paymentAmount,
             staffCode,
         },
     });
