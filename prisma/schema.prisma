@@ -49,10 +49,10 @@ model SaleInvoice {
   dateTime           DateTime             @default(now())
   voucherNo          String               @unique
   totalAmount        Float
+  paymentAmount      Float
   discount           Float                @default(0)
   tax                Float                @default(5)
   paymentType        PaymentType?
-  paymentAmount      Float?
   receiveAmount      Float?
   change             Float?
   saleInvoiceDetails SaleInvoiceDetails[]
