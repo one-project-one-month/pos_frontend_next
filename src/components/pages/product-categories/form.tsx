@@ -14,30 +14,57 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { productCategoryFormSchema } from "@/lib/zodFormSchema";
-import { useCreateProductCategory } from "@/services/api/product-categories";
+import {
+    useCreateProductCategory,
+    useEditProductCategory,
+} from "@/services/api/product-categories";
 import { useRouter } from "next/navigation";
+import { ProductCategory } from "@prisma/client";
 
-export function CreateProductCategoryForm() {
+interface ProductCategoryFormProps {
+    initialValues?: ProductCategory;
+    isEditMode?: boolean;
+}
+export function ProductCategoryForm({ initialValues, isEditMode }: ProductCategoryFormProps) {
     const router = useRouter();
-    const { mutate: createProductCategory, isPending } = useCreateProductCategory();
+    const { mutate: createProductCategory, isPending: isCreating } = useCreateProductCategory();
+    const { mutate: editProductCategory, isPending: isEditing } = useEditProductCategory();
     const form = useForm<z.infer<typeof productCategoryFormSchema.create>>({
         resolver: zodResolver(productCategoryFormSchema.create),
         defaultValues: {
-            productCategoryCode: "",
-            productCategoryName: "",
+            productCategoryCode: initialValues?.productCategoryCode ?? "",
+            productCategoryName: initialValues?.productCategoryName ?? "",
         },
     });
 
     function onSubmit(values: z.infer<typeof productCategoryFormSchema.create>) {
-        createProductCategory(values, {
-            onSuccess: (res) => {
-                // router.push("/product-categories");
-                console.log(res);
-            },
-            onError: (error) => {
-                console.error(error);
-            },
-        });
+        if (!isEditMode) {
+            createProductCategory(values, {
+                onSuccess: (res) => {
+                    console.log(res);
+                    router.push("/product-categories");
+                },
+                onError: (error) => {
+                    console.error(error);
+                },
+            });
+        } else if (isEditMode && initialValues) {
+            editProductCategory(
+                {
+                    payload: values,
+                    cid: initialValues.productCategoryId,
+                },
+                {
+                    onSuccess: (res) => {
+                        console.log(res);
+                        router.push("/product-categories");
+                    },
+                    onError: (error) => {
+                        console.error(error);
+                    },
+                },
+            );
+        }
     }
 
     return (
@@ -71,7 +98,7 @@ export function CreateProductCategoryForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" disabled={isPending} size="lg">
+                <Button type="submit" disabled={isCreating || isEditing} size="lg">
                     Save
                 </Button>
             </form>

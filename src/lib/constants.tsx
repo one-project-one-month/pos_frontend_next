@@ -1,4 +1,10 @@
-import { BarChartBig, PackageSearch, SquareGanttChart, Store } from "lucide-react";
+import {
+    BarChartBig,
+    NotepadTextDashed,
+    PackageSearch,
+    SquareGanttChart,
+    Store,
+} from "lucide-react";
 import { ReactNode } from "react";
 
 export const routeLinks: {
@@ -30,5 +36,11 @@ export const routeLinks: {
         label: "Product Categories",
         iconName: "square-gantt-chart",
         icon: <SquareGanttChart />,
+    },
+    {
+        href: "/sale-invoices",
+        label: "Sale Invoices",
+        iconName: "notepad-text-dashed",
+        icon: <NotepadTextDashed />,
     },
 ];

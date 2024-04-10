@@ -1,5 +1,5 @@
 "use client";
-import { CreateProductCategoryForm } from "@/components/pages/product-categories/form";
+import { ProductCategoryForm } from "@/components/pages/product-categories/form";
 
 const CreateProductCategory = () => {
     return (
@@ -7,7 +7,7 @@ const CreateProductCategory = () => {
             <h1 className="mb-6 text-2xl font-medium">Create Product Category</h1>
             <div className="flex">
                 <div className="w-full">
-                    <CreateProductCategoryForm />
+                    <ProductCategoryForm />
                 </div>
             </div>
         </section>

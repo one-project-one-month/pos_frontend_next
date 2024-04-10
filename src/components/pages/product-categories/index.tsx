@@ -42,9 +42,11 @@ function ProductCategories() {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center gap-2">
-                        <Button size="sm" variant="outline">
-                            Edit
-                        </Button>
+                        <Link href={`/product-categories/edit/${row.original.productCategoryId}`}>
+                            <Button size="sm" variant="outline">
+                                Edit
+                            </Button>
+                        </Link>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="destructive" size="sm">
@@ -71,8 +73,7 @@ function ProductCategories() {
                                                     popoverRef.current?.click();
                                                 },
                                             });
-                                        }}
-                                    >
+                                        }}>
                                         Sure
                                     </Button>
                                 </div>
