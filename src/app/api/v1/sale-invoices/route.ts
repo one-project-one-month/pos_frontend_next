@@ -4,14 +4,25 @@ import { v4 as uuid } from "uuid";
 
 import { catchAsyncError } from "@/lib/errorhandler";
 import { createSaleInvoiceSchema } from "@/validations/saleInvoice";
-import { createSaleInvoice, createSaleInvoiceDetails } from "./utils";
+import { createSaleInvoice, createSaleInvoiceDetails, getSaleInvoicesByRange } from "./utils";
 
-/* GET /api/v1/sale-invoices */
-export async function GET() {
+/* GET /api/v1/sale-invoices
+query ?start=year-month-day&end=year-month=day (2024-01-01)
+      ?month=month (01)
+*/
+export async function GET(req: NextRequest) {
     const response = await catchAsyncError("[SALE_INVOICE_GETMAN]", async () => {
-        const saleInvoices = await prisma.saleInvoice.findMany({
-            include: { staff: true, saleInvoiceDetails: true },
-        });
+        const searchParams = req.nextUrl.searchParams;
+        const start = searchParams.get("start");
+        const end = searchParams.get("end");
+        const month = searchParams.get("month");
+        const year = searchParams.get("year");
+
+        // making sure start and end date are valid
+        if (start && end && new Date(start).getTime() > new Date(end).getTime())
+            return NextResponse.json({ message: "Invalid date range." }, { status: 400 });
+
+        const saleInvoices = await getSaleInvoicesByRange({ start, end, month, year });
 
         return NextResponse.json({
             message: "success",
@@ -67,18 +78,19 @@ export async function POST(req: NextRequest) {
         const voucherNo = uuid();
 
         // calculating total amount
-        const originalTotalAmount = products.reduce((accumulator: any, currentValue: any) => {
+        const totalAmount = products.reduce((accumulator: any, currentValue: any) => {
             const p = validation.data.products.find(
                 (p) => p.productCode === currentValue.productCode,
             );
             return accumulator + currentValue.price * p!.quantity;
         }, 0);
-        const taxAmount = originalTotalAmount * 0.05;
-        const totalAmount = originalTotalAmount + taxAmount;
+        const taxAmount = totalAmount * 0.05;
+        const paymentAmount = totalAmount + taxAmount;
 
         const created_SaleInvoice = await createSaleInvoice({
             voucherNo,
             totalAmount,
+            paymentAmount,
             staffCode: validation.data.staffCode,
         });
 
