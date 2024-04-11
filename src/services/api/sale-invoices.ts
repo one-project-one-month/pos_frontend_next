@@ -1,15 +1,18 @@
 import axiosInstance from "@/lib/axios";
 import { SaleInvoice, SaleInvoiceDetails, Staff } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
-export const useGetSaleInvoices = () => {
+export const useGetSaleInvoices = (startDate: Date | string, endDate: Date | string) => {
     return useQuery({
-        queryKey: ["sale-invoices", "get-many"],
+        queryKey: ["sale-invoices", "get-many", startDate, endDate],
         queryFn: (): Promise<
             (SaleInvoice & { saleInvoiceDetails: SaleInvoiceDetails[]; staff: Staff })[]
         > => {
-            return axiosInstance.get("/sale-invoices").then((res) => res.data.data.saleInvoices);
+            return axiosInstance
+                .get(`/sale-invoices?start=${startDate}&end=${endDate}`)
+                .then((res) => res.data.data.saleInvoices);
         },
+        placeholderData: keepPreviousData,
     });
 };
 

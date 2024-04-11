@@ -20,6 +20,7 @@ function ProductCategories() {
     } = useGetProductCategories();
     const { mutate: deleteProductCategory } = useDeleteProductCategory();
     const popoverRef = useRef<HTMLButtonElement>(null);
+    console.log("re-render");
 
     // Columns definition for the data table
     const columns: ColumnDef<ProductCategory>[] = [

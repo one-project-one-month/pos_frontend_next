@@ -6,7 +6,7 @@ import ProductCard from "./product-card";
 
 function ShopPage() {
     const { data: productsData, isLoading } = useGetProducts();
-    const { addProduct, increaseProductQuantity } = useSaleInvoiceContext((state) => state);
+    const { addProduct } = useSaleInvoiceContext((state) => state);
     return (
         <section className="flex items-start gap-4">
             <div className="grid max-h-min grow grid-cols-2 gap-2.5 rounded-md md:grid-cols-3">

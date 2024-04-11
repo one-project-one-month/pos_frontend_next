@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { PackagePlus, Plus } from "lucide-react";
+import { PackagePlus } from "lucide-react";
 import React from "react";
 
 interface ProductCardProps {
@@ -22,14 +22,6 @@ function ProductCard({ product, onAddBtnClick }: ProductCardProps) {
                     <Button size="icon" className="h-6 w-6" onClick={onAddBtnClick}>
                         <PackagePlus size={18} />
                     </Button>
-                    {/* <Button
-                        size="icon"
-                        className="h-6 w-6"
-                        onClick={() => {
-                            increaseProductQuantity(product.productCode);
-                        }}>
-                        <Plus size={18} />
-                    </Button> */}
                 </div>
             </div>
             <h4 className="mt-4 text-base font-medium">{product.productName}</h4>
