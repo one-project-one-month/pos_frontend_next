@@ -9,7 +9,11 @@
         "lint": "next lint",
         "format": "prettier --check --ignore-path .gitignore .",
         "format:fix": "prettier --write --ignore-path .gitignore .",
-        "predev": "pnpm format || pnpm format:fix"
+        "predev": "pnpm format || pnpm format:fix",
+        "seed": "npx prisma db seed"
+    },
+    "prisma": {
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.3.4",
@@ -41,6 +45,8 @@
         "zod": "^3.22.4"
     },
     "devDependencies": {
+        "@faker-js/faker": "^8.4.1",
+        "@ngneat/falso": "^7.2.0",
         "@types/node": "^20.12.6",
         "@types/react": "^18.2.75",
         "@types/react-dom": "^18.2.24",
