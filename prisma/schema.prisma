@@ -18,6 +18,7 @@ model Shop {
 model Staff {
   staffId     String        @id @default(uuid())
   staffCode   String        @unique
+  password    String
   staffName   String
   dateOfBirth DateTime
   mobileNo    String
