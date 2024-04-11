@@ -73,7 +73,8 @@ function ProductCategories() {
                                                     popoverRef.current?.click();
                                                 },
                                             });
-                                        }}>
+                                        }}
+                                    >
                                         Sure
                                     </Button>
                                 </div>
