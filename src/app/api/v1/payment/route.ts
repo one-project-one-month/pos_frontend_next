@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 /* PATCH /api/v1/payment */
 export async function PATCH(req: NextRequest) {
-    const response = await catchAsyncError("[SALE_INVOICE_GETONE]", async () => {
+    const response = await catchAsyncError("[PAYMENT]", async () => {
         const body = await req.json();
 
         const validation = paymentSchema.safeParse(body);
