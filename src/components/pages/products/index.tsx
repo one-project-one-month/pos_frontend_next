@@ -5,7 +5,6 @@ import { Product } from "@prisma/client";
 import { useDeleteProduct, useGetProducts } from "@/services/api/products";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-
 import Link from "next/link";
 import { useRef } from "react";
 

@@ -10,11 +10,37 @@ export const useGetProductCategories = () => {
     });
 };
 
+export const useGetProductCategoryById = (cid: string) => {
+    return useQuery({
+        queryKey: ["product-category", "get", cid],
+        queryFn: (): Promise<ProductCategory> => {
+            return axiosInstance
+                .get(`/product-categories/${cid}`)
+                .then((res) => res.data.data.category);
+        },
+    });
+};
+
 export const useCreateProductCategory = () => {
     return useMutation({
         mutationKey: ["product-category", "create"],
         mutationFn: (payload: Omit<ProductCategory, "productCategoryId">) => {
             return axiosInstance.post("/product-categories", payload);
+        },
+    });
+};
+
+export const useEditProductCategory = () => {
+    return useMutation({
+        mutationKey: ["product-category", "edit"],
+        mutationFn: ({
+            payload,
+            cid,
+        }: {
+            payload: Omit<ProductCategory, "productCategoryId">;
+            cid: string;
+        }) => {
+            return axiosInstance.patch(`/product-categories/${cid}`, payload);
         },
     });
 };

@@ -17,10 +17,11 @@ type SetValue = UseFormSetValue<{
     productCode: string;
     categoryCode: string;
 }>;
-//
+
 interface Props {
     setValue: SetValue;
     values?: ProductCategory[];
+    value: string;
 }
 
 const SelectScrollable = ({ setValue, values, value }: Props) => {

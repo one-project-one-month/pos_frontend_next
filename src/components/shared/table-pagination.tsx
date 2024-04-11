@@ -8,7 +8,7 @@ interface TablePaginationProps<TData> {
 function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
     return (
         <div className="flex items-center gap-6 py-2">
-            <span className="text-sm text-slate-800">
+            <span className="text-sm text-slate-800 dark:text-slate-400">
                 Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </span>
             <div className="flex items-center gap-4">

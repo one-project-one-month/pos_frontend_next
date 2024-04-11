@@ -35,7 +35,7 @@ function CommonTable<TData>({ table }: Props<TData>) {
                         table.getRowModel().rows.map((row) => (
                             <tr
                                 key={row.id}
-                                className="h-[68px] border-b border-b-slate-300/50 transition-all last-of-type:border-none hover:bg-slate-200/50"
+                                className="h-[68px] border-b border-b-slate-300/50 transition-all last-of-type:border-none hover:bg-slate-200/50 dark:border-b-slate-900/50 dark:hover:bg-slate-900/50"
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <td

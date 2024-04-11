@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { productFormSchema } from "@/lib/zodFormSchema";
-import CategorySelect from "../category-select";
+import CategorySelect from "./category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
 import { useCreateProduct, useUpdateProduct } from "@/services/api/products";
 import { useRouter } from "next/navigation";
@@ -66,9 +66,6 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
             );
         }
     }
-
-    const disabled = true;
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
