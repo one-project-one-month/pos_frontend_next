@@ -1,7 +1,7 @@
 import { DatePickerWithRange } from "@/components/date-range-picker";
 import TablePagination from "@/components/shared/table-pagination";
 import { Input } from "@/components/ui/input";
-import CommonTable from "@/components/ui/table";
+import CommonTable from "@/components/shared/table";
 import {
     ColumnDef,
     ColumnFiltersState,

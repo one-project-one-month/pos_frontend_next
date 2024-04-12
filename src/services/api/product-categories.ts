@@ -1,22 +1,21 @@
 import axiosInstance from "@/lib/axios";
+import { ApiResponse } from "@/types/baseType";
 import { ProductCategory } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetProductCategories = () => {
     return useQuery({
         queryKey: ["product-categories", "get"],
-        queryFn: (): Promise<ProductCategory[]> =>
-            axiosInstance.get("/product-categories").then((res) => res.data.data.categories),
+        queryFn: (): Promise<ApiResponse<{ categories: ProductCategory[] }>> =>
+            axiosInstance.get("/product-categories").then((res) => res.data),
     });
 };
 
 export const useGetProductCategoryById = (cid: string) => {
     return useQuery({
         queryKey: ["product-category", "get", cid],
-        queryFn: (): Promise<ProductCategory> => {
-            return axiosInstance
-                .get(`/product-categories/${cid}`)
-                .then((res) => res.data.data.category);
+        queryFn: (): Promise<ApiResponse<{ category: ProductCategory }>> => {
+            return axiosInstance.get(`/product-categories/${cid}`).then((res) => res.data);
         },
     });
 };

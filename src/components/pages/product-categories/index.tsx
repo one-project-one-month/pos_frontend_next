@@ -13,23 +13,16 @@ import { useRef } from "react";
 
 function ProductCategories() {
     const {
-        data: productCategories,
+        data: productCategoriesRes,
         isLoading,
         isRefetching,
         refetch: refetchProductCategories,
     } = useGetProductCategories();
     const { mutate: deleteProductCategory } = useDeleteProductCategory();
     const popoverRef = useRef<HTMLButtonElement>(null);
-    console.log("re-render");
 
     // Columns definition for the data table
     const columns: ColumnDef<ProductCategory>[] = [
-        {
-            header: "No",
-            cell: ({ row }) => {
-                return <div>{row.index + 1}</div>;
-            },
-        },
         {
             accessorKey: "productCategoryCode",
             header: "Code",
@@ -97,7 +90,7 @@ function ProductCategories() {
             </div>
             <ProductCategoriesDataTable
                 columns={columns}
-                data={productCategories}
+                data={productCategoriesRes?.data.categories}
                 isLoading={isLoading || isRefetching}
             />
         </div>

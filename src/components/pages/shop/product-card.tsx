@@ -16,7 +16,7 @@ function ProductCard({ product, onAddBtnClick }: ProductCardProps) {
             <div className="flex items-center justify-between">
                 <span className="text-sm">#{product.productCode}</span>
                 <div className="flex items-center gap-3">
-                    <span className="rounded-md bg-sky-500 px-2 py-0.5 text-sm">
+                    <span className="rounded-md bg-sky-500 px-2 py-0.5 text-sm text-slate-50">
                         ${product.price}
                     </span>
                     <Button size="icon" className="h-6 w-6" onClick={onAddBtnClick}>

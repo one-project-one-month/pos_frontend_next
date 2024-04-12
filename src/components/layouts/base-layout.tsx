@@ -5,17 +5,27 @@ import { PropsWithChildren } from "react";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { SaleInvoiceStoreContextProvider } from "@/providers/sale-invoice-store-provider";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { useTheme } from "next-themes";
+
 interface Props extends PropsWithChildren {
     session: Session | null;
 }
 const BaseLayout = ({ children, session }: Props) => {
-    // console.log(session?.user?.email);
-
+    const { theme } = useTheme();
     return (
         <ReactQueryProvider>
             <SessionProvider session={session}>
                 <ThemeProvider>
-                    <SaleInvoiceStoreContextProvider>{children}</SaleInvoiceStoreContextProvider>
+                    <SaleInvoiceStoreContextProvider>
+                        {children}
+                        <ProgressBar
+                            height="4px"
+                            color={theme === "light" ? "#222" : "#eee"}
+                            options={{ showSpinner: false }}
+                            shallowRouting
+                        />
+                    </SaleInvoiceStoreContextProvider>
                 </ThemeProvider>
             </SessionProvider>
         </ReactQueryProvider>

@@ -6,6 +6,7 @@ type Product = {
     productName: string;
     price: number;
 };
+
 export type SaleInvoiceState = {
     staffCode: string;
     products: Product[];
