@@ -13,22 +13,24 @@ function CartSidebar() {
     }, 0);
 
     return (
-        <div className="sticky top-[72px] flex h-[calc(100dvh-78px)] min-w-[360px] flex-col rounded-md bg-slate-200 dark:bg-slate-900">
-            <div className="grow overflow-y-scroll px-4">
+        <div className="sticky top-[72px] flex h-[calc(100dvh-78px)] min-w-[390px] flex-col overflow-hidden rounded-md bg-slate-200 dark:bg-slate-900">
+            <div className="grow overflow-y-scroll">
                 <table className="table w-full">
-                    <thead className="sticky top-0 w-full bg-slate-200 dark:bg-slate-900">
+                    <thead className="sticky top-0 w-full border-b-2 border-b-slate-300 bg-slate-200 dark:border-b-slate-800 dark:bg-slate-900">
                         <tr className="w-full">
-                            <th className="w-[120px] py-2 text-start font-medium">Product</th>
-                            <th className="w-[120px] py-2 font-medium">Quantity</th>
-                            <th className="w-[120px] py-2 text-end font-medium">Price</th>
+                            <th className="mb-2 w-[130px] p-4 text-start font-medium">Product</th>
+                            <th className="mb-2 w-[130px] p-4 font-medium">Quantity</th>
+                            <th className="mb-2 w-[130px] p-4 text-end font-medium">Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.map((product) => {
                             return (
                                 <tr key={product.productCode} className="w-full">
-                                    <td className="flex-1 py-1 text-sm">{product.productName}</td>
-                                    <td className="flex-1 py-1 text-center text-sm">
+                                    <td className="flex-1 px-4 py-2.5 text-sm">
+                                        {product.productName}
+                                    </td>
+                                    <td className="flex-1 px-4 py-2.5 text-center text-sm">
                                         <div className="flex w-full items-center justify-center gap-2">
                                             <Button
                                                 size="icon"
@@ -51,7 +53,7 @@ function CartSidebar() {
                                             </Button>
                                         </div>
                                     </td>
-                                    <td className="flex-1 py-1 text-end text-sm">
+                                    <td className="flex-1 px-4 py-2.5 text-end text-sm">
                                         {product.price * product.quantity}
                                     </td>
                                 </tr>
@@ -60,10 +62,10 @@ function CartSidebar() {
                     </tbody>
                 </table>
             </div>
-            <div className="mt-2 flex w-full flex-col gap-4 border-t border-t-input px-4 py-4">
+            <div className="mt-2 flex w-full flex-col gap-4 border-t border-t-slate-300 px-4 py-4 dark:border-t-slate-800">
                 <div className="flex items-center justify-between">
-                    <p>Total Price :</p>
-                    <p>{totalPrice}</p>
+                    <p className="font-medium">Total Price :</p>
+                    <p className="font-medium">{totalPrice}</p>
                 </div>
                 <Button className="w-full">Checkout</Button>
             </div>
