@@ -7,16 +7,19 @@ interface EditProductCategoryProps {
     cid: string;
 }
 function EditProductCategory({ cid }: EditProductCategoryProps) {
-    const { data: productCategoryData, isLoading } = useGetProductCategoryById(cid);
+    const { data: productCategoryRes, isLoading } = useGetProductCategoryById(cid);
     return (
         <section>
             <h1 className="mb-6 text-2xl font-medium">Edit Product Category</h1>
             <div className="flex">
                 <div className="w-full">
-                    {!productCategoryData || isLoading ? (
+                    {!productCategoryRes || isLoading ? (
                         <div>loading...</div>
                     ) : (
-                        <ProductCategoryForm initialValues={productCategoryData} isEditMode />
+                        <ProductCategoryForm
+                            initialValues={productCategoryRes?.data.category}
+                            isEditMode
+                        />
                     )}
                 </div>
             </div>

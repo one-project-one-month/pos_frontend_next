@@ -1,5 +1,6 @@
-import TableHeader from "@/components/shared/table-header";
+import { DatePickerWithRange } from "@/components/date-range-picker";
 import TablePagination from "@/components/shared/table-pagination";
+import { Input } from "@/components/ui/input";
 import CommonTable from "@/components/shared/table";
 import {
     ColumnDef,
@@ -16,12 +17,16 @@ interface PCategoriesProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[] | undefined;
     isLoading?: boolean;
+    dateRange: { from: Date; to: Date };
+    setDateRange: (drange: any) => void;
 }
 
-function ProductsDataTable<TData, TValue>({
+function SaleInvoicesDataTable<TData, TValue>({
     columns,
     data,
     isLoading,
+    dateRange,
+    setDateRange,
 }: PCategoriesProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const table = useReactTable({
@@ -40,8 +45,17 @@ function ProductsDataTable<TData, TValue>({
         <div>
             {!isLoading || data ? (
                 <>
-                    <div>
-                        <TableHeader table={table} name="Product Name" filterKey="productName" />
+                    <div className="my-2 flex items-center justify-between">
+                        <Input
+                            value={(table.getColumn("voucherNo")?.getFilterValue() as string) ?? ""}
+                            onChange={(event) =>
+                                table.getColumn("voucherNo")?.setFilterValue(event.target.value)
+                            }
+                            placeholder={`Search Voucher Number`}
+                            className="max-w-[280px]"
+                        />
+                        {/* props were drilled here, forgive me :D */}
+                        <DatePickerWithRange dateRange={dateRange} setDateRange={setDateRange} />
                     </div>
                     <CommonTable table={table} />
                     <div className="flex items-center justify-end">
@@ -56,4 +70,4 @@ function ProductsDataTable<TData, TValue>({
     );
 }
 
-export default ProductsDataTable;
+export default SaleInvoicesDataTable;
