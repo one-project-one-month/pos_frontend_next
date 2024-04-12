@@ -24,7 +24,8 @@ export default function Sidebar() {
                                 href={link.href}
                                 className={cn(
                                     "flex items-center gap-2 rounded-md p-3 text-sm transition-all hover:bg-slate-200/60 focus:bg-slate-200/60 dark:hover:bg-slate-800/60 dark:focus:bg-slate-800/60",
-                                    pathname === link.href &&
+                                    (pathname === link.href ||
+                                        pathname.startsWith(`${link.href}/`)) &&
                                         "bg-slate-200/60 dark:bg-slate-800/60",
                                 )}
                             >

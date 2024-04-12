@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { format } from "date-fns";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -10,8 +9,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 interface DatePickerWithRangeProps {
     dateRange: { from: Date; to: Date };
-    setDateRange: (dRange: any) => void;
+    setDateRange: (dRange: { from: Date; to: Date }) => void;
 }
+
 export function DatePickerWithRange({
     className,
     dateRange,
@@ -22,11 +22,11 @@ export function DatePickerWithRange({
             <Popover>
                 <PopoverTrigger asChild>
                     <div className="flex items-center gap-2">
-                        <label htmlFor="date" className="text-sm">
+                        <label htmlFor="start-date" className="text-sm">
                             Start Date:
                         </label>
                         <Button
-                            id="date"
+                            id="start-date"
                             variant={"outline"}
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
@@ -47,7 +47,7 @@ export function DatePickerWithRange({
                         mode="single"
                         selected={dateRange.from}
                         onSelect={(value) => {
-                            setDateRange({ ...dateRange, from: value });
+                            setDateRange({ ...dateRange, from: value as Date });
                         }}
                         initialFocus
                     />
@@ -56,11 +56,11 @@ export function DatePickerWithRange({
             <Popover>
                 <PopoverTrigger asChild>
                     <div className="flex items-center gap-2">
-                        <label htmlFor="date" className="text-sm">
+                        <label htmlFor="endDate" className="text-sm">
                             End Date:
                         </label>
                         <Button
-                            id="date"
+                            id="endDate"
                             variant={"outline"}
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
@@ -81,7 +81,7 @@ export function DatePickerWithRange({
                         mode="single"
                         selected={dateRange.to}
                         onSelect={(value) => {
-                            setDateRange({ ...dateRange, to: value });
+                            setDateRange({ ...dateRange, to: value as Date });
                         }}
                         initialFocus
                     />

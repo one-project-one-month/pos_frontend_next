@@ -1,67 +1,98 @@
-import { Table, flexRender } from "@tanstack/react-table";
+import * as React from "react";
 
-interface Props<TData> {
-    table: Table<TData>;
-}
-function CommonTable<TData>({ table }: Props<TData>) {
-    return (
-        <div className="m-auto flex w-full flex-col">
-            <table className="table w-full">
-                <thead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <tr
-                            key={headerGroup.id}
-                            className="border-b-base-300/50 rounded-sm border-b"
-                        >
-                            {headerGroup.headers.map((header) => {
-                                return (
-                                    <th
-                                        key={header.id}
-                                        className="text-base-500 group min-w-[130px] cursor-pointer p-3 text-left text-sm font-medium capitalize md:text-base"
-                                    >
-                                        {!header.isPlaceholder &&
-                                            flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext(),
-                                            )}
-                                    </th>
-                                );
-                            })}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows?.length > 0 ? (
-                        table.getRowModel().rows.map((row) => (
-                            <tr
-                                key={row.id}
-                                className="h-[68px] border-b border-b-slate-300/50 transition-all last-of-type:border-none hover:bg-slate-200/50 dark:border-b-slate-900/50 dark:hover:bg-slate-900/50"
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <td
-                                        colSpan={1}
-                                        key={cell.id}
-                                        className="text-base-600 px-3 py-4 text-left text-sm"
-                                    >
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td
-                                colSpan={5}
-                                className="text-base-600 px-3 py-5 text-center font-medium"
-                            >
-                                No Data
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+import { cn } from "@/lib/utils";
+
+const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
+    ({ className, ...props }, ref) => (
+        <div className="relative w-full overflow-auto">
+            <table
+                ref={ref}
+                className={cn("w-full caption-bottom text-sm", className)}
+                {...props}
+            />
         </div>
-    );
-}
+    ),
+);
+Table.displayName = "Table";
 
-export default CommonTable;
+const TableHeader = React.forwardRef<
+    HTMLTableSectionElement,
+    React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+    <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+));
+TableHeader.displayName = "TableHeader";
+
+const TableBody = React.forwardRef<
+    HTMLTableSectionElement,
+    React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+    <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
+));
+TableBody.displayName = "TableBody";
+
+const TableFooter = React.forwardRef<
+    HTMLTableSectionElement,
+    React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+    <tfoot
+        ref={ref}
+        className={cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)}
+        {...props}
+    />
+));
+TableFooter.displayName = "TableFooter";
+
+const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
+    ({ className, ...props }, ref) => (
+        <tr
+            ref={ref}
+            className={cn(
+                "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+                className,
+            )}
+            {...props}
+        />
+    ),
+);
+TableRow.displayName = "TableRow";
+
+const TableHead = React.forwardRef<
+    HTMLTableCellElement,
+    React.ThHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+    <th
+        ref={ref}
+        className={cn(
+            "h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+            className,
+        )}
+        {...props}
+    />
+));
+TableHead.displayName = "TableHead";
+
+const TableCell = React.forwardRef<
+    HTMLTableCellElement,
+    React.TdHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+    <td
+        ref={ref}
+        className={cn(
+            "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+            className,
+        )}
+        {...props}
+    />
+));
+TableCell.displayName = "TableCell";
+
+const TableCaption = React.forwardRef<
+    HTMLTableCaptionElement,
+    React.HTMLAttributes<HTMLTableCaptionElement>
+>(({ className, ...props }, ref) => (
+    <caption ref={ref} className={cn("mt-4 text-sm text-muted-foreground", className)} {...props} />
+));
+TableCaption.displayName = "TableCaption";
+
+export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption };
