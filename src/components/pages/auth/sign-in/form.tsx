@@ -40,7 +40,8 @@ const SignInForm = () => {
                             <div>
                                 <label
                                     htmlFor="email"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                >
                                     Your email
                                 </label>
                                 <input
@@ -54,7 +55,8 @@ const SignInForm = () => {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                >
                                     Password
                                 </label>
                                 <input
@@ -78,14 +80,16 @@ const SignInForm = () => {
                                     <div className="ml-3 text-sm">
                                         <label
                                             htmlFor="remember"
-                                            className="text-gray-500 dark:text-gray-300">
+                                            className="text-gray-500 dark:text-gray-300"
+                                        >
                                             Remember me
                                         </label>
                                     </div>
                                 </div>
                                 <a
                                     href="#"
-                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline">
+                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
+                                >
                                     Forgot password?
                                 </a>
                             </div>

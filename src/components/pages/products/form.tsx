@@ -30,8 +30,8 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
     const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
     const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
     const { data: productCategories } = useGetProductCategories();
-    const form = useForm<z.infer<typeof productFormSchema.create>>({
-        resolver: zodResolver(productFormSchema.create),
+    const form = useForm<z.infer<typeof productFormSchema>>({
+        resolver: zodResolver(productFormSchema),
         defaultValues: {
             categoryCode: initialValues?.categoryCode ?? "",
             price: initialValues?.price ?? 0,
@@ -40,7 +40,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
         },
     });
 
-    function onSubmit(values: z.infer<typeof productFormSchema.create>) {
+    function onSubmit(values: z.infer<typeof productFormSchema>) {
         console.log("submit:", values);
 
         if (!isEditMode) {
