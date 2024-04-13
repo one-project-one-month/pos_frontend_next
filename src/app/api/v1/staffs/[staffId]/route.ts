@@ -31,7 +31,7 @@ export async function GET(req: NextRequest, { params }: { params: { staffId: str
 /* PATCH /api/v1/staffs/:staffId */
 export async function PATCH(req: NextRequest, { params }: paramsType) {
     const response = await catchAsyncError("[STAFF_PATCH]", async () => {
-        const body = await req.json();
+        const body = (await req.json()) as Staff;
 
         const validation = updateStaffSchema.safeParse(body);
 
@@ -49,7 +49,13 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
             where: {
                 staffId: params.staffId,
             },
+<<<<<<< HEAD
             data: validation.data,
+=======
+            data: {
+                ...body,
+            },
+>>>>>>> dev
         });
 
         if (!updatedStaff)

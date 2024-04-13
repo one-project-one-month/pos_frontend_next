@@ -29,15 +29,15 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
     const router = useRouter();
     const { mutate: createProductCategory, isPending: isCreating } = useCreateProductCategory();
     const { mutate: editProductCategory, isPending: isEditing } = useEditProductCategory();
-    const form = useForm<z.infer<typeof productCategoryFormSchema.create>>({
-        resolver: zodResolver(productCategoryFormSchema.create),
+    const form = useForm<z.infer<typeof productCategoryFormSchema>>({
+        resolver: zodResolver(productCategoryFormSchema),
         defaultValues: {
             productCategoryCode: initialValues?.productCategoryCode ?? "",
             productCategoryName: initialValues?.productCategoryName ?? "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof productCategoryFormSchema.create>) {
+    function onSubmit(values: z.infer<typeof productCategoryFormSchema>) {
         if (!isEditMode) {
             createProductCategory(values, {
                 onSuccess: (res) => {
@@ -77,7 +77,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                         <FormItem>
                             <FormLabel className="text-base">Product Category Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="name" {...field} />
+                                <Input placeholder="Enter Name" {...field} />
                             </FormControl>
                             <FormDescription>Descriptive name for the category</FormDescription>
                             <FormMessage />
@@ -91,7 +91,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                         <FormItem>
                             <FormLabel className="text-base">Product Category Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="code" {...field} />
+                                <Input placeholder="Enter Code" {...field} />
                             </FormControl>
                             <FormDescription>Unique code for the category</FormDescription>
                             <FormMessage />
