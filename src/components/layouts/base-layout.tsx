@@ -14,17 +14,17 @@ const BaseLayout = ({ children, session }: Props) => {
     console.log(systemTheme, theme);
     return (
         <ReactQueryProvider>
-                <ThemeProvider>
-                    <SaleInvoiceStoreContextProvider>
-                        {children}
-                        <ProgressBar
-                            height="4px"
-                            color={"#1d4ed8"}
-                            options={{ showSpinner: false }}
-                            shallowRouting
-                        />
-                    </SaleInvoiceStoreContextProvider>
-                </ThemeProvider>
+            <ThemeProvider>
+                <SaleInvoiceStoreContextProvider>
+                    {children}
+                    <ProgressBar
+                        height="4px"
+                        color={"#1d4ed8"}
+                        options={{ showSpinner: false }}
+                        shallowRouting
+                    />
+                </SaleInvoiceStoreContextProvider>
+            </ThemeProvider>
         </ReactQueryProvider>
     );
 };

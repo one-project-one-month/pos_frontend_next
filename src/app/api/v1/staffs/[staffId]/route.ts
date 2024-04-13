@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/db/prismaClient";
+import prisma, { exclude } from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
+import { updateStaffSchema } from "@/validations/staff";
+import { hashPassword } from "../utils";
 import { Staff } from "@prisma/client";
 
 type paramsType = { params: { staffId: string } };
@@ -32,13 +34,23 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
     const response = await catchAsyncError("[STAFF_PATCH]", async () => {
         const body = (await req.json()) as Staff;
 
+        const validation = updateStaffSchema.safeParse(body);
+
+        if (!validation.success)
+            return NextResponse.json(
+                { message: "Invalid staff inputs.", error: validation.error.format() },
+                { status: 400 },
+            );
+
+        if (validation.data.password) {
+            validation.data.password = await hashPassword(validation.data.password);
+        }
+
         const updatedStaff = await prisma.staff.update({
             where: {
                 staffId: params.staffId,
             },
-            data: {
-                ...body,
-            },
+            data: validation.data,
         });
 
         if (!updatedStaff)
@@ -47,7 +59,7 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
         return NextResponse.json({
             message: "success",
             data: {
-                staff: updatedStaff,
+                staff: exclude(updatedStaff, "password"),
             },
         });
     });
