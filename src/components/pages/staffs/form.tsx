@@ -110,7 +110,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9">
+                                    className="flex  space-x-9"
+                                >
                                     {Object.values($Enums.Gender).map((gender) => {
                                         return (
                                             <FormItem
@@ -118,7 +119,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     e.currentTarget.classList.add("bg-red-400");
                                                 }}
                                                 key={gender}
-                                                className="flex items-center space-x-3 space-y-0">
+                                                className="flex items-center space-x-3 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={gender} />
                                                 </FormControl>
@@ -126,7 +128,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     onSelect={(e) => {
                                                         e.currentTarget.classList.add("bg-red-400");
                                                     }}
-                                                    className="font-sans ">
+                                                    className="font-sans "
+                                                >
                                                     {gender}
                                                 </FormLabel>
                                             </FormItem>
@@ -149,7 +152,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9">
+                                    className="flex  space-x-9"
+                                >
                                     {Object.values($Enums.Position).map((position) => {
                                         return (
                                             <FormItem
@@ -157,7 +161,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     e.currentTarget.classList.add("bg-red-400");
                                                 }}
                                                 key={position}
-                                                className="flex items-center space-x-3 space-y-0">
+                                                className="flex items-center space-x-3 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={position} />
                                                 </FormControl>
@@ -165,7 +170,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     onSelect={(e) => {
                                                         e.currentTarget.classList.add("bg-red-400");
                                                     }}
-                                                    className="font-sans ">
+                                                    className="font-sans "
+                                                >
                                                     {position}
                                                 </FormLabel>
                                             </FormItem>
@@ -181,7 +187,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     type="submit"
                     variant={"destructive"}
                     size="lg"
-                    disabled={isUpdating || isCreating}>
+                    disabled={isUpdating || isCreating}
+                >
                     Save
                 </Button>
             </form>
