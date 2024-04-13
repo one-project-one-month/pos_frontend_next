@@ -5,13 +5,9 @@ import { usePathname } from "next/navigation";
 import { routeLinks } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 
 export default function Sidebar() {
     const pathname = usePathname();
-
-    const { data: session } = useSession();
-    const isLogout = session && session.user && session.user.email;
 
     return (
         <div className="sticky top-0 flex min-h-screen min-w-[220px] flex-col justify-between border-r p-4">
@@ -27,8 +23,7 @@ export default function Sidebar() {
                                     (pathname === link.href ||
                                         pathname.startsWith(`${link.href}/`)) &&
                                         "bg-slate-200/60 dark:bg-slate-800/60",
-                                )}
-                            >
+                                )}>
                                 {link.icon}
                                 {link.label}
                             </Link>
@@ -37,12 +32,10 @@ export default function Sidebar() {
                 })}
             </ul>
             <div className="flex align-bottom">
-                {isLogout && (
-                    <Link href={"/auth/sign-out"} className="flex items-center gap-2 p-3">
-                        <LogOut />
-                        Logout
-                    </Link>
-                )}
+                <Link href={"/auth/sign-out"} className="flex items-center gap-2 p-3">
+                    <LogOut />
+                    Logout
+                </Link>
             </div>
         </div>
     );
