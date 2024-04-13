@@ -3,6 +3,7 @@ import prisma, { exclude } from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
 import { updateStaffSchema } from "@/validations/staff";
 import { hashPassword } from "../utils";
+import { Staff } from "@prisma/client";
 
 type paramsType = { params: { staffId: string } };
 
@@ -49,13 +50,7 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
             where: {
                 staffId: params.staffId,
             },
-<<<<<<< HEAD
             data: validation.data,
-=======
-            data: {
-                ...body,
-            },
->>>>>>> dev
         });
 
         if (!updatedStaff)
