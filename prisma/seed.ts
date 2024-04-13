@@ -1,8 +1,10 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import { randProductCategory } from "@ngneat/falso";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
+const seedPassword = process.env.STAFF_SEED_PASSWORD!;
 
 const main = async () => {
     console.log("Started seeding ...");
@@ -36,6 +38,8 @@ const main = async () => {
             name = faker.person.fullName();
         }
         staffNames.push(name);
+        const salt = await bcrypt.genSalt(10);
+        const hashed_password = await bcrypt.hash(seedPassword, salt);
         staffs.push({
             staffCode: "s" + i.toString().padStart(2, "0"),
             staffName: name,
@@ -43,6 +47,7 @@ const main = async () => {
             gender: "male",
             address: faker.location.streetAddress({ useFullAddress: true }),
             mobileNo: faker.phone.number(),
+            password: hashed_password,
         });
     }
     await prisma.staff.createMany({ data: staffs });
