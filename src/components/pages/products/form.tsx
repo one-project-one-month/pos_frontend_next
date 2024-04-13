@@ -76,7 +76,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                         <FormItem>
                             <FormLabel>Product Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Enter Product Name" {...field} />
                             </FormControl>
                             <FormDescription></FormDescription>
                             <FormMessage />
@@ -113,9 +113,8 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                         <FormItem>
                             <FormLabel>Product Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Enter Product Code" {...field} />
                             </FormControl>
-                            <FormDescription>must put unique value</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -132,11 +131,10 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                                 <FormControl>
                                     <CategorySelect
                                         value={field.value}
-                                        values={productCategories}
+                                        values={productCategoriesRes?.data.categories}
                                         setValue={form.setValue}
                                     />
                                 </FormControl>
-                                <FormDescription>must put unique value</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         );

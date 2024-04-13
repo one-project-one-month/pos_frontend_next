@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
+import bcrypt from "bcrypt";
 
 /* GET /api/v1/staffs */
 export async function GET(req: NextRequest) {
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
     const response = await catchAsyncError("[STAFF_POST]", async () => {
         const body = await req.json();
 
-        // TODO: password hashing logic here
+        const hashedPassword = await bcrypt.hash(body.password, 12);
 
         const newStaff = await prisma.staff.create({
             data: {
@@ -43,8 +44,7 @@ export async function POST(req: NextRequest) {
                 gender: body.gender,
                 address: body.address,
                 position: body.position,
-                // password: hashedPassword,
-                password: body.password,
+                password: hashedPassword,
             },
         });
 

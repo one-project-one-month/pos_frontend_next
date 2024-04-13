@@ -10,7 +10,8 @@ interface Props extends PropsWithChildren {
     session: Session | null;
 }
 const BaseLayout = ({ children, session }: Props) => {
-    const { theme } = useTheme();
+    const { systemTheme, theme } = useTheme();
+    console.log(systemTheme, theme);
     return (
         <ReactQueryProvider>
                 <ThemeProvider>
@@ -18,7 +19,7 @@ const BaseLayout = ({ children, session }: Props) => {
                         {children}
                         <ProgressBar
                             height="4px"
-                            color={theme === "light" ? "#222" : "#eee"}
+                            color={"#1d4ed8"}
                             options={{ showSpinner: false }}
                             shallowRouting
                         />

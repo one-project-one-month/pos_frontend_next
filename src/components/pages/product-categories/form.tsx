@@ -77,7 +77,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                         <FormItem>
                             <FormLabel className="text-base">Product Category Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="name" {...field} />
+                                <Input placeholder="Enter Name" {...field} />
                             </FormControl>
                             <FormDescription>Descriptive name for the category</FormDescription>
                             <FormMessage />
@@ -91,7 +91,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                         <FormItem>
                             <FormLabel className="text-base">Product Category Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="code" {...field} />
+                                <Input placeholder="Enter Code" {...field} />
                             </FormControl>
                             <FormDescription>Unique code for the category</FormDescription>
                             <FormMessage />
