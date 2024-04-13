@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export default function Navbar() {
     return (
-        <div className="flex h-full items-center justify-between px-6 py-4">
+        <div className="sticky top-0 flex h-full items-center justify-between bg-white px-6 py-4 dark:bg-slate-950">
             <div className="ml-auto flex items-center gap-3">
                 <ThemeToggle buttonProps={{ className: "rounded-full" }} />
                 <div className="flex items-center gap-1">
