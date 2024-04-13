@@ -39,7 +39,8 @@ function CartSidebar() {
                                                         increaseProductQuantity(
                                                             product.productCode,
                                                         );
-                                                    }}>
+                                                    }}
+                                                >
                                                     <Plus size={14} />
                                                 </Button>
                                                 <p className="min-w-[20px] text-center">
@@ -50,7 +51,8 @@ function CartSidebar() {
                                                     className="h-5 w-6 rounded-none"
                                                     onClick={() => {
                                                         decreseProductQuantity(product.productCode);
-                                                    }}>
+                                                    }}
+                                                >
                                                     <Minus size={14} />
                                                 </Button>
                                             </div>
@@ -60,7 +62,8 @@ function CartSidebar() {
                                                 className="h-5 w-6 rounded-sm"
                                                 onClick={() => {
                                                     removeProduct(product);
-                                                }}>
+                                                }}
+                                            >
                                                 <Trash size={14} />
                                             </Button>
                                         </div>
