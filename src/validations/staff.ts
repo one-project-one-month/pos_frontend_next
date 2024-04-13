@@ -15,3 +15,14 @@ export const createStaffSchema = z.object({
     position: z.enum(["cashier", "admin"]),
     password: z.string().trim().min(5),
 });
+
+export const updateStaffSchema = z.object({
+    staffCode: z.string().trim().min(1, "staff code required.").optional(),
+    staffName: z.string().trim().min(5).optional(),
+    dateOfBirth: z.coerce.date().optional(),
+    mobileNo: z.string().trim().min(1, "Mobile no required.").optional(),
+    gender: z.enum(["male", "female", "other"]).optional(),
+    address: z.string().trim().min(1, "Address required.").optional(),
+    position: z.enum(["cashier", "admin"]).optional(),
+    password: z.string().trim().min(5).optional(),
+});
