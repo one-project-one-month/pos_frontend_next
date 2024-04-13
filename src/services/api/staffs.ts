@@ -11,14 +11,14 @@ export const useGetStaffs = () => {
     });
 };
 
-// export const useGetProductById = (id: string) => {
-//     return useQuery({
-//         queryKey: ["product", "get", id],
-//         queryFn: (): Promise<Product> => {
-//             return axiosInstance.get(`/staffs/${id}`).then((res) => res.data.data.product);
-//         },
-//     });
-// };
+export const useGetStaffById = (id: string) => {
+    return useQuery({
+        queryKey: ["product", "get", id],
+        queryFn: (): Promise<Staff> => {
+            return axiosInstance.get(`/staffs/${id}`).then((res) => res.data.data.staff);
+        },
+    });
+};
 
 export const useCreateStaff = () => {
     return useMutation({
@@ -38,11 +38,11 @@ export const useUpdateStaff = () => {
     });
 };
 
-// export const useDeleteProduct = () => {
-//     return useMutation({
-//         mutationKey: ["product", "delete"],
-//         mutationFn: (id: string) => {
-//             return axiosInstance.delete(`/staffs/${id}`);
-//         },
-//     });
-// };
+export const useDeleteStaff = () => {
+    return useMutation({
+        mutationKey: ["staff", "delete"],
+        mutationFn: (id: string) => {
+            return axiosInstance.delete(`/staffs/${id}`);
+        },
+    });
+};

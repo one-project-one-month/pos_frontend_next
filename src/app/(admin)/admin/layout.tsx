@@ -1,7 +1,6 @@
 "use client";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
-import ThemeProvider from "@/providers/theme-provider";
 import { PropsWithChildren } from "react";
 
 function MainLayout({ children }: PropsWithChildren) {

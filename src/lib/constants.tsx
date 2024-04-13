@@ -4,6 +4,7 @@ import {
     PackageSearch,
     SquareGanttChart,
     Store,
+    User,
 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -42,5 +43,11 @@ export const routeLinks: {
         label: "Sale Invoices",
         iconName: "notepad-text-dashed",
         icon: <NotepadTextDashed />,
+    },
+    {
+        href: "/admin/staffs",
+        label: "Staffs",
+        iconName: "User",
+        icon: <User />,
     },
 ];

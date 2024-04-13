@@ -16,15 +16,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { staffFormSchema } from "@/lib/zodFormSchema";
 import { useRouter } from "next/navigation";
-import { $Enums, Product, Staff } from "@prisma/client";
+import { $Enums, Staff } from "@prisma/client";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { toast } from "@/components/ui/use-toast";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "@radix-ui/react-icons";
 import { useCreateStaff, useUpdateStaff } from "@/services/api/staffs";
+import DateOfBirthPicker from "./dob-picker";
+import TextFormField from "./text-form-field";
 
 interface Props {
     initialValues?: Staff;
@@ -40,13 +36,15 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
         resolver: zodResolver(staffFormSchema),
         defaultValues: {
             address: initialValues?.address ?? "someone",
-            dateOfBirth: initialValues?.dateOfBirth ?? new Date("2000-02-01"),
-            gender: initialValues?.gender ?? "other",
-            staffCode: initialValues?.staffCode ?? "someone",
-            staffName: initialValues?.staffName ?? "someone",
-            mobileNo: initialValues?.mobileNo ?? "someone",
+            dateOfBirth: initialValues?.dateOfBirth
+                ? new Date(initialValues?.dateOfBirth)
+                : new Date(),
+            gender: initialValues?.gender ?? "male",
+            staffCode: initialValues?.staffCode ?? "",
+            staffName: initialValues?.staffName ?? "",
+            mobileNo: initialValues?.mobileNo ?? "",
             position: initialValues?.position ?? "cashier",
-            password: initialValues?.password ?? "password",
+            password: initialValues?.password ?? "",
         },
     });
 
@@ -78,47 +76,29 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                    control={form.control}
-                    name="staffCode"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>staffCode</FormLabel>
-                            <FormControl>
-                                <Input placeholder="staffCode" {...field} />
-                            </FormControl>
-                            <FormDescription>must put unique value</FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="staffName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>staffName</FormLabel>
-                            <FormControl>
-                                <Input placeholder="staffName" {...field} />
-                            </FormControl>
-                            <FormDescription></FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                <TextFormField
+                    form={form}
+                    name={"staffName"}
+                    label="staff name"
+                    placeholder="staffName"
                 />{" "}
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>password</FormLabel>
-                            <FormControl>
-                                <Input placeholder="password" {...field} />
-                            </FormControl>
-                            <FormDescription></FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                <TextFormField
+                    form={form}
+                    name={"staffCode"}
+                    label="staff code"
+                    placeholder="staff code eg: sc:001"
+                />
+                <TextFormField
+                    form={form}
+                    name={"mobileNo"}
+                    label="mobileNo"
+                    placeholder="mobileNo"
+                />
+                <TextFormField
+                    form={form}
+                    name={"password"}
+                    label="Password"
+                    placeholder="Password"
                 />
                 <FormField
                     control={form.control}
@@ -130,8 +110,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9"
-                                >
+                                    className="flex  space-x-9">
                                     {Object.values($Enums.Gender).map((gender) => {
                                         return (
                                             <FormItem
@@ -139,8 +118,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     e.currentTarget.classList.add("bg-red-400");
                                                 }}
                                                 key={gender}
-                                                className="flex items-center space-x-3 space-y-0"
-                                            >
+                                                className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value={gender} />
                                                 </FormControl>
@@ -148,8 +126,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     onSelect={(e) => {
                                                         e.currentTarget.classList.add("bg-red-400");
                                                     }}
-                                                    className="font-sans "
-                                                >
+                                                    className="font-sans ">
                                                     {gender}
                                                 </FormLabel>
                                             </FormItem>
@@ -161,64 +138,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="dateOfBirth"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                            <FormLabel>Date of birth</FormLabel>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <FormControl>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-[240px] pl-3 text-left font-normal",
-                                                !field.value && "text-muted-foreground",
-                                            )}
-                                        >
-                                            {field.value ? (
-                                                format(field.value, "PPP")
-                                            ) : (
-                                                <span>Pick a date</span>
-                                            )}
-                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                        </Button>
-                                    </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                    <Calendar
-                                        mode="single"
-                                        selected={field.value}
-                                        onSelect={field.onChange}
-                                        disabled={(date) =>
-                                            date > new Date() || date < new Date("1900-01-01")
-                                        }
-                                        initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                            <FormDescription>
-                                Your date of birth is used to calculate your age.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="mobileNo"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>mobileNo</FormLabel>
-                            <FormControl>
-                                <Input placeholder="mobileNo" {...field} />
-                            </FormControl>
-                            <FormDescription></FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <DateOfBirthPicker form={form} />
                 <FormField
                     control={form.control}
                     name="position"
@@ -229,8 +149,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9"
-                                >
+                                    className="flex  space-x-9">
                                     {Object.values($Enums.Position).map((position) => {
                                         return (
                                             <FormItem
@@ -238,8 +157,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     e.currentTarget.classList.add("bg-red-400");
                                                 }}
                                                 key={position}
-                                                className="flex items-center space-x-3 space-y-0"
-                                            >
+                                                className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value={position} />
                                                 </FormControl>
@@ -247,8 +165,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     onSelect={(e) => {
                                                         e.currentTarget.classList.add("bg-red-400");
                                                     }}
-                                                    className="font-sans "
-                                                >
+                                                    className="font-sans ">
                                                     {position}
                                                 </FormLabel>
                                             </FormItem>
@@ -264,8 +181,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     type="submit"
                     variant={"destructive"}
                     size="lg"
-                    disabled={isUpdating || isCreating}
-                >
+                    disabled={isUpdating || isCreating}>
                     Save
                 </Button>
             </form>
