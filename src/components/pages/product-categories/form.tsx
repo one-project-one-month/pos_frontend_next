@@ -29,15 +29,15 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
     const router = useRouter();
     const { mutate: createProductCategory, isPending: isCreating } = useCreateProductCategory();
     const { mutate: editProductCategory, isPending: isEditing } = useEditProductCategory();
-    const form = useForm<z.infer<typeof productCategoryFormSchema.create>>({
-        resolver: zodResolver(productCategoryFormSchema.create),
+    const form = useForm<z.infer<typeof productCategoryFormSchema>>({
+        resolver: zodResolver(productCategoryFormSchema),
         defaultValues: {
             productCategoryCode: initialValues?.productCategoryCode ?? "",
             productCategoryName: initialValues?.productCategoryName ?? "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof productCategoryFormSchema.create>) {
+    function onSubmit(values: z.infer<typeof productCategoryFormSchema>) {
         if (!isEditMode) {
             createProductCategory(values, {
                 onSuccess: (res) => {

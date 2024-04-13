@@ -43,6 +43,7 @@ const main = async () => {
             gender: "male",
             address: faker.location.streetAddress({ useFullAddress: true }),
             mobileNo: faker.phone.number(),
+            password: "password",
         });
     }
     await prisma.staff.createMany({ data: staffs });
