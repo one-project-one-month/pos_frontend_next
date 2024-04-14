@@ -1,37 +1,27 @@
-import { getSession } from "next-auth/react";
-import { NextResponse, type NextRequest } from "next/server";
-import { handler } from "./services/auth";
+import { NextRequest, NextResponse } from "next/server";
 
-/*
+const allowedOrigins = (JSON.parse(process.env.ALLOWED_ORIGINS!) as string[]) || [];
 
-------------- custom middleware if you want to --------------
+export function middleware(req: NextRequest) {
+    const origin = req.nextUrl.origin ?? "";
+    const pathname = req.nextUrl.pathname;
+    const token = req.cookies.get("jwt");
 
-// const protectedRoutes = ["/dashboard", "/profile"];
-// const unprotectedRoutes = ["/auth/sign-in", "/auth/sign-out"];
+    if (pathname.startsWith("/auth/sign-in") && token) {
+        console.log(token);
+        return NextResponse.redirect(new URL("/", req.url));
+    }
 
-// export default async function middleware(request: NextRequest) {
-//     const isProtectedRoute = protectedRoutes.some((prefix) =>
-//         request.nextUrl.pathname.startsWith(prefix),
-//     );
-//     if (isProtectedRoute) {
-//         const absoluteURL = new URL("/", request.nextUrl.origin);
-//         return NextResponse.redirect(absoluteURL.toString());
-//     }
-//     if (unprotectedRoutes.includes(request.nextUrl.pathname)) {
-//         const absoluteURL = new URL("/dashboard", request.nextUrl.origin);
-//         return NextResponse.redirect(absoluteURL.toString());
-//     }
-//     const absoluteURL = new URL("/auth/sign-in", request.nextUrl.origin);
+    if (!allowedOrigins.includes(origin)) {
+        return NextResponse.json(
+            { message: "This domain is not allowed to access." },
+            { status: 400 },
+        );
+    }
 
-//     return NextResponse.redirect(absoluteURL.toString());
-// }
+    return NextResponse.next();
+}
 
-*/
-
-export { default } from "next-auth/middleware";
-
-// define the protected route here
-
-export const config = {
-    matcher: ["/products/:path*", "/dashboard/:path*", "/product-categories/:path*"],
-};
+// export const config = {
+//     matcher: ["/api/:path*"],
+// };
