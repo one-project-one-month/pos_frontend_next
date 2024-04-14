@@ -6,10 +6,7 @@ import { SaleInvoiceStoreContextProvider } from "@/providers/sale-invoice-store-
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useTheme } from "next-themes";
 
-interface Props extends PropsWithChildren {
-    session: Session | null;
-}
-const BaseLayout = ({ children, session }: Props) => {
+const BaseLayout = ({ children }: PropsWithChildren) => {
     const { systemTheme, theme } = useTheme();
     console.log(systemTheme, theme);
     return (

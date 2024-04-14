@@ -16,7 +16,7 @@ function SaleInvoices() {
     const {
         data: saleInvoicesRes,
         isLoading,
-        isRefetching,
+        isPending,
     } = useGetSaleInvoices(dateRange.from, dateRange.to);
 
     const columns: ColumnDef<SaleInvoicesReturnType>[] = [
@@ -64,7 +64,7 @@ function SaleInvoices() {
                 setDateRange={setDateRange}
                 columns={columns}
                 data={saleInvoicesRes?.data.saleInvoices}
-                isLoading={isLoading || isRefetching}
+                isLoading={isLoading || isPending}
             />
         </section>
     );
