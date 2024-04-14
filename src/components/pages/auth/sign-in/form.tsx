@@ -2,34 +2,36 @@
 
 import ThemeToggle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import GoogleSignInBtn from "./google-signIn-btn";
-import { signIn } from "next-auth/react";
-import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-interface FormElements extends HTMLFormControlsCollection {
-    email: HTMLInputElement;
-    password: HTMLInputElement;
-}
-interface SignInFormElement extends HTMLFormElement {
-    readonly elements: FormElements;
-}
+import { useSignIn } from "@/services/api/staffs";
+import { signInStaffSchema } from "@/validations/staff";
+import type { SignInStaffType } from "@/types/staff";
+
 const SignInForm = () => {
     const router = useRouter();
+    const { mutate: signIn, isPending } = useSignIn();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignInStaffType>({
+        resolver: zodResolver(signInStaffSchema),
+    });
 
-    const handleSubmit = async (e: FormEvent<SignInFormElement>) => {
-        e.preventDefault();
-        const formElements = e.currentTarget.elements;
-        const data = {
-            email: formElements.email.value,
-            password: formElements.password.value,
-        };
-        console.log("credential signin data", data);
-
-        const res = await signIn("credentials", { ...data, redirect: true, callbackUrl: "/" });
-        if (!res || !res.ok) {
-            return console.error({ res });
-        }
+    const handleSignIn = async (e: SignInStaffType) => {
+        console.log(e);
+        signIn(e, {
+            onSuccess: (res) => {
+                console.log(res);
+                router.push("/");
+            },
+            onError: (error) => {
+                console.error(error);
+            },
+        });
     };
 
     return (
@@ -42,77 +44,58 @@ const SignInForm = () => {
                             Sign in to your account
                         </h1>
 
-                        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                        <form
+                            className="space-y-4 md:space-y-6"
+                            onSubmit={handleSubmit(handleSignIn)}>
                             <div>
                                 <label
-                                    htmlFor="email"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Your email
+                                    htmlFor="staff_code"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                                    Staff code
                                 </label>
                                 <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
+                                    {...register("staffCode")}
+                                    id="staff_code"
                                     className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                                    placeholder="name@company.com"
+                                    placeholder="s01"
                                 />
+                                <p className="text-xs text-red-600">
+                                    {errors.staffCode?.message ?? ""}
+                                </p>
                             </div>
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                                >
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                                     Password
                                 </label>
                                 <input
+                                    {...register("password")}
                                     type="password"
-                                    name="password"
                                     id="password"
                                     placeholder="••••••••"
                                     className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                                 />
+                                <p className="text-xs text-red-600">
+                                    {errors.password?.message ?? ""}
+                                </p>
                             </div>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-start">
-                                    <div className="flex h-5 items-center">
-                                        <input
-                                            id="remember"
-                                            aria-describedby="remember"
-                                            type="checkbox"
-                                            className="focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 h-4 w-4 rounded border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
-                                        />
-                                    </div>
-                                    <div className="ml-3 text-sm">
-                                        <label
-                                            htmlFor="remember"
-                                            className="text-gray-500 dark:text-gray-300"
-                                        >
-                                            Remember me
-                                        </label>
-                                    </div>
-                                </div>
+                            <div className="flex items-center justify-end">
                                 <a
                                     href="#"
-                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
-                                >
+                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline">
                                     Forgot password?
                                 </a>
                             </div>
 
-                            <Button variant={"default"} type="submit" className="w-full">
+                            <Button
+                                variant={"default"}
+                                type="submit"
+                                className="w-full"
+                                disabled={isPending}>
                                 Sign in
                             </Button>
                         </form>
-                        <div className="flex items-center">
-                            <div className="flex-grow border-t border-gray-500"></div>
-                            <span className="mx-4 text-gray-500">or</span>
-                            <div className="flex-grow border-t border-gray-500"></div>
-                        </div>
-                        <GoogleSignInBtn
-                            className="w-full overflow-hidden "
-                            onClick={() => signIn("google", { redirect: true, callbackUrl: "/" })}
-                        />
                     </div>
                 </div>
             </div>
