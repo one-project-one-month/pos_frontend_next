@@ -90,7 +90,7 @@ enum Position {
 
 model Customer {
   customerId           String   @id @default(uuid())
-  cusotmerCode         String   @unique
+  customerCode         String   @unique
   customerName         String
   customerMobilNo      String
   customerDOB          DateTime

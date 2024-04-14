@@ -144,7 +144,7 @@ const main = async () => {
         }
         customerNames.push(name);
         customers.push({
-            cusotmerCode: "cus" + i.toString().padStart(2, "0"),
+            customerCode: "cus" + i.toString().padStart(2, "0"),
             customerName: name,
             customerDOB: faker.date.birthdate(),
             customerGender: "male",

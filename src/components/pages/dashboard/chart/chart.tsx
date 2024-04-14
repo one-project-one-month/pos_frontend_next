@@ -101,7 +101,8 @@ export default class Chart extends PureComponent {
                         left: 20,
                         bottom: 5,
                     }}
-                    barSize={25}>
+                    barSize={25}
+                >
                     <XAxis dataKey="name" scale="point" padding={{ left: 8, right: 8 }} />
                     <YAxis />
                     <Tooltip />
