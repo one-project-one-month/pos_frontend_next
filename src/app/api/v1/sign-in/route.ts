@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { Position } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const jwtSecret = process.env.JWT_SECRET ?? "";
 const cookiesExpiredIn = Number(process.env.JWT_COOKIE_EXPIRES_IN) ?? 90;
@@ -12,6 +13,9 @@ const signToken = (payload: { staffCode: string; staffName: string; position: Po
     jwt.sign(payload, jwtSecret, {
         expiresIn: process.env.JWT_EXPIRES_IN,
     });
+
+const correctPassword = async (candidatePassword: string, staffPassword: string) =>
+    await bcrypt.compare(candidatePassword, staffPassword);
 
 /* POST /api/v1/sign-in */
 export async function POST(req: NextRequest) {
@@ -24,8 +28,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        // TODO: compare with the hashed password
-        if (!staff)
+        if (!staff || !(await correctPassword(body.password, staff.password)))
             return NextResponse.json(
                 { message: "Staff Code or password is incorrect!" },
                 {

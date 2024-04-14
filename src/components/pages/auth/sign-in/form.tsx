@@ -3,7 +3,6 @@
 import ThemeToggle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import GoogleSignInBtn from "./google-signIn-btn";
-import { signIn } from "next-auth/react";
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
@@ -24,12 +23,7 @@ const SignInForm = () => {
             email: formElements.email.value,
             password: formElements.password.value,
         };
-        console.log("credential signin data", data);
-
-        const res = await signIn("credentials", { ...data, redirect: true, callbackUrl: "/" });
-        if (!res || !res.ok) {
-            return console.error({ res });
-        }
+        ///
     };
 
     return (

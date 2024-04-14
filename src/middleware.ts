@@ -32,6 +32,10 @@ export { default } from "next-auth/middleware";
 
 // define the protected route here
 
+// export const config = {
+//     matcher: ["/products/:path*", "/dashboard/:path*", "/product-categories/:path*"],
+// };
+
 export const config = {
-    matcher: ["/products/:path*", "/dashboard/:path*", "/product-categories/:path*"],
+    matcher: [],
 };
