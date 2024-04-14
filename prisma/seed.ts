@@ -18,6 +18,8 @@ const main = async () => {
     await prisma.productCategory.deleteMany();
     console.log("Cleaning staff ...");
     await prisma.staff.deleteMany();
+    console.log("Cleaning customer ...");
+    await prisma.customer.deleteMany();
 
     console.log("Seeding shops ...");
     await prisma.shop.create({
@@ -132,7 +134,26 @@ const main = async () => {
     }
     await prisma.saleInvoice.createMany({ data: saleInvoices });
     await prisma.saleInvoiceDetails.createMany({ data: saleInvoiceDetails });
-
+    console.log("Seeding customers ...");
+    const customers: Prisma.CustomerCreateInput[] = [];
+    const customerNames: string[] = [];
+    for (let i = 0; i < 10; i++) {
+        let name = faker.person.fullName();
+        while (customerNames.includes(name)) {
+            name = faker.person.fullName();
+        }
+        customerNames.push(name);
+        customers.push({
+            cusotmerCode: "cus" + i.toString().padStart(2, "0"),
+            customerName: name,
+            customerDOB: faker.date.birthdate(),
+            customerGender: "male",
+            cusotmerStateCode: parseInt(faker.location.zipCode()),
+            customerTownShipCode: parseInt(faker.address.zipCode()),
+            customerMobilNo: faker.phone.number(),
+        });
+    }
+    await prisma.customer.createMany({ data: customers });
     console.log("Finished seeding.");
 };
 

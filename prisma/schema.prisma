@@ -87,3 +87,14 @@ enum Position {
   cashier
   admin
 }
+
+model Customer {
+  customerId           String   @id @default(uuid())
+  cusotmerCode         String   @unique
+  customerName         String
+  customerMobilNo      String
+  customerDOB          DateTime
+  customerGender       Gender
+  cusotmerStateCode    Int
+  customerTownShipCode Int
+}
