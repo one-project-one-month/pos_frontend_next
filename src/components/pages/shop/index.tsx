@@ -58,7 +58,7 @@ function ShopPage() {
                         {isLoading || !productsRes ? (
                             <ShopProductsSkeleton count={18} />
                         ) : (
-                            productsRes?.data.products.slice(0, 18).map((product) => {
+                            productsRes?.data.products.map((product) => {
                                 return (
                                     <ProductCard
                                         key={product.productCode}
