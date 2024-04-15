@@ -1,7 +1,7 @@
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 class PaymentPie extends React.Component {
-    COLORS = ["#FFBB28", "#AF19FF"];
+    COLORS = ["#FFCD4B", "#5272F2"];
     pieData = [
         {
             name: "Cash",

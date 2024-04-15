@@ -107,7 +107,7 @@ export default class SaleChart extends PureComponent {
                     <Tooltip labelClassName="text-black font-bold" />
                     {/* <Legend /> */}
                     <CartesianGrid strokeDasharray="3 3" />
-                    <Bar dataKey="sale" fill="#0802A3" background={{ fill: "#eee" }} />
+                    <Bar dataKey="sale" fill="#5272F2" background={{ fill: "#eee" }} />
                 </BarChart>
             </ResponsiveContainer>
         );

@@ -90,7 +90,7 @@ export default class RevenueGraph extends PureComponent {
 
     render() {
         return (
-            <ResponsiveContainer width="100%" height="100%" className="text-sm">
+            <ResponsiveContainer width="100%" height="100%" className="text-xs">
                 <AreaChart
                     width={500}
                     height={400}
@@ -109,15 +109,15 @@ export default class RevenueGraph extends PureComponent {
                         type="monotone"
                         dataKey="online"
                         stackId="1"
-                        stroke="#8884d8"
-                        fill="#8884d8"
+                        stroke="#FFCD4B"
+                        fill="#FFCD4B"
                     />
                     <Area
                         type="monotone"
                         dataKey="offline"
                         stackId="1"
-                        stroke="#82ca9d"
-                        fill="#82ca9d"
+                        stroke="#5272F2"
+                        fill="#5272F2"
                     />
                     <Legend />
                 </AreaChart>
