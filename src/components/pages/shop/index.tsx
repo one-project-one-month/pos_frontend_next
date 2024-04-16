@@ -15,21 +15,35 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useGetProductCategories } from "@/services/api/product-categories";
+import { useState } from "react";
+import { useDebounceVal } from "@/lib/hooks";
 
 function ShopPage() {
     const { data: productsRes, isLoading } = useGetProducts();
     const { data: productCategoriesRes } = useGetProductCategories();
     const { addProduct } = useSaleInvoiceContext((state) => state);
+    const [searchInput, setSearchInput] = useState<string>("");
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
+    const [debouncedInput] = useDebounceVal(searchInput, 200);
+
+    const filteredProducts = productsRes?.data.products.filter((p) => {
+        return p.productCode.includes(debouncedInput ?? "");
+    });
 
     return (
         <section>
             <div className="flex items-start gap-4">
                 <div className="flex grow flex-col gap-4 pt-1">
                     <div className="flex items-center justify-between">
-                        <Input placeholder="Search by product code" className="w-[280px]" />
+                        <Input
+                            placeholder="Search by product code"
+                            className="w-[280px]"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                        />
                         <Select
-                        // onValueChange={(value) => setValue("categoryCode", value)}
-                        // value={value}
+                            onValueChange={(value) => setSelectedCategory(value)}
+                            value={selectedCategory}
                         >
                             <SelectTrigger className="w-[280px]">
                                 <SelectValue placeholder="Search by Product Category" />
@@ -55,10 +69,10 @@ function ShopPage() {
                         </Select>
                     </div>
                     <div className="grid max-h-min grow grid-cols-2 gap-2.5 rounded-md md:grid-cols-3">
-                        {isLoading || !productsRes ? (
+                        {isLoading || !filteredProducts ? (
                             <ShopProductsSkeleton count={18} />
                         ) : (
-                            productsRes?.data.products.map((product) => {
+                            filteredProducts.map((product) => {
                                 return (
                                     <ProductCard
                                         key={product.productCode}

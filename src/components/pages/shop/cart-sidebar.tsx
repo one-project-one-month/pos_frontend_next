@@ -21,7 +21,8 @@ function CartSidebar() {
                         <tr className="w-full">
                             <th className="mb-2 w-[140px] p-4 text-start font-medium">Product</th>
                             <th className="mb-2 w-[140px] p-4 font-medium">Quantity</th>
-                            <th className="mb-2 w-[140px] p-4 text-end font-medium">Price</th>
+                            <th className="mb-2 w-[80px] p-4 text-end font-medium">Price</th>
+                            <th className="mb-2 w-[60px] p-4 text-end font-medium">{""}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,24 +35,10 @@ function CartSidebar() {
                                         </td>
                                         <td className="flex-1 px-4 py-1.5 text-center text-sm">
                                             <div className="flex w-full items-center gap-2">
-                                                <div className="mx-auto flex max-w-min items-center justify-center overflow-hidden rounded-sm border-b border-t border-slate-800">
+                                                <div className="mx-auto flex max-w-min items-center justify-center gap-1 overflow-hidden rounded-sm">
                                                     <Button
                                                         size="icon"
-                                                        className="h-5 w-6 rounded-none"
-                                                        onClick={() => {
-                                                            increaseProductQuantity(
-                                                                product.productCode,
-                                                            );
-                                                        }}
-                                                    >
-                                                        <Plus size={14} />
-                                                    </Button>
-                                                    <p className="min-w-[20px] text-center">
-                                                        {product.quantity}
-                                                    </p>
-                                                    <Button
-                                                        size="icon"
-                                                        className="h-5 w-6 rounded-none"
+                                                        className="h-5 w-6"
                                                         onClick={() => {
                                                             decreaseProductQuantity(
                                                                 product.productCode,
@@ -60,28 +47,44 @@ function CartSidebar() {
                                                     >
                                                         <Minus size={14} />
                                                     </Button>
+                                                    <p className="min-w-[20px] text-center">
+                                                        {product.quantity}
+                                                    </p>
+                                                    <Button
+                                                        size="icon"
+                                                        className="h-5 w-6"
+                                                        onClick={() => {
+                                                            increaseProductQuantity(
+                                                                product.productCode,
+                                                            );
+                                                        }}
+                                                    >
+                                                        <Plus size={14} />
+                                                    </Button>
                                                 </div>
-                                                <Button
-                                                    size="icon"
-                                                    variant="destructive"
-                                                    className="h-5 w-6 rounded-sm"
-                                                    onClick={() => {
-                                                        removeProduct(product);
-                                                    }}
-                                                >
-                                                    <Trash size={14} />
-                                                </Button>
                                             </div>
                                         </td>
-                                        <td className="flex-1 px-4 py-1.5 text-end text-sm">
+                                        <td className="flex-1 px-4 py-1.5 text-center text-sm">
                                             {product.price * product.quantity}
+                                        </td>
+                                        <td className="flex-1 px-4 py-1.5 text-end text-sm">
+                                            <Button
+                                                size="icon"
+                                                variant="destructive"
+                                                className="h-5 w-6 rounded-sm"
+                                                onClick={() => {
+                                                    removeProduct(product);
+                                                }}
+                                            >
+                                                <Trash size={14} />
+                                            </Button>
                                         </td>
                                     </tr>
                                 );
                             })
                         ) : (
                             <tr className="w-full">
-                                <td colSpan={3} className="py-4 text-center">
+                                <td colSpan={4} className="py-4 text-center">
                                     No Product In The Sale Invoice Yet.
                                 </td>
                             </tr>

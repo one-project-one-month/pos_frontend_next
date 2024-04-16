@@ -1,5 +1,5 @@
-import TableHeader from "@/components/shared/table-header";
-import TablePagination from "@/components/shared/table-pagination";
+import TableHeader from "@/components/table-header";
+import TablePagination from "@/components/table-pagination";
 import CommonTable from "@/components/ui/table";
 import {
     ColumnDef,
