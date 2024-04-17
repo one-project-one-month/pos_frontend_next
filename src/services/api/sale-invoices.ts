@@ -1,6 +1,9 @@
 import axiosInstance from "@/lib/axios";
 import { ApiResponse, SaleInvoicesReturnType } from "@/types/baseType";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { paymentSchema } from "@/validations/payment";
+import { createSaleInvoiceSchema } from "@/validations/saleInvoice";
+import { useQuery, keepPreviousData, useMutation } from "@tanstack/react-query";
+import { z } from "zod";
 
 export const useGetSaleInvoices = (startDate: Date | string, endDate: Date | string) => {
     return useQuery({
@@ -19,6 +22,26 @@ export const useGetSaleInvoiceById = (sid: string) => {
         queryKey: ["sale-invoice", "get", sid],
         queryFn: (): Promise<ApiResponse<{ saleInvoice: SaleInvoicesReturnType }>> => {
             return axiosInstance.get(`/sale-invoices/${sid}`).then((res) => res.data);
+        },
+    });
+};
+
+export const useCreateSaleInvoice = () => {
+    return useMutation({
+        mutationKey: ["sale-invoice", "create"],
+        mutationFn: (
+            payload: z.infer<typeof createSaleInvoiceSchema>,
+        ): Promise<ApiResponse<{ saleInvoice: SaleInvoicesReturnType }>> => {
+            return axiosInstance.post("/sale-invoices", payload).then((res) => res.data);
+        },
+    });
+};
+
+export const useUpdateInvoiceAndConfirmPayment = () => {
+    return useMutation({
+        mutationKey: ["payment", "sale-invoice", "update"],
+        mutationFn: (payload: z.infer<typeof paymentSchema>) => {
+            return axiosInstance.patch("/payment", payload);
         },
     });
 };

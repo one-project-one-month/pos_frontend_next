@@ -16,7 +16,7 @@ export type SaleInvoiceActions = {
     setStaffCode: (code: string) => void;
     addProduct: (product: Omit<Product, "quantity">) => void;
     increaseProductQuantity: (productCode: string) => void;
-    decreseProductQuantity: (productCode: string) => void;
+    decreaseProductQuantity: (productCode: string) => void;
     removeProduct: (product: Product) => void;
 };
 
@@ -59,7 +59,7 @@ export const createSaleInvoiceStore = (initState: SaleInvoiceState = defaultInit
                 });
                 return { products: tmp };
             }),
-        decreseProductQuantity: (productCode) =>
+        decreaseProductQuantity: (productCode) =>
             set((state) => {
                 const tmp = state.products.map((product) => {
                     if (product.productCode === productCode) {
