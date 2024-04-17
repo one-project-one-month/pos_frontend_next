@@ -14,71 +14,71 @@ import {
 const data = [
     {
         name: "Sun",
-        uv: 4000,
-        pv: 2400,
+        customer: 4000,
+        sale: 2400,
         amt: 2400,
     },
     {
         name: "Mon",
-        uv: 3000,
-        pv: 1398,
+        customer: 3000,
+        sale: 1398,
         amt: 2210,
     },
     {
         name: "Tue",
-        uv: 2000,
-        pv: 9800,
+        customer: 2000,
+        sale: 9800,
         amt: 2290,
     },
     {
         name: "Wed",
-        uv: 2780,
-        pv: 3908,
+        customer: 2780,
+        sale: 3908,
         amt: 2000,
     },
     {
         name: "Thu",
-        uv: 1890,
-        pv: 4800,
+        customer: 1890,
+        sale: 4800,
         amt: 2181,
     },
     {
         name: "Fri",
-        uv: 2390,
-        pv: 3800,
+        customer: 2390,
+        sale: 3800,
         amt: 2500,
     },
     {
         name: "Sat",
-        uv: 3490,
-        pv: 4300,
+        customer: 3490,
+        sale: 4300,
         amt: 2100,
     },
 ];
 
-export default class Graph extends PureComponent {
+export default class SaleGraph extends PureComponent {
     static demoUrl = "https://codesandbox.io/s/simple-line-chart-kec3v";
 
     render() {
         return (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" className="text-xs">
                 <LineChart
                     width={500}
                     height={300}
                     data={data}
                     margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
+                        right: 20,
+                        left: 0,
+                        bottom: 0,
                     }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="pv" stroke="#5272F2" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="uv" stroke="#FFCD4B" />
+                    <Tooltip labelClassName="text-black font-bold" />
+                    {/* <Legend /> */}
+                    <Line type="monotone" dataKey="sale" stroke="#5272F2" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="customer" stroke="#FFCD4B" />
                 </LineChart>
             </ResponsiveContainer>
         );
