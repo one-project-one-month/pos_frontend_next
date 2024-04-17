@@ -14,83 +14,83 @@ const data = [
     {
         name: "Jan",
         uv: 4000,
-        pv: 2400,
+        sale: 2400,
         amt: 2400,
     },
     {
         name: "Feb",
         uv: 3000,
-        pv: 1398,
+        sale: 1398,
         amt: 2210,
     },
     {
         name: "Mar",
         uv: 2000,
-        pv: 9800,
+        sale: 9800,
         amt: 2290,
     },
     {
         name: "Apr",
         uv: 2780,
-        pv: 3908,
+        sale: 3908,
         amt: 2000,
     },
     {
         name: "May",
         uv: 1890,
-        pv: 4800,
+        sale: 4800,
         amt: 2181,
     },
     {
         name: "Jun",
         uv: 2390,
-        pv: 3800,
+        sale: 3800,
         amt: 2500,
     },
     {
         name: "Jul",
         uv: 3490,
-        pv: 4300,
+        sale: 4300,
         amt: 2100,
     },
     {
         name: "Aug",
         uv: 4000,
-        pv: 2400,
+        sale: 2400,
         amt: 2400,
     },
     {
         name: "Sep",
         uv: 3000,
-        pv: 1398,
+        sale: 1398,
         amt: 2210,
     },
     {
         name: "Oct",
         uv: 2000,
-        pv: 9800,
+        sale: 9800,
         amt: 2290,
     },
     {
         name: "Nov",
         uv: 2780,
-        pv: 3908,
+        sale: 3908,
         amt: 2000,
     },
     {
         name: "Dec",
         uv: 1890,
-        pv: 4800,
+        sale: 4800,
         amt: 2181,
     },
 ];
 
-export default class Chart extends PureComponent {
+export default class SaleChart extends PureComponent {
     static demoUrl = "https://codesandbox.io/s/bar-chart-has-no-padding-jphoc";
 
     render() {
         return (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" className="text-xs">
                 <BarChart
                     width={500}
                     height={300}
@@ -98,17 +98,16 @@ export default class Chart extends PureComponent {
                     margin={{
                         top: 5,
                         right: 30,
-                        left: 20,
-                        bottom: 5,
+                        left: 10,
+                        bottom: 0,
                     }}
-                    barSize={25}
-                >
+                    barSize={20}>
                     <XAxis dataKey="name" scale="point" padding={{ left: 8, right: 8 }} />
                     <YAxis />
-                    <Tooltip />
-                    <Legend />
+                    <Tooltip labelClassName="text-black font-bold" />
+                    {/* <Legend /> */}
                     <CartesianGrid strokeDasharray="3 3" />
-                    <Bar dataKey="pv" fill="#0802A3" background={{ fill: "#eee" }} />
+                    <Bar dataKey="sale" fill="#5272F2" background={{ fill: "#eee" }} />
                 </BarChart>
             </ResponsiveContainer>
         );
