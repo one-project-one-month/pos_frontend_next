@@ -3,7 +3,7 @@ import prisma from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
 
 /* GET /api/v1/shops */
-export async function GET(req: NextRequest) {
+export async function GET() {
     const response = await catchAsyncError("[SHOP_GETMANY]", async () => {
         const shops = await prisma.shop.findMany();
 

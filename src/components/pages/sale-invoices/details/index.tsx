@@ -6,7 +6,7 @@ interface SaleInvoiceDetailsProps {
     id: string;
 }
 function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
-    const { data: saleInvoiceDetailRes, isLoading } = useGetSaleInvoiceById(id);
+    const { data: saleInvoiceDetailRes } = useGetSaleInvoiceById(id);
     console.log(saleInvoiceDetailRes?.data);
     return (
         <div>

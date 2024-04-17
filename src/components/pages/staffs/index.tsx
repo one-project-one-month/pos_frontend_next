@@ -66,8 +66,7 @@ function Staffs() {
                                                     popoverRef.current?.click();
                                                 },
                                             });
-                                        }}
-                                    >
+                                        }}>
                                         Sure
                                     </Button>
                                 </div>
@@ -87,7 +86,11 @@ function Staffs() {
                     <Button variant="outline">Add New Staff</Button>
                 </Link>
             </div>
-            <StaffsDataTable columns={columns} data={staffs} isLoading={isLoading} />
+            <StaffsDataTable
+                columns={columns}
+                data={staffs?.data.staffs || []}
+                isLoading={isLoading}
+            />
         </div>
     );
 }

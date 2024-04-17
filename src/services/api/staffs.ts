@@ -1,21 +1,33 @@
+import type { Staff } from "@prisma/client";
+import type { ApiResponse } from "@/types/baseType";
+import type { SignInStaffType, UpdateStaffType, CreateStaffType } from "@/types/staff";
+
 import axiosInstance from "@/lib/axios";
-import { Product, Staff } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
+
+export const useSignIn = () => {
+    return useMutation({
+        mutationKey: ["staff", "signin"],
+        mutationFn: (payload: SignInStaffType) => {
+            return axiosInstance.post("/staffs/sign-in", payload);
+        },
+    });
+};
 
 export const useGetStaffs = () => {
     return useQuery({
-        queryKey: ["staffs", "get-many"],
-        queryFn: (): Promise<Staff[]> => {
-            return axiosInstance.get("/staffs").then((res) => res.data.data.staffs);
+        queryKey: ["products", "get-many"],
+        queryFn: async (): Promise<ApiResponse<{ staffs: Staff[] }>> => {
+            return axiosInstance.get("/staffs").then((res) => res.data);
         },
     });
 };
 
 export const useGetStaffById = (id: string) => {
     return useQuery({
-        queryKey: ["product", "get", id],
-        queryFn: (): Promise<Staff> => {
-            return axiosInstance.get(`/staffs/${id}`).then((res) => res.data.data.staff);
+        queryKey: ["staff", "get", id],
+        queryFn: async (): Promise<ApiResponse<{ staff: Staff }>> => {
+            return axiosInstance.get(`/staffs/${id}`).then((res) => res.data);
         },
     });
 };
@@ -23,7 +35,7 @@ export const useGetStaffById = (id: string) => {
 export const useCreateStaff = () => {
     return useMutation({
         mutationKey: ["staffs", "create"],
-        mutationFn: (payload: Omit<Staff, "staffId">) => {
+        mutationFn: (payload: CreateStaffType) => {
             return axiosInstance.post("/staffs", payload);
         },
     });
@@ -32,7 +44,7 @@ export const useCreateStaff = () => {
 export const useUpdateStaff = () => {
     return useMutation({
         mutationKey: ["staff", "update"],
-        mutationFn: ({ payload, id }: { payload: Omit<Staff, "staffId">; id: string }) => {
+        mutationFn: ({ id, payload }: { id: string; payload: UpdateStaffType }) => {
             return axiosInstance.patch(`/staffs/${id}`, payload);
         },
     });

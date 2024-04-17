@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
@@ -16,6 +17,7 @@ interface Props {
 }
 
 function ThemeToggle({ buttonProps }: Props) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { theme, setTheme, systemTheme } = useTheme();
     useEffect(() => {
         setTheme(systemTheme ? systemTheme : "default");

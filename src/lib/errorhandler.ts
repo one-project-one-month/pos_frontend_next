@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-function handlerError(error: unknown) {
+function handlerError(error: any) {
     // other error handling logic here
     if (error.code === "P2002")
         return NextResponse.json(
