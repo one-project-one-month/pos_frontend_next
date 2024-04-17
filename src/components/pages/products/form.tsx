@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { productFormSchema } from "@/lib/zodFormSchema";
-import CategorySelect from "../category-select";
+import CategorySelect from "./category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
 import { useCreateProduct, useUpdateProduct } from "@/services/api/products";
 import { useRouter } from "next/navigation";
@@ -30,8 +30,8 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
     const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
     const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
     const { data: productCategories } = useGetProductCategories();
-    const form = useForm<z.infer<typeof productFormSchema.create>>({
-        resolver: zodResolver(productFormSchema.create),
+    const form = useForm<z.infer<typeof productFormSchema>>({
+        resolver: zodResolver(productFormSchema),
         defaultValues: {
             categoryCode: initialValues?.categoryCode ?? "",
             price: initialValues?.price ?? 0,
@@ -40,7 +40,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
         },
     });
 
-    function onSubmit(values: z.infer<typeof productFormSchema.create>) {
+    function onSubmit(values: z.infer<typeof productFormSchema>) {
         console.log("submit:", values);
 
         if (!isEditMode) {
@@ -66,9 +66,6 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
             );
         }
     }
-
-    const disabled = true;
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -79,7 +76,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                         <FormItem>
                             <FormLabel>Product Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Enter Product Name" {...field} />
                             </FormControl>
                             <FormDescription></FormDescription>
                             <FormMessage />
@@ -116,9 +113,8 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                         <FormItem>
                             <FormLabel>Product Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Enter Product Code" {...field} />
                             </FormControl>
-                            <FormDescription>must put unique value</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -135,11 +131,10 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                                 <FormControl>
                                     <CategorySelect
                                         value={field.value}
-                                        values={productCategories}
+                                        values={productCategoriesRes?.data.categories}
                                         setValue={form.setValue}
                                     />
                                 </FormControl>
-                                <FormDescription>must put unique value</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         );

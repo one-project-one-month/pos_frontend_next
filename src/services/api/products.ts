@@ -1,12 +1,13 @@
 import axiosInstance from "@/lib/axios";
+import { ApiResponse } from "@/types/baseType";
 import { Product } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetProducts = () => {
     return useQuery({
         queryKey: ["products", "get-many"],
-        queryFn: (): Promise<Product[]> => {
-            return axiosInstance.get("/products").then((res) => res.data.data.products);
+        queryFn: (): Promise<ApiResponse<{ products: Product[] }>> => {
+            return axiosInstance.get("/products").then((res) => res.data);
         },
     });
 };
@@ -14,8 +15,8 @@ export const useGetProducts = () => {
 export const useGetProductById = (id: string) => {
     return useQuery({
         queryKey: ["product", "get", id],
-        queryFn: (): Promise<Product> => {
-            return axiosInstance.get(`/products/${id}`).then((res) => res.data.data.product);
+        queryFn: (): Promise<ApiResponse<{ product: Product }>> => {
+            return axiosInstance.get(`/products/${id}`).then((res) => res.data);
         },
     });
 };

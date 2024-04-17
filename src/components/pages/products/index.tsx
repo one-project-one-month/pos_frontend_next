@@ -5,12 +5,11 @@ import { Product } from "@prisma/client";
 import { useDeleteProduct, useGetProducts } from "@/services/api/products";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-
 import Link from "next/link";
 import { useRef } from "react";
 
 function Products() {
-    const { data: products, isLoading, refetch: refetchProducts } = useGetProducts();
+    const { data: productsRes, isLoading, refetch: refetchProducts } = useGetProducts();
     const { mutate: deleteProduct } = useDeleteProduct();
     const popoverRef = useRef<HTMLButtonElement>(null);
     const columns: ColumnDef<Product>[] = [
@@ -83,7 +82,11 @@ function Products() {
                     <Button variant="outline">Add New Product</Button>
                 </Link>
             </div>
-            <ProductsDataTable columns={columns} data={products} isLoading={isLoading} />
+            <ProductsDataTable
+                columns={columns}
+                data={productsRes?.data.products}
+                isLoading={isLoading}
+            />
         </div>
     );
 }

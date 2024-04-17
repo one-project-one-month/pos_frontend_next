@@ -13,7 +13,7 @@ import { useRef } from "react";
 
 function ProductCategories() {
     const {
-        data: productCategories,
+        data: productCategoriesRes,
         isLoading,
         isRefetching,
         refetch: refetchProductCategories,
@@ -23,12 +23,6 @@ function ProductCategories() {
 
     // Columns definition for the data table
     const columns: ColumnDef<ProductCategory>[] = [
-        {
-            header: "No",
-            cell: ({ row }) => {
-                return <div>{row.index + 1}</div>;
-            },
-        },
         {
             accessorKey: "productCategoryCode",
             header: "Code",
@@ -42,9 +36,11 @@ function ProductCategories() {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center gap-2">
-                        <Button size="sm" variant="outline">
-                            Edit
-                        </Button>
+                        <Link href={`/product-categories/edit/${row.original.productCategoryId}`}>
+                            <Button size="sm" variant="outline">
+                                Edit
+                            </Button>
+                        </Link>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="destructive" size="sm">
@@ -94,7 +90,7 @@ function ProductCategories() {
             </div>
             <ProductCategoriesDataTable
                 columns={columns}
-                data={productCategories}
+                data={productCategoriesRes?.data.categories}
                 isLoading={isLoading || isRefetching}
             />
         </div>

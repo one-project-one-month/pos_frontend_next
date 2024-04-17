@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
         const month = searchParams.get("month");
         const year = searchParams.get("year");
 
+        console.log(start, end);
         // making sure start and end date are valid
         if (start && end && new Date(start).getTime() > new Date(end).getTime())
             return NextResponse.json({ message: "Invalid date range." }, { status: 400 });
