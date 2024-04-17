@@ -1,6 +1,7 @@
+import CommonTable from "@/components/shared/table";
 import TableHeader from "@/components/shared/table-header";
 import TablePagination from "@/components/shared/table-pagination";
-import CommonTable from "@/components/ui/table";
+
 import {
     ColumnDef,
     ColumnFiltersState,
