@@ -13,7 +13,7 @@ export default function Navbar() {
                         <AvatarFallback>{"profile"}</AvatarFallback>
                     </Avatar>
                     <div>
-                        <h3 className="text-sm font-bold">Someone</h3>
+                        <h3 className="text-sm font-bold">profile</h3>
                         <p className="text-xs text-gray-400">admin</p>
                     </div>
                 </div>

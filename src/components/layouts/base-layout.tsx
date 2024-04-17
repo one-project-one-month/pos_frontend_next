@@ -6,25 +6,21 @@ import { SaleInvoiceStoreContextProvider } from "@/providers/sale-invoice-store-
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useTheme } from "next-themes";
 
-interface Props extends PropsWithChildren {
-    session: Session | null;
-}
-const BaseLayout = ({ children, session }: Props) => {
-    const { systemTheme, theme } = useTheme();
-    console.log(systemTheme, theme);
+const BaseLayout = ({ children }: PropsWithChildren) => {
+    const { theme } = useTheme();
     return (
         <ReactQueryProvider>
-                <ThemeProvider>
-                    <SaleInvoiceStoreContextProvider>
-                        {children}
-                        <ProgressBar
-                            height="4px"
-                            color={"#1d4ed8"}
-                            options={{ showSpinner: false }}
-                            shallowRouting
-                        />
-                    </SaleInvoiceStoreContextProvider>
-                </ThemeProvider>
+            <ThemeProvider>
+                <SaleInvoiceStoreContextProvider>
+                    {children}
+                    <ProgressBar
+                        height="4px"
+                        color={theme === "light" ? "#222" : "#eee"}
+                        options={{ showSpinner: false }}
+                        shallowRouting
+                    />
+                </SaleInvoiceStoreContextProvider>
+            </ThemeProvider>
         </ReactQueryProvider>
     );
 };
