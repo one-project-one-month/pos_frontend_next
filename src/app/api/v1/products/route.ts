@@ -1,13 +1,15 @@
 import prisma from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
 import { NextRequest, NextResponse } from "next/server";
+import { handler } from "./utils";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     const response = await catchAsyncError("[PRODUCT_GETMANY]", async () => {
-        const products = await prisma.product.findMany();
+        const searchParams = req.nextUrl.searchParams;
+        const products = await handler({ searchParams });
 
         return NextResponse.json(
-            { message: "success", result: products.length, data: { products } },
+            { message: "success", result: products?.length, data: { products } },
             { status: 200 },
         );
     });
