@@ -12,15 +12,17 @@ interface ProductCardProps {
 }
 function ProductCard({ product, onAddBtnClick }: ProductCardProps) {
     return (
-        <div className="col-span-1 rounded-md border border-input bg-slate-200 p-2 shadow-sm dark:bg-slate-900">
+        <div className="col-span-1 rounded-md border border-input bg-slate-100 p-2 shadow-sm dark:bg-slate-900">
             <div className="flex items-center justify-between">
-                <span className="text-sm">#{product.productCode}</span>
-                <div className="flex items-center gap-3">
-                    <span className="rounded-md bg-sky-500 px-2 py-0.5 text-sm text-slate-50">
+                <div className="flex items-center gap-1.5">
+                    <span className="text-sm uppercase">#{product.productCode}</span>
+                    <span className="rounded-md bg-sky-500 px-1 py-0.5 text-xs text-slate-50">
                         ${product.price}
                     </span>
-                    <Button size="icon" className="h-6 w-6" onClick={onAddBtnClick}>
-                        <PackagePlus size={18} />
+                </div>
+                <div className="flex items-center gap-3">
+                    <Button size="sm" className="gap-1 px-2 text-sm" onClick={onAddBtnClick}>
+                        <PackagePlus size={18} /> <span className="text-sm">Add</span>
                     </Button>
                 </div>
             </div>
