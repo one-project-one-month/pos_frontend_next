@@ -36,7 +36,7 @@ function PaymentForm() {
     const router = useRouter();
     const { mutate: createSaleInvoice, isPending: isCreating } = useCreateSaleInvoice();
     const { mutate: confirmPayment, isPending: isUpdating } = useUpdateInvoiceAndConfirmPayment();
-    const { products } = useSaleInvoiceContext((state) => state);
+    const { products, resetProduct } = useSaleInvoiceContext((state) => state);
     const dialogCloseBtnRef = useRef<HTMLButtonElement>(null);
     const form = useForm<z.infer<typeof paymentFormSchema>>({
         resolver: zodResolver(paymentFormSchema),
@@ -66,6 +66,7 @@ function PaymentForm() {
                             },
                             onSuccess: () => {
                                 console.log("success");
+                                resetProduct();
                                 dialogCloseBtnRef.current?.click();
                                 router.push(`/sale-invoices/${invoiceId}`);
                             },

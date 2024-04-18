@@ -8,20 +8,20 @@ export async function handler({ searchParams }: { searchParams: URLSearchParams 
     const categoryCode = searchParams?.get("categoryCode");
     const where: any = {};
 
-    if (name != undefined) {
+    if (name && name !== "undefined") {
         where.productName = {
             contains: name,
         };
     }
 
-    if (priceStart != undefined && priceEnd != undefined) {
+    if (priceStart && priceEnd) {
         where.price = {
             gte: parseFloat(priceStart),
             lte: parseFloat(priceEnd),
         };
     }
 
-    if (categoryCode != undefined) {
+    if (categoryCode && categoryCode !== "undefined") {
         where.categoryCode = categoryCode;
     }
 

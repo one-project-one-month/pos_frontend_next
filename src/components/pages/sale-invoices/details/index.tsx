@@ -18,7 +18,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
         return <div>loading...</div>;
     }
     return (
-        <div className="mb-10">
+        <div className="pb-10">
             <div>
                 <div className="flex items-center gap-6">
                     <h4 className="text-2xl font-semibold">Sale Invoice Details</h4>
@@ -26,14 +26,14 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                         bodyClass="px-4 py-8"
                         content={() => containerRef.current}
                         trigger={() => (
-                            <Button size="lg">
+                            <Button size="sm">
                                 <Printer size={16} className="mr-1" />
                                 Print
                             </Button>
                         )}
                     />
                 </div>
-                <div className="mt-4 flex max-w-[500px] flex-col border border-input bg-slate-100 px-4 py-8">
+                <div className="mt-4 flex max-w-[500px] flex-col rounded-sm border border-input bg-slate-100 px-4 py-8 dark:bg-slate-900">
                     <div className="flex w-full flex-col" ref={containerRef}>
                         <h2 className="text-center text-xl font-semibold">Your POS Name</h2>
                         <div className="mx-auto my-2 flex flex-col items-center border-b-2 border-dotted border-b-primary pb-2">

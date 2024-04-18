@@ -1,7 +1,11 @@
 "use client";
 import Card from "@/components/pages/dashboard/card/card";
-import Chart from "@/components/pages/dashboard/chart/chart";
-import Graph from "@/components/pages/dashboard/graph/graph";
+import SaleChart from "@/components/pages/dashboard/chart/salechart";
+import RevenueGraph from "@/components/pages/dashboard/graph/revenue";
+import SaleGraph from "@/components/pages/dashboard/graph/salegraph";
+import PaymentPie from "@/components/pages/dashboard/pie/paymentpie";
+import VipCustomer from "@/components/pages/dashboard/table/vipcustomer";
+import TopSaleProducts from "@/components/pages/dashboard/table/topsaleproduct";
 import { TrendingUp, LineChart, UsersRound, Boxes, UserRound } from "lucide-react";
 const cardData = [
     {
@@ -33,19 +37,61 @@ const cardData = [
 
 export default function Dashboard() {
     return (
-        <div className="grid w-full grid-cols-2 gap-8">
-            <div className="col-span-2 grid grid-cols-5 gap-4">
-                {cardData.map((data, index) => (
-                    <Card key={index} icon={data.icon} title={data.title} amount={data.amount} />
-                ))}
+        <div className="space-y-2">
+            <div className="flex gap-2">
+                <div className="w-9/12 space-y-6 rounded-xl border border-foreground/10 p-4 shadow-md">
+                    <div className="space-y-2">
+                        <h3 className="text-xl font-bold">Transactions</h3>
+                        <p>Total 48.5% growth 😎 this month</p>
+                    </div>
+                    <div className="flex items-center justify-between ">
+                        {cardData.map((data, index) => (
+                            <Card
+                                key={index}
+                                icon={data.icon}
+                                title={data.title}
+                                amount={data.amount}
+                            />
+                        ))}
+                    </div>
+                </div>
+                <div className="w-3/12 rounded-xl border border-foreground/10 p-4 shadow-md">
+                    <h3 className="text-center text-xl font-bold">Payment Method</h3>
+                    <PaymentPie />
+                </div>
             </div>
-            <div className="h-[300px] w-full space-y-4">
-                <h3 className="text-2xl font-bold">Daily Sale Report</h3>
-                <Graph />
+
+            {/* ======================== Charts ================== */}
+            <div className="grid grid-cols-3 gap-2 ">
+                <div className="space-y-4 rounded-xl border border-foreground/10 p-4 shadow-md">
+                    <h3 className="text-xl font-bold">Daily Sale Report</h3>
+                    <div className="h-[180px] w-full">
+                        <SaleGraph />
+                    </div>
+                </div>
+                <div className="space-y-4 rounded-xl border border-foreground/10 p-4 shadow-md">
+                    <h3 className="text-xl font-bold">Monthly Overview</h3>
+                    <div className="h-[180px] w-full">
+                        <SaleChart />
+                    </div>
+                </div>
+                <div className="space-y-4 rounded-xl border border-foreground/10 p-4 shadow-md">
+                    <h3 className="text-xl font-bold">Total Revenue</h3>
+                    <div className="h-[180px] w-full">
+                        <RevenueGraph />
+                    </div>
+                </div>
             </div>
-            <div className="h-[300px] w-full space-y-4">
-                <h3 className="text-2xl font-bold">Monthly Overview</h3>
-                <Chart />
+            {/* ======================== Tables ================== */}
+            <div className="flex gap-2">
+                <div className="w-6/12 rounded-xl border border-foreground/10 p-4 shadow-md">
+                    <h3 className="text-xl font-bold">Top sale products</h3>
+                    <TopSaleProducts />
+                </div>
+                <div className="w-6/12 rounded-xl border border-foreground/10 p-4 shadow-md">
+                    <h3 className="text-xl font-bold">VIP customers</h3>
+                    <VipCustomer />
+                </div>
             </div>
         </div>
     );

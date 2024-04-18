@@ -38,28 +38,28 @@ function CartSidebar() {
                                                 <div className="mx-auto flex max-w-min items-center justify-center gap-1 overflow-hidden rounded-sm">
                                                     <Button
                                                         size="icon"
-                                                        className="h-5 w-6"
+                                                        className="h-5 w-5"
                                                         onClick={() => {
                                                             decreaseProductQuantity(
                                                                 product.productCode,
                                                             );
                                                         }}
                                                     >
-                                                        <Minus size={14} />
+                                                        <Minus size={14} strokeWidth="3" />
                                                     </Button>
                                                     <p className="min-w-[20px] text-center">
                                                         {product.quantity}
                                                     </p>
                                                     <Button
                                                         size="icon"
-                                                        className="h-5 w-6"
+                                                        className="h-5 w-5"
                                                         onClick={() => {
                                                             increaseProductQuantity(
                                                                 product.productCode,
                                                             );
                                                         }}
                                                     >
-                                                        <Plus size={14} />
+                                                        <Plus size={14} strokeWidth="3" />
                                                     </Button>
                                                 </div>
                                             </div>
@@ -103,7 +103,9 @@ function CartSidebar() {
                 </div>
                 <div className="flex items-center justify-between">
                     <p className="font-medium">Total :</p>
-                    <p className="font-medium">{totalProductsPrice + totalProductsPrice * tax}</p>
+                    <p className="font-medium">
+                        {Number(totalProductsPrice + totalProductsPrice * tax).toFixed(2)}
+                    </p>
                 </div>
                 <PaymentFormDialog />
             </div>
