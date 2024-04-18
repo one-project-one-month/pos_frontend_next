@@ -7,8 +7,7 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useTheme } from "next-themes";
 
 const BaseLayout = ({ children }: PropsWithChildren) => {
-    const { systemTheme, theme } = useTheme();
-    console.log(systemTheme, theme);
+    const { theme } = useTheme();
     return (
         <ReactQueryProvider>
             <ThemeProvider>

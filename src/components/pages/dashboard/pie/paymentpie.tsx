@@ -12,7 +12,7 @@ class PaymentPie extends React.Component {
             value: 47.91,
         },
     ];
-    CustomTooltip = ({ active, payload, label }: any) => {
+    CustomTooltip = ({ active, payload }: any) => {
         if (active) {
             return (
                 <div

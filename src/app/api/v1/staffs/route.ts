@@ -6,7 +6,7 @@ import { createStaffSchema } from "@/validations/staff";
 import { hashPassword } from "./utils";
 
 /* GET /api/v1/staffs */
-export async function GET(req: NextRequest) {
+export async function GET() {
     const response = await catchAsyncError("[STAFF_GETMANY]", async () => {
         const staffs = await prisma.staff.findMany();
 

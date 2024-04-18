@@ -15,7 +15,7 @@ function EditStaff({ staffId }: Props) {
                     {!staff || isLoading ? (
                         <div>loading...</div>
                     ) : (
-                        <StaffForm initialValues={staff} isEditMode />
+                        <StaffForm initialValues={staff.data.staff} isEditMode />
                     )}
                 </div>
             </div>

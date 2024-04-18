@@ -1,5 +1,5 @@
 import StaffCreate from "@/components/pages/staffs/create";
 
-export default function StaffCreatePage() {
+export default function Page() {
     return <StaffCreate />;
 }

@@ -23,8 +23,7 @@ export default function Sidebar() {
                                     (pathname === link.href ||
                                         pathname.startsWith(`${link.href}/`)) &&
                                         "bg-slate-200/60 dark:bg-slate-800/60",
-                                )}
-                            >
+                                )}>
                                 {link.icon}
                                 {link.label}
                             </Link>

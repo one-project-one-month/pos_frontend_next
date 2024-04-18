@@ -127,7 +127,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                                 <FormControl>
                                     <CategorySelect
                                         value={field.value}
-                                        values={productCategoriesRes?.data.categories}
+                                        values={productCategories?.data.categories}
                                         setValue={form.setValue}
                                     />
                                 </FormControl>
