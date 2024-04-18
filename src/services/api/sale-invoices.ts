@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axios";
 import { ApiResponse, SaleInvoicesReturnType } from "@/types/baseType";
 import { paymentSchema } from "@/validations/payment";
 import { createSaleInvoiceSchema } from "@/validations/saleInvoice";
-import { useQuery, keepPreviousData, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, keepPreviousData } from "@tanstack/react-query";
 import { z } from "zod";
 
 export const useGetSaleInvoices = (startDate: Date | string, endDate: Date | string) => {

@@ -21,7 +21,8 @@ class PaymentPie extends React.Component {
                         backgroundColor: "#ffff",
                         padding: "5px",
                         border: "1px solid #cccc",
-                    }}>
+                    }}
+                >
                     <label> {`${payload[0].name} : ${payload[0].value}%`}</label>
                 </div>
             );
@@ -39,7 +40,8 @@ class PaymentPie extends React.Component {
                     cx="50%"
                     cy="50%"
                     outerRadius={50}
-                    fill="#8884d8">
+                    fill="#8884d8"
+                >
                     {this.pieData.map((entry, index) => (
                         <Cell
                             key={`cell-${index}`}

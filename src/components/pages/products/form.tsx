@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -29,7 +28,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
     const router = useRouter();
     const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
     const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
-    const { data: productCategories } = useGetProductCategories();
+    const { data: productCategoriesRes } = useGetProductCategories();
     const form = useForm<z.infer<typeof productFormSchema>>({
         resolver: zodResolver(productFormSchema),
         defaultValues: {
@@ -78,7 +77,6 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                             <FormControl>
                                 <Input placeholder="Enter Product Name" {...field} />
                             </FormControl>
-                            <FormDescription></FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -100,7 +98,6 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                                         placeholder="Enter Price"
                                     />
                                 </FormControl>
-                                <FormDescription></FormDescription>
                                 <FormMessage />
                             </FormItem>
                         );
@@ -124,7 +121,6 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                     name="categoryCode"
                     shouldUnregister
                     render={({ field }) => {
-                        // console.log(field);
                         return (
                             <FormItem>
                                 <FormLabel>Category Code</FormLabel>

@@ -1,5 +1,5 @@
 import { Table } from "@tanstack/react-table";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface TablePaginationProps<TData> {

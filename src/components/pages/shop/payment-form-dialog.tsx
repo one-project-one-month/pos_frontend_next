@@ -25,6 +25,7 @@ import {
 } from "@/services/api/sale-invoices";
 import { useSaleInvoiceContext } from "@/providers/sale-invoice-store-provider";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const paymentFormSchema = z.object({
     receiveAmount: z.number().gt(0),
@@ -32,9 +33,10 @@ const paymentFormSchema = z.object({
 });
 
 function PaymentForm() {
+    const router = useRouter();
     const { mutate: createSaleInvoice, isPending: isCreating } = useCreateSaleInvoice();
     const { mutate: confirmPayment, isPending: isUpdating } = useUpdateInvoiceAndConfirmPayment();
-    const { products } = useSaleInvoiceContext((state) => state);
+    const { products, resetProduct } = useSaleInvoiceContext((state) => state);
     const dialogCloseBtnRef = useRef<HTMLButtonElement>(null);
     const form = useForm<z.infer<typeof paymentFormSchema>>({
         resolver: zodResolver(paymentFormSchema),
@@ -51,10 +53,12 @@ function PaymentForm() {
             {
                 onSuccess: (responseData) => {
                     console.log(responseData);
+                    const voucherNo = responseData.data.saleInvoice.voucherNo;
+                    const invoiceId = responseData.data.saleInvoice.saleInvoiceId;
                     confirmPayment(
                         {
                             ...values,
-                            voucherNo: responseData.data.saleInvoice.voucherNo,
+                            voucherNo: voucherNo,
                         },
                         {
                             onError: (err) => {
@@ -62,7 +66,9 @@ function PaymentForm() {
                             },
                             onSuccess: () => {
                                 console.log("success");
+                                resetProduct();
                                 dialogCloseBtnRef.current?.click();
+                                router.push(`/sale-invoices/${invoiceId}`);
                             },
                         },
                     );

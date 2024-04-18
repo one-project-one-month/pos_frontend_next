@@ -92,7 +92,8 @@ export default class SaleChart extends PureComponent {
                         left: 10,
                         bottom: 0,
                     }}
-                    barSize={20}>
+                    barSize={20}
+                >
                     <XAxis dataKey="name" scale="point" padding={{ left: 8, right: 8 }} />
                     <YAxis />
                     <Tooltip labelClassName="text-black font-bold" />

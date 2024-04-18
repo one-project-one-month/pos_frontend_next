@@ -1,7 +1,6 @@
-import CommonTable from "@/components/shared/table";
-import TableHeader from "@/components/shared/table-header";
-import TablePagination from "@/components/shared/table-pagination";
-
+import TableHeader from "@/components/table-header";
+import TablePagination from "@/components/table-pagination";
+import CommonTable from "@/components/table";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -19,7 +18,7 @@ interface PCategoriesProps<TData, TValue> {
     isLoading?: boolean;
 }
 
-function ProductsDataTable<TData, TValue>({
+function StaffsDataTable<TData, TValue>({
     columns,
     data,
     isLoading,
@@ -57,4 +56,4 @@ function ProductsDataTable<TData, TValue>({
     );
 }
 
-export default ProductsDataTable;
+export default StaffsDataTable;

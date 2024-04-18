@@ -15,7 +15,7 @@ const BaseLayout = ({ children }: PropsWithChildren) => {
                     {children}
                     <ProgressBar
                         height="4px"
-                        color={theme === "light" ? "#222" : "#eee"}
+                        color={"#1d4ed8"}
                         options={{ showSpinner: false }}
                         shallowRouting
                     />
