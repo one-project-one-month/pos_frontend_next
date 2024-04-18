@@ -19,6 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCreateStaff, useUpdateStaff } from "@/services/api/staffs";
 import DateOfBirthPicker from "./dob-picker";
 import TextFormField from "./text-form-field";
+import toast from "react-hot-toast";
 
 interface Props {
     initialValues?: Staff;
@@ -55,6 +56,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                 },
                 onError: (error) => {
                     console.error(error);
+                    toast.error("Fail to create new staff!");
                 },
             });
         } else if (initialValues?.staffId && isEditMode) {
@@ -66,6 +68,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     },
                     onError: (error) => {
                         console.error(error);
+                        toast.error("Fail to update the stuff!");
                     },
                 },
             );
@@ -77,26 +80,26 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                 <TextFormField
                     form={form}
                     name={"staffName"}
-                    label="staff name"
-                    placeholder="staffName"
+                    label="Staff Name"
+                    placeholder="staff name"
                 />{" "}
                 <TextFormField
                     form={form}
                     name={"staffCode"}
-                    label="staff code"
+                    label="Staff Code"
                     placeholder="staff code eg: sc:001"
                 />
                 <TextFormField
                     form={form}
                     name={"mobileNo"}
-                    label="mobileNo"
-                    placeholder="mobileNo"
+                    label="Mobile Number"
+                    placeholder="mobile number"
                 />
                 <TextFormField
                     form={form}
                     name={"password"}
                     label="Password"
-                    placeholder="Password"
+                    placeholder="password"
                 />
                 <FormField
                     control={form.control}
@@ -108,7 +111,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9">
+                                    className="flex  space-x-4"
+                                >
                                     {Object.values($Enums.Gender).map((gender) => {
                                         return (
                                             <FormItem
@@ -116,7 +120,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     e.currentTarget.classList.add("bg-red-400");
                                                 }}
                                                 key={gender}
-                                                className="flex items-center space-x-3 space-y-0">
+                                                className="flex items-center space-x-1 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={gender} />
                                                 </FormControl>
@@ -124,7 +129,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     onSelect={(e) => {
                                                         e.currentTarget.classList.add("bg-red-400");
                                                     }}
-                                                    className="font-sans ">
+                                                    className="font-sans capitalize"
+                                                >
                                                     {gender}
                                                 </FormLabel>
                                             </FormItem>
@@ -147,7 +153,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9">
+                                    className="flex space-x-4"
+                                >
                                     {Object.values($Enums.Position).map((position) => {
                                         return (
                                             <FormItem
@@ -155,7 +162,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     e.currentTarget.classList.add("bg-red-400");
                                                 }}
                                                 key={position}
-                                                className="flex items-center space-x-3 space-y-0">
+                                                className="flex items-center space-x-1 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={position} />
                                                 </FormControl>
@@ -163,7 +171,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                                     onSelect={(e) => {
                                                         e.currentTarget.classList.add("bg-red-400");
                                                     }}
-                                                    className="font-sans ">
+                                                    className="font-sans capitalize"
+                                                >
                                                     {position}
                                                 </FormLabel>
                                             </FormItem>
@@ -179,7 +188,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     type="submit"
                     variant={"destructive"}
                     size="lg"
-                    disabled={isUpdating || isCreating}>
+                    disabled={isUpdating || isCreating}
+                >
                     Save
                 </Button>
             </form>

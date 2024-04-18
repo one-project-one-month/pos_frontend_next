@@ -26,13 +26,14 @@ import {
 import { useSaleInvoiceContext } from "@/providers/sale-invoice-store-provider";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const paymentFormSchema = z.object({
     receiveAmount: z.number().gt(0),
     paymentType: z.string().min(1, "Payment Type is required"),
 });
 
-function PaymentForm() {
+function PaymentFormDialog() {
     const router = useRouter();
     const { mutate: createSaleInvoice, isPending: isCreating } = useCreateSaleInvoice();
     const { mutate: confirmPayment, isPending: isUpdating } = useUpdateInvoiceAndConfirmPayment();
@@ -63,6 +64,7 @@ function PaymentForm() {
                         {
                             onError: (err) => {
                                 console.error(err);
+                                toast.error("Fail to create new sale invoice!");
                             },
                             onSuccess: () => {
                                 console.log("success");
@@ -75,6 +77,7 @@ function PaymentForm() {
                 },
                 onError: (err) => {
                     console.error(err);
+                    toast.error("Fail to create new sale invoice!");
                 },
             },
         );
@@ -157,4 +160,4 @@ function PaymentForm() {
     );
 }
 
-export default PaymentForm;
+export default PaymentFormDialog;

@@ -66,7 +66,8 @@ function Staffs() {
                                                     popoverRef.current?.click();
                                                 },
                                             });
-                                        }}>
+                                        }}
+                                    >
                                         Sure
                                     </Button>
                                 </div>

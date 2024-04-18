@@ -24,21 +24,21 @@ export const productFormSchema = z.object({
 
 export const staffFormSchema = z.object({
     staffCode: z.string().min(2, {
-        message: "staffCode must be at least 2 characters.",
+        message: "Staff code must be at least 2 characters.",
     }),
     staffName: z.string().min(2, {
-        message: "staffName must be at least 2 characters.",
+        message: "Staff name must be at least 2 characters.",
     }),
     dateOfBirth: z.date({
         required_error: "A date of birth is required.",
     }),
     mobileNo: z.string().min(5, {
-        message: "mobileNo must be at least 5 characters.",
+        message: "Mobile number must be at least 5 characters.",
     }),
     address: z.string(),
     gender: z.nativeEnum($Enums.Gender),
     position: z.nativeEnum($Enums.Position),
     password: z.string().min(8, {
-        message: "password must be at least 8 characters.",
+        message: "Password must be at least 8 characters.",
     }),
 });

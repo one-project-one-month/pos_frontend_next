@@ -24,6 +24,10 @@ function ProductsDataTable<TData, TValue>({
     isLoading,
 }: PCategoriesProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 8,
+    });
     const table = useReactTable({
         columns,
         data: data ?? [],
@@ -32,8 +36,10 @@ function ProductsDataTable<TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onPaginationChange: setPagination,
         state: {
             columnFilters,
+            pagination,
         },
     });
     return (

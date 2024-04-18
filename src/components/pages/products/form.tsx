@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -19,6 +18,7 @@ import { useGetProductCategories } from "@/services/api/product-categories";
 import { useCreateProduct, useUpdateProduct } from "@/services/api/products";
 import { useRouter } from "next/navigation";
 import { Product } from "@prisma/client";
+import toast from "react-hot-toast";
 
 interface CreateProductFormProps {
     initialValues?: Product;
@@ -40,8 +40,6 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
     });
 
     function onSubmit(values: z.infer<typeof productFormSchema>) {
-        console.log("submit:", values);
-
         if (!isEditMode) {
             createProduct(values, {
                 onSuccess: () => {
@@ -49,6 +47,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                 },
                 onError: (error) => {
                     console.error(error);
+                    toast.error("Fail to create new product!");
                 },
             });
         } else if (initialValues?.productId && isEditMode) {
@@ -60,6 +59,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                     },
                     onError: (error) => {
                         console.error(error);
+                        toast.error("Fail to update the product!");
                     },
                 },
             );
@@ -127,7 +127,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                                 <FormControl>
                                     <CategorySelect
                                         value={field.value}
-                                        values={productCategories?.data.categories}
+                                        values={productCategoriesRes?.data.categories}
                                         setValue={form.setValue}
                                     />
                                 </FormControl>

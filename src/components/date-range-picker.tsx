@@ -17,17 +17,19 @@ export function DatePickerWithRange({
     dateRange,
     setDateRange,
 }: React.HTMLAttributes<HTMLDivElement> & DatePickerWithRangeProps) {
+    const startDatePopoverCloseRef = React.useRef<HTMLButtonElement>(null);
+    const endDatePopoverCloseRef = React.useRef<HTMLButtonElement>(null);
     return (
         <div className={cn("grid grid-cols-2 gap-6", className)}>
             <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild ref={startDatePopoverCloseRef}>
                     <div className="flex items-center gap-2">
                         <label htmlFor="start-date" className="text-sm">
                             Start Date:
                         </label>
                         <Button
                             id="start-date"
-                            variant={"outline"}
+                            variant="outline"
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
                                 !dateRange && "text-muted-foreground",
@@ -48,20 +50,21 @@ export function DatePickerWithRange({
                         selected={dateRange.from}
                         onSelect={(value) => {
                             setDateRange({ ...dateRange, from: value as Date });
+                            startDatePopoverCloseRef.current?.click();
                         }}
                         initialFocus
                     />
                 </PopoverContent>
             </Popover>
             <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild ref={endDatePopoverCloseRef}>
                     <div className="flex items-center gap-2">
                         <label htmlFor="endDate" className="text-sm">
                             End Date:
                         </label>
                         <Button
                             id="endDate"
-                            variant={"outline"}
+                            variant="outline"
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
                                 !dateRange && "text-muted-foreground",
@@ -82,6 +85,7 @@ export function DatePickerWithRange({
                         selected={dateRange.to}
                         onSelect={(value) => {
                             setDateRange({ ...dateRange, to: value as Date });
+                            endDatePopoverCloseRef.current?.click();
                         }}
                         initialFocus
                     />
