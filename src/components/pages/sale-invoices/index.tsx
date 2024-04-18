@@ -2,23 +2,22 @@
 import { useGetSaleInvoices } from "@/services/api/sale-invoices";
 import { SaleInvoicesReturnType } from "@/types/baseType";
 import { ColumnDef } from "@tanstack/react-table";
-import SaleInvoicesDataTable from "./data-table";
 import { useState } from "react";
 import { subMonths, addDays, formatDate } from "date-fns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTable } from "@/hooks/useTable";
+import { Input } from "@/components/ui/input";
+import { DatePickerWithRange } from "@/components/date-range-picker";
+import CommonTable from "@/components/table";
+import TablePagination from "@/components/table-pagination";
 
 function SaleInvoices() {
     const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
         from: subMonths(new Date(), 2),
         to: addDays(new Date(), 4),
     });
-    const {
-        data: saleInvoicesRes,
-        isLoading,
-        isPending,
-    } = useGetSaleInvoices(dateRange.from, dateRange.to);
-
+    const { data: saleInvoicesRes, isLoading } = useGetSaleInvoices(dateRange.from, dateRange.to);
     const columns: ColumnDef<SaleInvoicesReturnType>[] = [
         {
             accessorKey: "voucherNo",
@@ -54,18 +53,50 @@ function SaleInvoices() {
             },
         },
     ];
+
+    const table = useTable({ data: saleInvoicesRes?.data.saleInvoices ?? [], columns });
+
     return (
         <section>
             <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-2xl font-medium">Sale Invoices List</h2>
             </div>
-            <SaleInvoicesDataTable
+            {/* <SaleInvoicesDataTable
                 dateRange={dateRange}
                 setDateRange={setDateRange}
                 columns={columns}
                 data={saleInvoicesRes?.data.saleInvoices}
                 isLoading={isLoading || isPending}
-            />
+            /> */}
+            <div>
+                {!isLoading || saleInvoicesRes ? (
+                    <>
+                        <div className="my-2 flex items-center justify-between">
+                            <Input
+                                value={
+                                    (table.getColumn("voucherNo")?.getFilterValue() as string) ?? ""
+                                }
+                                onChange={(event) =>
+                                    table.getColumn("voucherNo")?.setFilterValue(event.target.value)
+                                }
+                                placeholder={`Search Voucher Number`}
+                                className="max-w-[280px]"
+                            />
+                            <DatePickerWithRange
+                                dateRange={dateRange}
+                                setDateRange={setDateRange}
+                            />
+                        </div>
+                        <CommonTable table={table} />
+                        <div className="flex items-center justify-end">
+                            <TablePagination table={table} />
+                        </div>
+                    </>
+                ) : (
+                    // Loading Skelton Ui
+                    <div>Loading...</div>
+                )}
+            </div>
         </section>
     );
 }

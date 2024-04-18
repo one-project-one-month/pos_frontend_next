@@ -1,16 +1,8 @@
 import TableHeader from "@/components/table-header";
 import TablePagination from "@/components/table-pagination";
 import CommonTable from "@/components/table";
-import {
-    ColumnDef,
-    ColumnFiltersState,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table";
-import { useState } from "react";
+import { type ColumnDef } from "@tanstack/react-table";
+import { useTable } from "@/hooks/useTable";
 
 interface PCategoriesProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -23,25 +15,7 @@ function ProductsDataTable<TData, TValue>({
     data,
     isLoading,
 }: PCategoriesProps<TData, TValue>) {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [pagination, setPagination] = useState({
-        pageIndex: 0,
-        pageSize: 8,
-    });
-    const table = useReactTable({
-        columns,
-        data: data ?? [],
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
-        onPaginationChange: setPagination,
-        state: {
-            columnFilters,
-            pagination,
-        },
-    });
+    const table = useTable({ data: data ?? [], columns });
     return (
         <div>
             {!isLoading || data ? (

@@ -25,7 +25,7 @@ export function DatePickerWithRange({
                 <PopoverTrigger asChild ref={startDatePopoverCloseRef}>
                     <div className="flex items-center gap-2">
                         <label htmlFor="start-date" className="text-sm">
-                            Start Date:
+                            From :
                         </label>
                         <Button
                             id="start-date"
@@ -33,8 +33,7 @@ export function DatePickerWithRange({
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
                                 !dateRange && "text-muted-foreground",
-                            )}
-                        >
+                            )}>
                             {dateRange?.from ? (
                                 format(dateRange.from, "LLL dd, y")
                             ) : (
@@ -60,7 +59,7 @@ export function DatePickerWithRange({
                 <PopoverTrigger asChild ref={endDatePopoverCloseRef}>
                     <div className="flex items-center gap-2">
                         <label htmlFor="endDate" className="text-sm">
-                            End Date:
+                            To :
                         </label>
                         <Button
                             id="endDate"
@@ -68,8 +67,7 @@ export function DatePickerWithRange({
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
                                 !dateRange && "text-muted-foreground",
-                            )}
-                        >
+                            )}>
                             {dateRange?.to ? (
                                 format(dateRange.to, "LLL dd, y")
                             ) : (

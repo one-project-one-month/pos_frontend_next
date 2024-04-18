@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { useGetProductCategories } from "@/services/api/product-categories";
 import { useState } from "react";
-import { useDebounceVal } from "@/lib/hooks";
+import { useDebounceVal } from "@/hooks/useDebounceVal";
 import { Button } from "@/components/ui/button";
 
 const limit = 15;
@@ -52,8 +52,7 @@ function ShopPage() {
                         />
                         <Select
                             onValueChange={(value) => setSelectedCategory(value)}
-                            value={selectedCategory}
-                        >
+                            value={selectedCategory}>
                             <SelectTrigger className="w-[280px]">
                                 <SelectValue placeholder="Search by Product Category" />
                             </SelectTrigger>
@@ -65,8 +64,7 @@ function ShopPage() {
                                         productCategoriesRes.data.categories.map((pc) => (
                                             <SelectItem
                                                 key={pc.productCategoryId}
-                                                value={pc.productCategoryCode}
-                                            >
+                                                value={pc.productCategoryCode}>
                                                 {pc.productCategoryName}
                                             </SelectItem>
                                         ))
@@ -96,15 +94,13 @@ function ShopPage() {
                         <Button
                             size="lg"
                             disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                        >
+                            onClick={() => setCurrentPage(currentPage - 1)}>
                             Prev
                         </Button>
                         <Button
                             size="lg"
                             disabled={endSlicePoint >= (totalProductsCount ?? 0)}
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                        >
+                            onClick={() => setCurrentPage(currentPage + 1)}>
                             Next
                         </Button>
                     </div>
