@@ -3,9 +3,9 @@ import { NextPage } from "next";
 
 const SaleInvoicesPage: NextPage = () => {
     return (
-        <div>
+        <section>
             <SaleInvoices />
-        </div>
+        </section>
     );
 };
 

@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { DatePickerWithRange } from "@/components/date-range-picker";
 import CommonTable from "@/components/table";
 import TablePagination from "@/components/table-pagination";
+import { TableSkeleton } from "@/components/ui/skeletons";
 
 function SaleInvoices() {
     const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
@@ -94,7 +95,7 @@ function SaleInvoices() {
                     </>
                 ) : (
                     // Loading Skelton Ui
-                    <div>Loading...</div>
+                    <TableSkeleton />
                 )}
             </div>
         </section>

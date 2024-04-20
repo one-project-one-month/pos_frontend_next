@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axios";
-import { ApiResponse, SaleInvoicesReturnType } from "@/types/baseType";
-import { CreateSaleInvoiceType } from "@/types/saleInvoice";
+import type { ApiResponse, SaleInvoicesReturnType } from "@/types/baseType";
+import type { CreateSaleInvoiceType } from "@/types/saleInvoice";
 import { paymentSchema } from "@/validations/payment";
 import { useQuery, useMutation, keepPreviousData } from "@tanstack/react-query";
 import { z } from "zod";

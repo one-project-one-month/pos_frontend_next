@@ -7,12 +7,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { staffFormSchema } from "@/lib/zodFormSchema";
+import { createStaffSchema } from "@/validations/staff";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 interface Props {
-    form: UseFormReturn<z.infer<typeof staffFormSchema>, any, undefined>;
+    form: UseFormReturn<z.infer<typeof createStaffSchema>, any, undefined>;
     name:
         | "staffCode"
         | "staffName"

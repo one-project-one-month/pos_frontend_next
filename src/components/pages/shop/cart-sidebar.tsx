@@ -23,7 +23,9 @@ function CartSidebar() {
                                 Product
                             </th>
                             <th className="mb-2 w-[130px] px-2 py-4 font-medium">Quantity</th>
-                            <th className="mb-2 w-[70px] px-2 py-4 text-end font-medium">Price</th>
+                            <th className="mb-2 w-[70px] px-2 py-4 text-center font-medium">
+                                Price
+                            </th>
                             <th className="mb-2 w-[60px] px-2 py-4 text-end font-medium">{""}</th>
                         </tr>
                     </thead>

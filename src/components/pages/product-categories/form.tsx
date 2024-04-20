@@ -13,7 +13,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { productCategoryFormSchema } from "@/lib/zodFormSchema";
+import { productCategoryFormSchema } from "@/validations/product-category";
 import {
     useCreateProductCategory,
     useEditProductCategory,

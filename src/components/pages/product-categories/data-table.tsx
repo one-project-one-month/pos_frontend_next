@@ -3,6 +3,7 @@ import TablePagination from "@/components/table-pagination";
 import CommonTable from "@/components/table";
 import { type ColumnDef } from "@tanstack/react-table";
 import { useTable } from "@/hooks/useTable";
+import { TableSkeleton } from "@/components/ui/skeletons";
 
 interface PCategoriesProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -20,13 +21,11 @@ function ProductCategoriesDataTable<TData, TValue>({
         <div>
             {!isLoading || data ? (
                 <>
-                    <div>
-                        <TableHeader
-                            table={table}
-                            name="Category Name"
-                            filterKey="productCategoryName"
-                        />
-                    </div>
+                    <TableHeader
+                        table={table}
+                        name="Category Name"
+                        filterKey="productCategoryName"
+                    />
 
                     <CommonTable table={table} />
                     <div className="flex items-center justify-end">
@@ -34,8 +33,7 @@ function ProductCategoriesDataTable<TData, TValue>({
                     </div>
                 </>
             ) : (
-                // Loading Skeleton Ui
-                <div>loading...</div>
+                <TableSkeleton />
             )}
         </div>
     );

@@ -12,7 +12,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { productFormSchema } from "@/lib/zodFormSchema";
+import { productFormSchema } from "@/validations/product";
 import CategorySelect from "./category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
 import { useCreateProduct, useUpdateProduct } from "@/services/api/products";

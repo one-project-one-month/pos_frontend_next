@@ -52,7 +52,8 @@ function ShopPage() {
                         />
                         <Select
                             onValueChange={(value) => setSelectedCategory(value)}
-                            value={selectedCategory}>
+                            value={selectedCategory}
+                        >
                             <SelectTrigger className="w-[280px]">
                                 <SelectValue placeholder="Search by Product Category" />
                             </SelectTrigger>
@@ -64,7 +65,8 @@ function ShopPage() {
                                         productCategoriesRes.data.categories.map((pc) => (
                                             <SelectItem
                                                 key={pc.productCategoryId}
-                                                value={pc.productCategoryCode}>
+                                                value={pc.productCategoryCode}
+                                            >
                                                 {pc.productCategoryName}
                                             </SelectItem>
                                         ))
@@ -77,7 +79,7 @@ function ShopPage() {
                     </div>
                     <div className="grid max-h-min grow grid-cols-2 gap-2.5 rounded-md md:grid-cols-3">
                         {isLoading || isPending || !paginatedProducts ? (
-                            <ShopProductsSkeleton count={18} />
+                            <ShopProductsSkeleton count={15} />
                         ) : (
                             paginatedProducts.map((product) => {
                                 return (
@@ -94,13 +96,15 @@ function ShopPage() {
                         <Button
                             size="lg"
                             disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(currentPage - 1)}>
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
                             Prev
                         </Button>
                         <Button
                             size="lg"
                             disabled={endSlicePoint >= (totalProductsCount ?? 0)}
-                            onClick={() => setCurrentPage(currentPage + 1)}>
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
                             Next
                         </Button>
                     </div>

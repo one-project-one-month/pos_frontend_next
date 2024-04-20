@@ -33,7 +33,8 @@ export function DatePickerWithRange({
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
                                 !dateRange && "text-muted-foreground",
-                            )}>
+                            )}
+                        >
                             {dateRange?.from ? (
                                 format(dateRange.from, "LLL dd, y")
                             ) : (
@@ -67,7 +68,8 @@ export function DatePickerWithRange({
                             className={cn(
                                 "w-[150px] justify-start text-left font-normal",
                                 !dateRange && "text-muted-foreground",
-                            )}>
+                            )}
+                        >
                             {dateRange?.to ? (
                                 format(dateRange.to, "LLL dd, y")
                             ) : (

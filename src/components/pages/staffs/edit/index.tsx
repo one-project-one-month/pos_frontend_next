@@ -1,4 +1,5 @@
 "use client";
+import { FormSkeleton } from "@/components/ui/skeletons";
 import { StaffForm } from "../form";
 import { useGetStaffById } from "@/services/api/staffs";
 
@@ -9,11 +10,11 @@ function EditStaff({ staffId }: Props) {
     const { data: staff, isLoading } = useGetStaffById(staffId);
     return (
         <section id="CreateProduct">
-            <h1 className="mb-6 text-2xl font-medium">Edit Product</h1>
+            <h1 className="mb-6 text-2xl font-medium">Edit Staff</h1>
             <div className="flex">
                 <div className="w-full">
                     {!staff || isLoading ? (
-                        <div>loading...</div>
+                        <FormSkeleton />
                     ) : (
                         <StaffForm initialValues={staff.data.staff} isEditMode />
                     )}

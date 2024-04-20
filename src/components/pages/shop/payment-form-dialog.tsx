@@ -104,13 +104,12 @@ function PaymentFormDialog() {
                                     <FormLabel className="text-base">Received Amount</FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="number"
+                                            step="any"
                                             placeholder="Enter Amount"
                                             {...field}
                                             onChange={(e) => {
-                                                form.setValue(
-                                                    "receiveAmount",
-                                                    Number(e.target.value),
-                                                );
+                                                field.onChange(parseFloat(e.target.value));
                                             }}
                                         />
                                     </FormControl>
@@ -150,7 +149,11 @@ function PaymentFormDialog() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" disabled={isCreating || isUpdating}>
+                        <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={isCreating || isUpdating}
+                        >
                             Finish Payment
                         </Button>
                     </form>

@@ -52,7 +52,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                     >
                                         <div className="flex items-center">
                                             {product.productCode} &nbsp;
-                                            <span className="text-sm text-slate-600 dark:text-slate-400">
+                                            <span className="text-sm text-slate-800 dark:text-slate-200">
                                                 x {product.quantity}
                                             </span>
                                         </div>
@@ -73,7 +73,9 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
 
                             <div className="ml-auto flex w-1/2 items-center justify-between">
                                 <p className="text-base">Subtotal</p>
-                                <p className="text-base">${saleInvoiceDetailData.totalAmount}</p>
+                                <p className="text-base">
+                                    ${Number(saleInvoiceDetailData.totalAmount).toFixed(2)}
+                                </p>
                             </div>
                             <div className="ml-auto flex w-1/2 items-center justify-between">
                                 <p className="text-base">Tax</p>
@@ -81,7 +83,9 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                             </div>
                             <div className="ml-auto flex w-1/2 items-center justify-between">
                                 <p className="text-lg">TOTAL</p>
-                                <p className="text-lg">${saleInvoiceDetailData.paymentAmount}</p>
+                                <p className="text-lg">
+                                    ${Number(saleInvoiceDetailData.paymentAmount).toFixed(2)}
+                                </p>
                             </div>
                         </div>
                         <div className="mt-8 flex flex-col gap-1">

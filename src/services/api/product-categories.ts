@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axios";
-import { ApiResponse } from "@/types/baseType";
-import { ProductCategory } from "@prisma/client";
+import type { ApiResponse } from "@/types/baseType";
+import type { ProductCategory } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetProductCategories = () => {

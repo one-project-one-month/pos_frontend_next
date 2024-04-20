@@ -2,6 +2,7 @@
 
 import { useGetProductCategoryById } from "@/services/api/product-categories";
 import { ProductCategoryForm } from "../form";
+import { FormSkeleton } from "@/components/ui/skeletons";
 
 interface EditProductCategoryProps {
     cid: string;
@@ -14,7 +15,7 @@ function EditProductCategory({ cid }: EditProductCategoryProps) {
             <div className="flex">
                 <div className="w-full">
                     {!productCategoryRes || isLoading ? (
-                        <div>loading...</div>
+                        <FormSkeleton />
                     ) : (
                         <ProductCategoryForm
                             initialValues={productCategoryRes?.data.category}

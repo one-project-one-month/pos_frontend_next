@@ -1,6 +1,7 @@
 "use client";
 import { useGetProductById } from "@/services/api/products";
 import { ProductForm } from "../form";
+import { FormSkeleton } from "@/components/ui/skeletons";
 
 interface EditProductProps {
     productId: string;
@@ -14,7 +15,7 @@ function EditProduct({ productId }: EditProductProps) {
             <div className="flex">
                 <div className="w-full">
                     {!productRes || isLoading ? (
-                        <div>loading...</div>
+                        <FormSkeleton />
                     ) : (
                         <ProductForm initialValues={productRes?.data.product} isEditMode />
                     )}
