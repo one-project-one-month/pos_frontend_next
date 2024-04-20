@@ -13,13 +13,14 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { productCategoryFormSchema } from "@/lib/zodFormSchema";
+import { productCategoryFormSchema } from "@/validations/product-category";
 import {
     useCreateProductCategory,
     useEditProductCategory,
 } from "@/services/api/product-categories";
 import { useRouter } from "next/navigation";
 import { ProductCategory } from "@prisma/client";
+import toast from "react-hot-toast";
 
 interface ProductCategoryFormProps {
     initialValues?: ProductCategory;
@@ -40,12 +41,12 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
     function onSubmit(values: z.infer<typeof productCategoryFormSchema>) {
         if (!isEditMode) {
             createProductCategory(values, {
-                onSuccess: (res) => {
-                    console.log(res);
+                onSuccess: () => {
                     router.push("/product-categories");
                 },
                 onError: (error) => {
                     console.error(error);
+                    toast.error("Fail to create new category!");
                 },
             });
         } else if (isEditMode && initialValues) {
@@ -55,12 +56,12 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                     cid: initialValues.productCategoryId,
                 },
                 {
-                    onSuccess: (res) => {
-                        console.log(res);
+                    onSuccess: () => {
                         router.push("/product-categories");
                     },
                     onError: (error) => {
                         console.error(error);
+                        toast.error("Fail to update the category!");
                     },
                 },
             );

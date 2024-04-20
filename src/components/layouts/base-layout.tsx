@@ -4,10 +4,11 @@ import ThemeProvider from "@/providers/theme-provider";
 import { PropsWithChildren } from "react";
 import { SaleInvoiceStoreContextProvider } from "@/providers/sale-invoice-store-provider";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { useTheme } from "next-themes";
+import { Toaster } from "react-hot-toast";
+// import { useTheme } from "next-themes";
 
 const BaseLayout = ({ children }: PropsWithChildren) => {
-    const { theme } = useTheme();
+    // const { theme } = useTheme();
     return (
         <ReactQueryProvider>
             <ThemeProvider>
@@ -15,10 +16,11 @@ const BaseLayout = ({ children }: PropsWithChildren) => {
                     {children}
                     <ProgressBar
                         height="4px"
-                        color={theme === "light" ? "#222" : "#eee"}
+                        color={"#1d4ed8"}
                         options={{ showSpinner: false }}
                         shallowRouting
                     />
+                    <Toaster position="top-center" reverseOrder={false} />
                 </SaleInvoiceStoreContextProvider>
             </ThemeProvider>
         </ReactQueryProvider>

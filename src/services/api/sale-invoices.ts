@@ -1,8 +1,8 @@
 import axiosInstance from "@/lib/axios";
-import { ApiResponse, SaleInvoicesReturnType } from "@/types/baseType";
+import type { ApiResponse, SaleInvoicesReturnType } from "@/types/baseType";
+import type { CreateSaleInvoiceType } from "@/types/saleInvoice";
 import { paymentSchema } from "@/validations/payment";
-import { createSaleInvoiceSchema } from "@/validations/saleInvoice";
-import { useQuery, keepPreviousData, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, keepPreviousData } from "@tanstack/react-query";
 import { z } from "zod";
 
 export const useGetSaleInvoices = (startDate: Date | string, endDate: Date | string) => {
@@ -30,7 +30,7 @@ export const useCreateSaleInvoice = () => {
     return useMutation({
         mutationKey: ["sale-invoice", "create"],
         mutationFn: (
-            payload: z.infer<typeof createSaleInvoiceSchema>,
+            payload: CreateSaleInvoiceType,
         ): Promise<ApiResponse<{ saleInvoice: SaleInvoicesReturnType }>> => {
             return axiosInstance.post("/sale-invoices", payload).then((res) => res.data);
         },

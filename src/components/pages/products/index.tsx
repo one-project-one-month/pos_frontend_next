@@ -76,7 +76,7 @@ function Products() {
 
     return (
         <div>
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-2xl font-medium">Products List</h2>
                 <Link href="/products/create">
                     <Button variant="outline">Add New Product</Button>
