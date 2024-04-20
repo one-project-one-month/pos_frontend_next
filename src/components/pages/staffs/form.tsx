@@ -12,13 +12,14 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { staffFormSchema } from "@/lib/zodFormSchema";
+import { createStaffSchema } from "@/validations/staff";
 import { useRouter } from "next/navigation";
 import { $Enums, Staff } from "@prisma/client";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCreateStaff, useUpdateStaff } from "@/services/api/staffs";
 import DateOfBirthPicker from "./dob-picker";
 import TextFormField from "./text-form-field";
+import toast from "react-hot-toast";
 
 interface Props {
     initialValues?: Staff;
@@ -29,9 +30,8 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
     const router = useRouter();
     const { mutate: createStaff, isPending: isCreating } = useCreateStaff();
     const { mutate: updateStaff, isPending: isUpdating } = useUpdateStaff();
-    // const { data: productCategories } = useGetProductCategories();
-    const form = useForm<z.infer<typeof staffFormSchema>>({
-        resolver: zodResolver(staffFormSchema),
+    const form = useForm<z.infer<typeof createStaffSchema>>({
+        resolver: zodResolver(createStaffSchema),
         defaultValues: {
             address: initialValues?.address ?? "someone",
             dateOfBirth: initialValues?.dateOfBirth
@@ -46,7 +46,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
         },
     });
 
-    function onSubmit(values: z.infer<typeof staffFormSchema>) {
+    function onSubmit(values: z.infer<typeof createStaffSchema>) {
         console.log("submit:", values);
         if (!isEditMode) {
             createStaff(values, {
@@ -55,6 +55,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                 },
                 onError: (error) => {
                     console.error(error);
+                    toast.error("Fail to create new staff!");
                 },
             });
         } else if (initialValues?.staffId && isEditMode) {
@@ -66,6 +67,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     },
                     onError: (error) => {
                         console.error(error);
+                        toast.error("Fail to update the stuff!");
                     },
                 },
             );
@@ -77,26 +79,26 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                 <TextFormField
                     form={form}
                     name={"staffName"}
-                    label="staff name"
-                    placeholder="staffName"
-                />{" "}
+                    label="Staff Name"
+                    placeholder="staff name"
+                />
                 <TextFormField
                     form={form}
                     name={"staffCode"}
-                    label="staff code"
+                    label="Staff Code"
                     placeholder="staff code eg: sc:001"
                 />
                 <TextFormField
                     form={form}
                     name={"mobileNo"}
-                    label="mobileNo"
-                    placeholder="mobileNo"
+                    label="Mobile Number"
+                    placeholder="mobile number"
                 />
                 <TextFormField
                     form={form}
                     name={"password"}
                     label="Password"
-                    placeholder="Password"
+                    placeholder="password"
                 />
                 <FormField
                     control={form.control}
@@ -108,23 +110,18 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9">
+                                    className="flex space-x-4"
+                                >
                                     {Object.values($Enums.Gender).map((gender) => {
                                         return (
                                             <FormItem
-                                                onSelect={(e) => {
-                                                    e.currentTarget.classList.add("bg-red-400");
-                                                }}
                                                 key={gender}
-                                                className="flex items-center space-x-3 space-y-0">
+                                                className="flex items-center space-x-1 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={gender} />
                                                 </FormControl>
-                                                <FormLabel
-                                                    onSelect={(e) => {
-                                                        e.currentTarget.classList.add("bg-red-400");
-                                                    }}
-                                                    className="font-sans ">
+                                                <FormLabel className="font-sans capitalize">
                                                     {gender}
                                                 </FormLabel>
                                             </FormItem>
@@ -147,23 +144,18 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex  space-x-9">
+                                    className="flex space-x-4"
+                                >
                                     {Object.values($Enums.Position).map((position) => {
                                         return (
                                             <FormItem
-                                                onSelect={(e) => {
-                                                    e.currentTarget.classList.add("bg-red-400");
-                                                }}
                                                 key={position}
-                                                className="flex items-center space-x-3 space-y-0">
+                                                className="flex items-center space-x-1 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={position} />
                                                 </FormControl>
-                                                <FormLabel
-                                                    onSelect={(e) => {
-                                                        e.currentTarget.classList.add("bg-red-400");
-                                                    }}
-                                                    className="font-sans ">
+                                                <FormLabel className="font-sans capitalize">
                                                     {position}
                                                 </FormLabel>
                                             </FormItem>
@@ -175,11 +167,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                         </FormItem>
                     )}
                 />
-                <Button
-                    type="submit"
-                    variant={"destructive"}
-                    size="lg"
-                    disabled={isUpdating || isCreating}>
+                <Button type="submit" size="lg" disabled={isUpdating || isCreating}>
                     Save
                 </Button>
             </form>

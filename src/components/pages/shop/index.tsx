@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/select";
 import { useGetProductCategories } from "@/services/api/product-categories";
 import { useState } from "react";
-import { useDebounceVal } from "@/lib/hooks";
+import { useDebounceVal } from "@/hooks/useDebounceVal";
+import { Button } from "@/components/ui/button";
 
+const limit = 15;
 function ShopPage() {
     const [searchInput, setSearchInput] = useState<string>("");
     const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -29,6 +31,13 @@ function ShopPage() {
     } = useGetProducts(debouncedInput, selectedCategory);
     const { data: productCategoriesRes } = useGetProductCategories();
     const { addProduct } = useSaleInvoiceContext((state) => state);
+
+    // products pagination
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const totalProductsCount = productsRes?.result;
+    const startSlicePoint = (currentPage - 1) * limit;
+    const endSlicePoint = limit * currentPage;
+    const paginatedProducts = productsRes?.data.products.slice(startSlicePoint, endSlicePoint);
 
     return (
         <section>
@@ -69,10 +78,10 @@ function ShopPage() {
                         </Select>
                     </div>
                     <div className="grid max-h-min grow grid-cols-2 gap-2.5 rounded-md md:grid-cols-3">
-                        {isLoading || isPending || !productsRes ? (
-                            <ShopProductsSkeleton count={18} />
+                        {isLoading || isPending || !paginatedProducts ? (
+                            <ShopProductsSkeleton count={15} />
                         ) : (
-                            productsRes.data.products.map((product) => {
+                            paginatedProducts.map((product) => {
                                 return (
                                     <ProductCard
                                         key={product.productCode}
@@ -82,6 +91,22 @@ function ShopPage() {
                                 );
                             })
                         )}
+                    </div>
+                    <div className="flex w-full items-center justify-between">
+                        <Button
+                            size="lg"
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            Prev
+                        </Button>
+                        <Button
+                            size="lg"
+                            disabled={endSlicePoint >= (totalProductsCount ?? 0)}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            Next
+                        </Button>
                     </div>
                 </div>
                 <CartSidebar />

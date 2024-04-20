@@ -6,14 +6,14 @@ export const signInStaffSchema = z.object({
 });
 
 export const createStaffSchema = z.object({
-    staffCode: z.string().trim().min(1, "staff code required."),
-    staffName: z.string().trim().min(5),
+    staffCode: z.string().trim().min(1, "Staff code required."),
+    staffName: z.string().trim().min(5, "Staff name must contain at least 5 character(s)."),
     dateOfBirth: z.coerce.date(),
     mobileNo: z.string().trim().min(1, "Mobile no required."),
     gender: z.enum(["male", "female", "other"]),
     address: z.string().trim().min(1, "Address required."),
     position: z.enum(["cashier", "admin"]),
-    password: z.string().trim().min(5),
+    password: z.string().trim().min(5, "Password must contain at least 5 character(s)."),
 });
 
 export const updateStaffSchema = z.object({

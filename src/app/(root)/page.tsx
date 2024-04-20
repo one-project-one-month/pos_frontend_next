@@ -1,9 +1,12 @@
 import ShopPage from "@/components/pages/shop";
+import { NextPage } from "next";
 
-export default async function Home() {
+const Home: NextPage = () => {
     return (
-        <main>
+        <section>
             <ShopPage />
-        </main>
+        </section>
     );
-}
+};
+
+export default Home;

@@ -2,16 +2,8 @@ import { DatePickerWithRange } from "@/components/date-range-picker";
 import TablePagination from "@/components/table-pagination";
 import { Input } from "@/components/ui/input";
 import CommonTable from "@/components/table";
-import {
-    ColumnDef,
-    ColumnFiltersState,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table";
-import { useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { useTable } from "@/hooks/useTable";
 
 interface PCategoriesProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -28,19 +20,7 @@ function SaleInvoicesDataTable<TData, TValue>({
     dateRange,
     setDateRange,
 }: PCategoriesProps<TData, TValue>) {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const table = useReactTable({
-        columns,
-        data: data ?? [],
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
-        state: {
-            columnFilters,
-        },
-    });
+    const table = useTable({ data: data ?? [], columns });
     return (
         <div>
             {!isLoading || data ? (
