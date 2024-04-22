@@ -1,4 +1,4 @@
-import { SaleInvoice, SaleInvoiceDetails, Staff } from "@prisma/client";
+import { Product, ProductCategory, SaleInvoice, SaleInvoiceDetails, Staff } from "@prisma/client";
 
 export interface ApiResponse<T = any> {
     message?: string;
@@ -10,3 +10,5 @@ export type SaleInvoicesReturnType = SaleInvoice & {
     saleInvoiceDetails: SaleInvoiceDetails[];
     staff: Staff;
 };
+
+export type ProductWithCategory = Product & { category: ProductCategory };

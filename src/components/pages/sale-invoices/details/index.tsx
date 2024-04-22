@@ -17,6 +17,9 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
     if (isLoading || !saleInvoiceDetailData) {
         return <div>loading...</div>;
     }
+
+    const paymentType =
+        saleInvoiceDetailData.paymentType === "mobileBanking" ? "Mobile Banking" : "Cash";
     return (
         <div className="pb-10">
             <div>
@@ -48,8 +51,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                 return (
                                     <div
                                         key={product.productCode}
-                                        className="flex items-center justify-between"
-                                    >
+                                        className="flex items-center justify-between">
                                         <div className="flex items-center">
                                             {product.productCode} &nbsp;
                                             <span className="text-sm text-slate-800 dark:text-slate-200">
@@ -63,8 +65,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                                         .length -
                                                         1 &&
                                                     "border-b-2 border-dotted border-b-primary pb-2",
-                                            )}
-                                        >
+                                            )}>
                                             ${product.price * product.quantity}
                                         </p>
                                     </div>
@@ -91,9 +92,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                         <div className="mt-8 flex flex-col gap-1">
                             {saleInvoiceDetailData.paymentType && (
                                 <div className="flex items-center justify-between">
-                                    <p className="text-lg capitalize">
-                                        {saleInvoiceDetailData.paymentType}
-                                    </p>
+                                    <p className="text-lg capitalize">{paymentType}</p>
                                     <p className="text-lg">
                                         ${saleInvoiceDetailData.receiveAmount}
                                     </p>

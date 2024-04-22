@@ -4,7 +4,7 @@ import {
     PackageSearch,
     SquareGanttChart,
     Store,
-    User,
+    UsersRound,
 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -48,6 +48,6 @@ export const routeLinks: {
         href: "/admin/staffs",
         label: "Staffs",
         iconName: "User",
-        icon: <User />,
+        icon: <UsersRound />,
     },
 ];
