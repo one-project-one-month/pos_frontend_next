@@ -7,7 +7,7 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { Toaster } from "@/components/ui/sonner";
 // import { useTheme } from "next-themes";
 
-const BaseLayout = ({ children }: PropsWithChildren) => {
+const Providers = ({ children }: PropsWithChildren) => {
     // const { theme } = useTheme();
     return (
         <ReactQueryProvider>
@@ -27,4 +27,4 @@ const BaseLayout = ({ children }: PropsWithChildren) => {
     );
 };
 
-export default BaseLayout;
+export default Providers;
