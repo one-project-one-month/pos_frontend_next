@@ -2,42 +2,41 @@ import prisma from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-import { Position } from "@prisma/client";
-import bcrypt from "bcrypt";
 
-const jwtSecret = process.env.JWT_SECRET ?? "";
+import { exclude } from "@/db/prismaClient";
+import { signInStaffSchema } from "@/validations/staff";
+import { comparePassword, generateToken } from "./utils";
+
 const cookiesExpiredIn = Number(process.env.JWT_COOKIE_EXPIRES_IN) ?? 90;
 
-const signToken = (payload: { staffCode: string; staffName: string; position: Position }) =>
-    jwt.sign(payload, jwtSecret, {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-const correctPassword = async (candidatePassword: string, staffPassword: string) =>
-    await bcrypt.compare(candidatePassword, staffPassword);
-
-/* POST /api/v1/sign-in */
+/* POST /api/v1/staffs/sign-in */
 export async function POST(req: NextRequest) {
     const response = await catchAsyncError("[SIGN_IN]", async () => {
         const body = await req.json();
 
+        const validation = signInStaffSchema.safeParse(body);
+
+        if (!validation.success)
+            return NextResponse.json(
+                { message: "Invalid inputs.", error: validation.error.format() },
+                { status: 400 },
+            );
+
         const staff = await prisma.staff.findUnique({
             where: {
-                staffCode: body.staffCode,
+                staffCode: validation.data.staffCode,
             },
         });
 
-        if (!staff || !(await correctPassword(body.password, staff.password)))
-            return NextResponse.json(
-                { message: "Staff Code or password is incorrect!" },
-                {
-                    status: 401,
-                },
-            );
+        if (!staff) return NextResponse.json({ message: "Staff not found." }, { status: 404 });
 
-        const token = signToken({
+        const match = await comparePassword(validation.data.password, staff.password);
+
+        if (!match) return NextResponse.json({ message: "Invalid credentials." }, { status: 401 });
+
+        const token = generateToken({
             staffCode: staff.staffCode,
+            staffId: staff.staffId,
             staffName: staff.staffName,
             position: staff.position,
         });
@@ -50,10 +49,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
             {
                 message: "success",
-                token,
-                data: {
-                    staff,
-                },
+                data: { token, staff: exclude(staff, "password") },
             },
             { status: 200 },
         );
