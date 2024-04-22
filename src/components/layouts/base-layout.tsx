@@ -4,7 +4,7 @@ import ThemeProvider from "@/providers/theme-provider";
 import { PropsWithChildren } from "react";
 import { SaleInvoiceStoreContextProvider } from "@/providers/sale-invoice-store-provider";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "@/components/ui/sonner";
 // import { useTheme } from "next-themes";
 
 const BaseLayout = ({ children }: PropsWithChildren) => {
@@ -20,7 +20,7 @@ const BaseLayout = ({ children }: PropsWithChildren) => {
                         options={{ showSpinner: false }}
                         shallowRouting
                     />
-                    <Toaster position="top-center" reverseOrder={false} />
+                    <Toaster position="top-center" />
                 </SaleInvoiceStoreContextProvider>
             </ThemeProvider>
         </ReactQueryProvider>

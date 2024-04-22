@@ -19,7 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCreateStaff, useUpdateStaff } from "@/services/api/staffs";
 import DateOfBirthPicker from "./dob-picker";
 import TextFormField from "./text-form-field";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface Props {
     initialValues?: Staff;

@@ -20,7 +20,7 @@ import {
 } from "@/services/api/product-categories";
 import { useRouter } from "next/navigation";
 import { ProductCategory } from "@prisma/client";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface ProductCategoryFormProps {
     initialValues?: ProductCategory;
