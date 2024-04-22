@@ -47,7 +47,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
     });
 
     function onSubmit(values: z.infer<typeof createStaffSchema>) {
-        console.log("submit:", values);
+        toast.info("Making the request...", { id: "info-toast" });
         if (!isEditMode) {
             createStaff(values, {
                 onSuccess: () => {
@@ -57,6 +57,9 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     console.error(error);
                     toast.error("Fail to create new staff!");
                 },
+                onSettled: () => {
+                    toast.dismiss("info-toast");
+                }
             });
         } else if (initialValues?.staffId && isEditMode) {
             updateStaff(
@@ -69,6 +72,9 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                         console.error(error);
                         toast.error("Fail to update the stuff!");
                     },
+                    onSettled: () => {
+                        toast.dismiss("info-toast");
+                    }
                 },
             );
         }
