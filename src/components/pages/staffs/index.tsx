@@ -10,7 +10,7 @@ import StaffsDataTable from "./data-table";
 import { useDeleteStaff, useGetStaffs } from "@/services/api/staffs";
 
 function Staffs() {
-    const { data: staffs, isLoading, refetch: refetchStaffs } = useGetStaffs();
+    const { data: staffs, isLoading, isFetchedAfterMount, refetch: refetchStaffs } = useGetStaffs();
     const { mutate: deleteStaff } = useDeleteStaff();
     const popoverRef = useRef<HTMLButtonElement>(null);
     const columns: ColumnDef<Staff>[] = [
@@ -92,7 +92,11 @@ function Staffs() {
                     <Button variant="outline">Add New Staff</Button>
                 </Link>
             </div>
-            <StaffsDataTable columns={columns} data={staffs?.data.staffs} isLoading={isLoading} />
+            <StaffsDataTable
+                columns={columns}
+                data={staffs?.data.staffs}
+                isLoading={isLoading || !isFetchedAfterMount}
+            />
         </div>
     );
 }

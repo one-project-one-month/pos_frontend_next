@@ -13,7 +13,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { createStaffSchema } from "@/validations/staff";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { $Enums, Staff } from "@prisma/client";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCreateStaff, useUpdateStaff } from "@/services/api/staffs";
@@ -51,6 +51,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
         if (!isEditMode) {
             createStaff(values, {
                 onSuccess: () => {
+                    toast.success("New staff created!");
                     router.push("/admin/staffs");
                 },
                 onError: (error) => {
@@ -59,13 +60,14 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                 },
                 onSettled: () => {
                     toast.dismiss("info-toast");
-                }
+                },
             });
         } else if (initialValues?.staffId && isEditMode) {
             updateStaff(
                 { payload: values, id: initialValues.staffId },
                 {
                     onSuccess: () => {
+                        toast.success("Staff data updated!");
                         router.push("/admin/staffs");
                     },
                     onError: (error) => {
@@ -74,7 +76,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     },
                     onSettled: () => {
                         toast.dismiss("info-toast");
-                    }
+                    },
                 },
             );
         }
@@ -116,14 +118,12 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex space-x-4"
-                                >
+                                    className="flex space-x-4">
                                     {Object.values($Enums.Gender).map((gender) => {
                                         return (
                                             <FormItem
                                                 key={gender}
-                                                className="flex items-center space-x-1 space-y-0"
-                                            >
+                                                className="flex items-center space-x-1 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value={gender} />
                                                 </FormControl>
@@ -150,14 +150,12 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex space-x-4"
-                                >
+                                    className="flex space-x-4">
                                     {Object.values($Enums.Position).map((position) => {
                                         return (
                                             <FormItem
                                                 key={position}
-                                                className="flex items-center space-x-1 space-y-0"
-                                            >
+                                                className="flex items-center space-x-1 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value={position} />
                                                 </FormControl>

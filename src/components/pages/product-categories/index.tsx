@@ -15,7 +15,7 @@ function ProductCategories() {
     const {
         data: productCategoriesRes,
         isLoading,
-        isRefetching,
+        isFetchedAfterMount,
         refetch: refetchProductCategories,
     } = useGetProductCategories();
     const { mutate: deleteProductCategory } = useDeleteProductCategory();
@@ -67,8 +67,7 @@ function ProductCategories() {
                                                     popoverRef.current?.click();
                                                 },
                                             });
-                                        }}
-                                    >
+                                        }}>
                                         Sure
                                     </Button>
                                 </div>
@@ -91,7 +90,7 @@ function ProductCategories() {
             <ProductCategoriesDataTable
                 columns={columns}
                 data={productCategoriesRes?.data.categories}
-                isLoading={isLoading || isRefetching}
+                isLoading={isLoading || !isFetchedAfterMount}
             />
         </div>
     );

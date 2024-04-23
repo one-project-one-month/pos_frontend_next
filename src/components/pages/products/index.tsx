@@ -9,7 +9,12 @@ import { useRef } from "react";
 import { ProductWithCategory } from "@/types/baseType";
 
 function Products() {
-    const { data: productsRes, isLoading, refetch: refetchProducts } = useGetProducts();
+    const {
+        data: productsRes,
+        isLoading,
+        isFetchedAfterMount,
+        refetch: refetchProducts,
+    } = useGetProducts();
     const { mutate: deleteProduct } = useDeleteProduct();
     const popoverRef = useRef<HTMLButtonElement>(null);
     const columns: ColumnDef<ProductWithCategory>[] = [
@@ -92,7 +97,7 @@ function Products() {
             <ProductsDataTable
                 columns={columns}
                 data={productsRes?.data.products}
-                isLoading={isLoading}
+                isLoading={isLoading || !isFetchedAfterMount}
             />
         </div>
     );

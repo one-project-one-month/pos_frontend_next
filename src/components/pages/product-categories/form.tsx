@@ -18,7 +18,7 @@ import {
     useCreateProductCategory,
     useEditProductCategory,
 } from "@/services/api/product-categories";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { ProductCategory } from "@prisma/client";
 import { toast } from "sonner";
 
@@ -39,10 +39,12 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
     });
 
     function onSubmit(values: z.infer<typeof productCategoryFormSchema>) {
-        toast.info("Making the request...", { id: "info-toast"});
+        toast.info("Making the request...", { id: "info-toast" });
+
         if (!isEditMode) {
             createProductCategory(values, {
                 onSuccess: () => {
+                    toast.success("New product category created!");
                     router.push("/product-categories");
                 },
                 onError: (error) => {
@@ -51,7 +53,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                 },
                 onSettled: () => {
                     toast.dismiss("info-toast");
-                }
+                },
             });
         } else if (isEditMode && initialValues) {
             editProductCategory(
@@ -61,6 +63,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                 },
                 {
                     onSuccess: () => {
+                        toast.success("Product category data updated!");
                         router.push("/product-categories");
                     },
                     onError: (error) => {
@@ -69,7 +72,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                     },
                     onSettled: () => {
                         toast.dismiss("info-toast");
-                    }
+                    },
                 },
             );
         }

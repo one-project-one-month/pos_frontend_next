@@ -20,7 +20,7 @@ function StaffsDataTable<TData, TValue>({
 
     return (
         <div>
-            {!isLoading || data ? (
+            {!isLoading ? (
                 <>
                     <TableHeader table={table} name="Staff Name" filterKey="staffName" />
                     <CommonTable table={table} />

@@ -23,7 +23,7 @@ function SaleInvoicesDataTable<TData, TValue>({
     const table = useTable({ data: data ?? [], columns });
     return (
         <div>
-            {!isLoading || data ? (
+            {!isLoading ? (
                 <>
                     <div className="my-2 flex items-center justify-between">
                         <Input

@@ -90,8 +90,6 @@ function PaymentFormDialog() {
         );
     };
 
-    useEffect(() => {}, []);
-
     return (
         <Dialog>
             <DialogTrigger asChild ref={dialogCloseBtnRef}>
