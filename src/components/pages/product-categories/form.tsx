@@ -39,7 +39,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
     });
 
     function onSubmit(values: z.infer<typeof productCategoryFormSchema>) {
-        toast.info("Making the request...", { id: "info-toast"});
+        toast.info("Making the request...", { id: "info-toast" });
         if (!isEditMode) {
             createProductCategory(values, {
                 onSuccess: () => {
@@ -51,7 +51,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                 },
                 onSettled: () => {
                     toast.dismiss("info-toast");
-                }
+                },
             });
         } else if (isEditMode && initialValues) {
             editProductCategory(
@@ -69,7 +69,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                     },
                     onSettled: () => {
                         toast.dismiss("info-toast");
-                    }
+                    },
                 },
             );
         }

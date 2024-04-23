@@ -136,7 +136,8 @@ function PaymentFormDialog() {
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}
-                                            className="flex items-center gap-2">
+                                            className="flex items-center gap-2"
+                                        >
                                             <FormItem className="flex items-center space-x-1.5 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value="cash" />
@@ -160,7 +161,8 @@ function PaymentFormDialog() {
                         <Button
                             type="submit"
                             className="w-full"
-                            disabled={isCreating || isUpdating}>
+                            disabled={isCreating || isUpdating}
+                        >
                             Finish Payment
                         </Button>
                     </form>

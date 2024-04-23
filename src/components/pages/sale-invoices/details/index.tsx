@@ -51,7 +51,8 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                 return (
                                     <div
                                         key={product.productCode}
-                                        className="flex items-center justify-between">
+                                        className="flex items-center justify-between"
+                                    >
                                         <div className="flex items-center">
                                             {product.productCode} &nbsp;
                                             <span className="text-sm text-slate-800 dark:text-slate-200">
@@ -65,7 +66,8 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                                         .length -
                                                         1 &&
                                                     "border-b-2 border-dotted border-b-primary pb-2",
-                                            )}>
+                                            )}
+                                        >
                                             ${product.price * product.quantity}
                                         </p>
                                     </div>
