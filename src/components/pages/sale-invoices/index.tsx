@@ -28,7 +28,7 @@ function SaleInvoices() {
             accessorKey: "dateTime",
             header: "Date",
             cell: ({ row }) => {
-                return <div>{formatDate(row.original.dateTime, "dd MMMM, y")}</div>;
+                return <div>{formatDate(row.original.dateTime, "dd MMMM, y, hh:mma")}</div>;
             },
         },
         {
@@ -36,8 +36,11 @@ function SaleInvoices() {
             header: "Staff Code",
         },
         {
-            accessorKey: "totalAmount",
-            header: "Total Amount",
+            accessorKey: "paymentAmount",
+            header: "Payment Amount",
+            cell: ({ row }) => {
+                return <div>{Number(row.original.paymentAmount).toFixed(2)}</div>;
+            },
         },
         {
             header: " ",
@@ -62,13 +65,6 @@ function SaleInvoices() {
             <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-2xl font-medium">Sale Invoices List</h2>
             </div>
-            {/* <SaleInvoicesDataTable
-                dateRange={dateRange}
-                setDateRange={setDateRange}
-                columns={columns}
-                data={saleInvoicesRes?.data.saleInvoices}
-                isLoading={isLoading || isPending}
-            /> */}
             <div>
                 {!isLoading || saleInvoicesRes ? (
                     <>

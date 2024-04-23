@@ -27,6 +27,9 @@ export async function handler({ searchParams }: { searchParams: URLSearchParams 
 
     response = await prisma.product.findMany({
         where,
+        include: {
+            category: true,
+        },
     });
 
     return response;

@@ -1,12 +1,12 @@
 import axiosInstance from "@/lib/axios";
-import type { ApiResponse } from "@/types/baseType";
+import type { ApiResponse, ProductWithCategory } from "@/types/baseType";
 import type { Product } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetProducts = (name?: string, categoryCode?: string) => {
     return useQuery({
         queryKey: ["products", "get-many", name, categoryCode],
-        queryFn: (): Promise<ApiResponse<{ products: Product[] }>> => {
+        queryFn: (): Promise<ApiResponse<{ products: ProductWithCategory[] }>> => {
             return axiosInstance
                 .get(`/products?name=${name}&categoryCode=${categoryCode}`)
                 .then((res) => res.data);

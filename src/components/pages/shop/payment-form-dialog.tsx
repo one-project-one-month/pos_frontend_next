@@ -24,9 +24,9 @@ import {
     useUpdateInvoiceAndConfirmPayment,
 } from "@/services/api/sale-invoices";
 import { useSaleInvoiceContext } from "@/providers/sale-invoice-store-provider";
-import { useRef } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { useEffect, useRef } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next-nprogress-bar";
 
 const paymentFormSchema = z.object({
     receiveAmount: z.number().gt(0),
@@ -48,6 +48,7 @@ function PaymentFormDialog() {
     });
 
     const onSubmit = (values: z.infer<typeof paymentFormSchema>) => {
+        toast.info("Making the request...", { id: "info-toast" });
         createSaleInvoice(
             // TO-DO: staff code is hardcoded for now, have to replace with logged in staff code later
             { staffCode: "s00", products },
@@ -67,10 +68,13 @@ function PaymentFormDialog() {
                                 toast.error("Fail to create new sale invoice!");
                             },
                             onSuccess: () => {
-                                console.log("success");
+                                toast.success("Payment finished!");
                                 resetProduct();
                                 dialogCloseBtnRef.current?.click();
                                 router.push(`/sale-invoices/${invoiceId}`);
+                            },
+                            onSettled: () => {
+                                toast.dismiss("info-toast");
                             },
                         },
                     );
@@ -79,9 +83,14 @@ function PaymentFormDialog() {
                     console.error(err);
                     toast.error("Fail to create new sale invoice!");
                 },
+                onSettled: () => {
+                    toast.dismiss("info-toast");
+                },
             },
         );
     };
+
+    useEffect(() => {}, []);
 
     return (
         <Dialog>
@@ -127,8 +136,7 @@ function PaymentFormDialog() {
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}
-                                            className="flex items-center gap-2"
-                                        >
+                                            className="flex items-center gap-2">
                                             <FormItem className="flex items-center space-x-1.5 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value="cash" />
@@ -152,8 +160,7 @@ function PaymentFormDialog() {
                         <Button
                             type="submit"
                             className="w-full"
-                            disabled={isCreating || isUpdating}
-                        >
+                            disabled={isCreating || isUpdating}>
                             Finish Payment
                         </Button>
                     </form>
