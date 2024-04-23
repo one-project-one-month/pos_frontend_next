@@ -40,7 +40,7 @@ const SelectScrollable = ({ setValue, values, value }: Props) => {
                             </SelectItem>
                         ))
                     ) : (
-                        <div>No Category</div>
+                        <p className="px-2 text-center text-sm">No Category</p>
                     )}
                 </SelectGroup>
             </SelectContent>

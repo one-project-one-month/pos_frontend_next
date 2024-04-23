@@ -20,7 +20,7 @@ import {
 } from "@/services/api/product-categories";
 import { useRouter } from "next/navigation";
 import { ProductCategory } from "@prisma/client";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface ProductCategoryFormProps {
     initialValues?: ProductCategory;
@@ -39,6 +39,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
     });
 
     function onSubmit(values: z.infer<typeof productCategoryFormSchema>) {
+        toast.info("Making the request...", { id: "info-toast"});
         if (!isEditMode) {
             createProductCategory(values, {
                 onSuccess: () => {
@@ -48,6 +49,9 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                     console.error(error);
                     toast.error("Fail to create new category!");
                 },
+                onSettled: () => {
+                    toast.dismiss("info-toast");
+                }
             });
         } else if (isEditMode && initialValues) {
             editProductCategory(
@@ -63,6 +67,9 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                         console.error(error);
                         toast.error("Fail to update the category!");
                     },
+                    onSettled: () => {
+                        toast.dismiss("info-toast");
+                    }
                 },
             );
         }

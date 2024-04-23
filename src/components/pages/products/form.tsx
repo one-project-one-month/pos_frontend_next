@@ -18,7 +18,7 @@ import { useGetProductCategories } from "@/services/api/product-categories";
 import { useCreateProduct, useUpdateProduct } from "@/services/api/products";
 import { useRouter } from "next/navigation";
 import { Product } from "@prisma/client";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface CreateProductFormProps {
     initialValues?: Product;
@@ -28,7 +28,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
     const router = useRouter();
     const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
     const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
-    const { data: productCategories } = useGetProductCategories();
+    const { data: productCategoriesRes } = useGetProductCategories();
     const form = useForm<z.infer<typeof productFormSchema>>({
         resolver: zodResolver(productFormSchema),
         defaultValues: {
@@ -40,6 +40,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
     });
 
     function onSubmit(values: z.infer<typeof productFormSchema>) {
+        toast.info("Making the request...", { id: "info-toast" });
         if (!isEditMode) {
             createProduct(values, {
                 onSuccess: () => {
@@ -49,6 +50,9 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                     console.error(error);
                     toast.error("Fail to create new product!");
                 },
+                onSettled: () => {
+                    toast.dismiss("info-toast");
+                }
             });
         } else if (initialValues?.productId && isEditMode) {
             updateProduct(
@@ -61,6 +65,9 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                         console.error(error);
                         toast.error("Fail to update the product!");
                     },
+                    onSettled: () => {
+                        toast.dismiss("info-toast");
+                    }
                 },
             );
         }

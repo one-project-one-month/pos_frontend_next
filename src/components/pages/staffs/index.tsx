@@ -25,10 +25,16 @@ function Staffs() {
         {
             accessorKey: "gender",
             header: "Gender",
+            cell: ({ row }) => {
+                return <div className="capitalize">{row.original.gender}</div>;
+            },
         },
         {
             accessorKey: "position",
             header: "Position",
+            cell: ({ row }) => {
+                return <div className="capitalize">{row.original.position}</div>;
+            },
         },
         {
             header: "Actions",
@@ -66,8 +72,7 @@ function Staffs() {
                                                     popoverRef.current?.click();
                                                 },
                                             });
-                                        }}
-                                    >
+                                        }}>
                                         Sure
                                     </Button>
                                 </div>

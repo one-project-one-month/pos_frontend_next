@@ -1,18 +1,18 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import ProductsDataTable from "./data-table";
-import { Product } from "@prisma/client";
 import { useDeleteProduct, useGetProducts } from "@/services/api/products";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import Link from "next/link";
 import { useRef } from "react";
+import { ProductWithCategory } from "@/types/baseType";
 
 function Products() {
     const { data: productsRes, isLoading, refetch: refetchProducts } = useGetProducts();
     const { mutate: deleteProduct } = useDeleteProduct();
     const popoverRef = useRef<HTMLButtonElement>(null);
-    const columns: ColumnDef<Product>[] = [
+    const columns: ColumnDef<ProductWithCategory>[] = [
         {
             accessorKey: "productCode",
             header: "Code",
@@ -24,6 +24,14 @@ function Products() {
         {
             accessorKey: "price",
             header: "Price",
+        },
+        {
+            accessorKey: "category",
+            header: "Category",
+            cell: ({ row }) => {
+                const categoryName = row.original.category.productCategoryName;
+                return <div>{categoryName}</div>;
+            },
         },
         {
             header: "Actions",
@@ -61,8 +69,7 @@ function Products() {
                                                     popoverRef.current?.click();
                                                 },
                                             });
-                                        }}
-                                    >
+                                        }}>
                                         Sure
                                     </Button>
                                 </div>
