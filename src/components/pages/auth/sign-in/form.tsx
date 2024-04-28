@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { useSignIn } from "@/services/api/staffs";
 import { signInStaffSchema } from "@/validations/staff";
 import type { SignInStaffType } from "@/types/staff";
+import { useSaleInvoiceContext } from "@/providers/sale-invoice-store-provider";
 
 const SignInForm = () => {
     const router = useRouter();
+    const { setStaffCode } = useSaleInvoiceContext((state) => state);
     const { mutate: signIn, isPending } = useSignIn();
     const {
         register,
@@ -21,11 +22,12 @@ const SignInForm = () => {
         resolver: zodResolver(signInStaffSchema),
     });
 
-    const handleSignIn = async (e: SignInStaffType) => {
-        console.log(e);
-        signIn(e, {
+    const handleSignIn = async (values: SignInStaffType) => {
+        console.log(values);
+        signIn(values, {
             onSuccess: (res) => {
                 console.log(res);
+                setStaffCode(values.staffCode);
                 router.push("/");
             },
             onError: (error) => {
@@ -46,13 +48,11 @@ const SignInForm = () => {
 
                         <form
                             className="space-y-4 md:space-y-6"
-                            onSubmit={handleSubmit(handleSignIn)}
-                        >
+                            onSubmit={handleSubmit(handleSignIn)}>
                             <div>
                                 <label
                                     htmlFor="staff_code"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                                >
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                                     Staff code
                                 </label>
                                 <input
@@ -68,8 +68,7 @@ const SignInForm = () => {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                                >
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                                     Password
                                 </label>
                                 <input
@@ -86,8 +85,7 @@ const SignInForm = () => {
                             <div className="flex items-center justify-end">
                                 <a
                                     href="#"
-                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
-                                >
+                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline">
                                     Forgot password?
                                 </a>
                             </div>
@@ -96,8 +94,7 @@ const SignInForm = () => {
                                 variant={"default"}
                                 type="submit"
                                 className="w-full"
-                                disabled={isPending}
-                            >
+                                disabled={isPending}>
                                 Sign in
                             </Button>
                         </form>

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import StaffsDataTable from "./data-table";
 import { useDeleteStaff, useGetStaffs } from "@/services/api/staffs";
+import { toast } from "sonner";
 
 function Staffs() {
     const { data: staffs, isLoading, isFetchedAfterMount, refetch: refetchStaffs } = useGetStaffs();
@@ -70,6 +71,10 @@ function Staffs() {
                                                 onSuccess: () => {
                                                     refetchStaffs();
                                                     popoverRef.current?.click();
+                                                    toast.success("Staff deleted!");
+                                                },
+                                                onError: () => {
+                                                    toast.error("Staff deletion failed!");
                                                 },
                                             });
                                         }}>

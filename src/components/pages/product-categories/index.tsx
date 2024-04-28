@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useRef } from "react";
+import { toast } from "sonner";
 
 function ProductCategories() {
     const {
@@ -65,6 +66,10 @@ function ProductCategories() {
                                                 onSuccess: () => {
                                                     refetchProductCategories();
                                                     popoverRef.current?.click();
+                                                    toast.success("Category deleted!");
+                                                },
+                                                onError: () => {
+                                                    toast.error("Category deletion failed!");
                                                 },
                                             });
                                         }}>

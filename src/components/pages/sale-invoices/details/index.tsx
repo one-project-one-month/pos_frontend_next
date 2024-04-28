@@ -110,7 +110,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                 Voucher - {saleInvoiceDetailData.voucherNo}
                             </p>
                             <p className="text-center text-sm">
-                                {formatDate(saleInvoiceDetailData.dateTime, "d/ M/ y, hh:mm")}
+                                {formatDate(saleInvoiceDetailData.dateTime, "dd/ MM/ y, hh:mm")}
                             </p>
                             <p className="mt-4 text-center text-sm">
                                 Thank you for shopping with us!

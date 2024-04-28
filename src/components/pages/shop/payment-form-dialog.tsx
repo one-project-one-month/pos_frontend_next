@@ -24,7 +24,7 @@ import {
     useUpdateInvoiceAndConfirmPayment,
 } from "@/services/api/sale-invoices";
 import { useSaleInvoiceContext } from "@/providers/sale-invoice-store-provider";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next-nprogress-bar";
 
@@ -37,7 +37,7 @@ function PaymentFormDialog() {
     const router = useRouter();
     const { mutate: createSaleInvoice, isPending: isCreating } = useCreateSaleInvoice();
     const { mutate: confirmPayment, isPending: isUpdating } = useUpdateInvoiceAndConfirmPayment();
-    const { products, resetProduct } = useSaleInvoiceContext((state) => state);
+    const { products, resetProduct, staffCode } = useSaleInvoiceContext((state) => state);
     const dialogCloseBtnRef = useRef<HTMLButtonElement>(null);
     const form = useForm<z.infer<typeof paymentFormSchema>>({
         resolver: zodResolver(paymentFormSchema),
@@ -50,13 +50,18 @@ function PaymentFormDialog() {
     const onSubmit = (values: z.infer<typeof paymentFormSchema>) => {
         toast.info("Making the request...", { id: "info-toast" });
         createSaleInvoice(
-            // TO-DO: staff code is hardcoded for now, have to replace with logged in staff code later
-            { staffCode: "s00", products },
+            { staffCode: staffCode || "s00", products },
             {
                 onSuccess: (responseData) => {
                     console.log(responseData);
                     const voucherNo = responseData.data.saleInvoice.voucherNo;
                     const invoiceId = responseData.data.saleInvoice.saleInvoiceId;
+
+                    if (values.receiveAmount < responseData.data.saleInvoice.paymentAmount) {
+                        toast.error("Receive amount is less than the actual payment amount!");
+                        return;
+                    }
+
                     confirmPayment(
                         {
                             ...values,

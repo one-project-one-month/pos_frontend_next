@@ -20,7 +20,7 @@ const Providers = ({ children }: PropsWithChildren) => {
                         options={{ showSpinner: false }}
                         shallowRouting
                     />
-                    <Toaster position="top-center" duration={500} />
+                    <Toaster position="top-center" duration={800} />
                 </SaleInvoiceStoreContextProvider>
             </ThemeProvider>
         </ReactQueryProvider>
