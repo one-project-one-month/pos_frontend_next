@@ -16,12 +16,11 @@ export async function PATCH(req: NextRequest) {
                 { status: 400 },
             );
 
-        const receiveAmount = body.receiveAmount;
-        const paymentType = body.paymentType;
+        const { voucherNo, receiveAmount, paymentType } = validation.data;
 
         const saleInvoice = await prisma.saleInvoice.findUnique({
             where: {
-                voucherNo: body.voucherNo,
+                voucherNo,
             },
         });
 
@@ -42,8 +41,8 @@ export async function PATCH(req: NextRequest) {
                 saleInvoiceId: saleInvoice.saleInvoiceId,
             },
             data: {
-                receiveAmount: receiveAmount,
-                paymentType: paymentType,
+                receiveAmount,
+                paymentType,
                 change: receiveAmount - saleInvoice.paymentAmount,
             },
         });
