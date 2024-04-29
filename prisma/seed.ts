@@ -102,13 +102,16 @@ const main = async () => {
         const tax = 0.05;
         let totalAmount = 0;
 
+        let productCodes: string[] = [];
         for (let j = 0; j < faker.number.int({ min: 1, max: 5 }); j++) {
-            const product =
-                products.find(
-                    (p) =>
-                        p.productCode ===
-                        "p" + faker.number.int({ min: 0, max: 99 }).toString().padStart(4, "0"),
-                ) || products[0];
+            let productCode =
+                "p" + faker.number.int({ min: 0, max: 99 }).toString().padStart(4, "0");
+            while (productCodes.includes(productCode)) {
+                productCode =
+                    "p" + faker.number.int({ min: 0, max: 99 }).toString().padStart(4, "0");
+            }
+            productCodes.push(productCode);
+            const product = products.find((p) => p.productCode === productCode) || products[0];
             const quantity = faker.number.int({ min: 1, max: 5 });
             totalAmount += product.price * quantity;
 
@@ -134,6 +137,7 @@ const main = async () => {
     }
     await prisma.saleInvoice.createMany({ data: saleInvoices });
     await prisma.saleInvoiceDetails.createMany({ data: saleInvoiceDetails });
+
     console.log("Seeding customers ...");
     const customers: Prisma.CustomerCreateInput[] = [];
     const customerNames: string[] = [];
