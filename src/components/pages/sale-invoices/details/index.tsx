@@ -18,6 +18,8 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
         return <div>loading...</div>;
     }
 
+    console.log(saleInvoiceDetailData);
+
     const paymentType =
         saleInvoiceDetailData.paymentType === "mobileBanking" ? "Mobile Banking" : "Cash";
     return (
@@ -47,16 +49,15 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                             Sale made by {saleInvoiceDetailData.staff.staffName}
                         </p>
                         <div className="mt-8 flex flex-col gap-1">
-                            {saleInvoiceDetailData.saleInvoiceDetails.map((product, index) => {
+                            {saleInvoiceDetailData.saleInvoiceDetails.map((detail, index) => {
                                 return (
                                     <div
-                                        key={product.productCode}
-                                        className="flex items-center justify-between"
-                                    >
+                                        key={detail.product.productCode}
+                                        className="flex items-center justify-between">
                                         <div className="flex items-center">
-                                            {product.productCode} &nbsp;
+                                            {detail.product.productName} &nbsp;
                                             <span className="text-sm text-slate-800 dark:text-slate-200">
-                                                x {product.quantity}
+                                                x {detail.quantity}
                                             </span>
                                         </div>
                                         <p
@@ -66,9 +67,8 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                                         .length -
                                                         1 &&
                                                     "border-b-2 border-dotted border-b-primary pb-2",
-                                            )}
-                                        >
-                                            ${product.price * product.quantity}
+                                            )}>
+                                            ${detail.amount}
                                         </p>
                                     </div>
                                 );
@@ -82,7 +82,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                             </div>
                             <div className="ml-auto flex w-1/2 items-center justify-between">
                                 <p className="text-base">Tax</p>
-                                <p className="text-base">5%</p>
+                                <p className="text-base">{saleInvoiceDetailData.tax}%</p>
                             </div>
                             <div className="ml-auto flex w-1/2 items-center justify-between">
                                 <p className="text-lg">TOTAL</p>
