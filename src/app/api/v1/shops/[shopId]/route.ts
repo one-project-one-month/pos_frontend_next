@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
 
+import { updateShopSchema } from "@/validations/shop";
+
 type paramsType = { params: { shopId: string } };
 
 /* GET /api/v1/shops/:shopId */
@@ -31,14 +33,19 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
     const response = await catchAsyncError("[SHOP_PATCH]", async () => {
         const body = await req.json();
 
+        const validation = updateShopSchema.safeParse(body);
+
+        if (!validation.success)
+            return NextResponse.json(
+                { message: "Invalid inputs.", errors: validation.error.format() },
+                { status: 400 },
+            );
+
         const updatedShop = await prisma.shop.update({
             where: {
                 shopId: params.shopId,
             },
-            data: {
-                shopCode: body.shopCode,
-                shopName: body.shopName,
-            },
+            data: validation.data,
         });
 
         if (!updatedShop) return NextResponse.json({ message: "Shop not found." }, { status: 404 });

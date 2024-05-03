@@ -19,7 +19,7 @@ function ProductsDataTable<TData, TValue>({
     const table = useTable({ data: data ?? [], columns });
     return (
         <div>
-            {!isLoading || data ? (
+            {!isLoading ? (
                 <>
                     <TableHeader table={table} name="Product Name" filterKey="productName" />
                     <CommonTable table={table} />

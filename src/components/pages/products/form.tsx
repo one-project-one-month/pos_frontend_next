@@ -16,7 +16,7 @@ import { productFormSchema } from "@/validations/product";
 import CategorySelect from "./category-select";
 import { useGetProductCategories } from "@/services/api/product-categories";
 import { useCreateProduct, useUpdateProduct } from "@/services/api/products";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { Product } from "@prisma/client";
 import { toast } from "sonner";
 
@@ -44,6 +44,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
         if (!isEditMode) {
             createProduct(values, {
                 onSuccess: () => {
+                    toast.success("New product created!");
                     router.push("/products");
                 },
                 onError: (error) => {
@@ -59,6 +60,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                 { payload: values, id: initialValues.productId },
                 {
                     onSuccess: () => {
+                        toast.success("Product data updated!");
                         router.push("/products");
                     },
                     onError: (error) => {
@@ -97,10 +99,11 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                                 <FormLabel>Price</FormLabel>
                                 <FormControl>
                                     <Input
-                                        type="text"
+                                        type="number"
+                                        step="any"
                                         value={field.value}
                                         onChange={(e) => {
-                                            form.setValue("price", Number(e.target.value));
+                                            form.setValue("price", parseFloat(e.target.value));
                                         }}
                                         placeholder="Enter Price"
                                     />
