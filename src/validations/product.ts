@@ -12,3 +12,16 @@ export const productFormSchema = z.object({
         message: "Product category code must be at least 2 characters.",
     }),
 });
+
+export const createProductSchema = z.object({
+    productName: z.string().min(2),
+    price: z.number().nonnegative().min(10),
+    productCode: z.string().min(2),
+    categoryCode: z.string().min(2),
+});
+
+export const updateProductSchema = z.object({
+    productName: z.string().min(2).optional(),
+    price: z.number().nonnegative().min(10).optional(),
+    categoryCode: z.string().min(2).optional(),
+});

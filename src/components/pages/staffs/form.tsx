@@ -59,7 +59,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                 },
                 onSettled: () => {
                     toast.dismiss("info-toast");
-                }
+                },
             });
         } else if (initialValues?.staffId && isEditMode) {
             updateStaff(
@@ -74,7 +74,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                     },
                     onSettled: () => {
                         toast.dismiss("info-toast");
-                    }
+                    },
                 },
             );
         }

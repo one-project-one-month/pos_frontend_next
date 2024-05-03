@@ -52,7 +52,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                 },
                 onSettled: () => {
                     toast.dismiss("info-toast");
-                }
+                },
             });
         } else if (initialValues?.productId && isEditMode) {
             updateProduct(
@@ -67,7 +67,7 @@ export function ProductForm({ initialValues, isEditMode = false }: CreateProduct
                     },
                     onSettled: () => {
                         toast.dismiss("info-toast");
-                    }
+                    },
                 },
             );
         }
