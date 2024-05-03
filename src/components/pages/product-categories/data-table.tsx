@@ -19,7 +19,7 @@ function ProductCategoriesDataTable<TData, TValue>({
     const table = useTable({ data: data ?? [], columns });
     return (
         <div>
-            {!isLoading || data ? (
+            {!isLoading ? (
                 <>
                     <TableHeader
                         table={table}

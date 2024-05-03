@@ -10,12 +10,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useRef } from "react";
+import { toast } from "sonner";
 
 function ProductCategories() {
     const {
         data: productCategoriesRes,
         isLoading,
-        isRefetching,
+        isFetchedAfterMount,
         refetch: refetchProductCategories,
     } = useGetProductCategories();
     const { mutate: deleteProductCategory } = useDeleteProductCategory();
@@ -65,6 +66,10 @@ function ProductCategories() {
                                                 onSuccess: () => {
                                                     refetchProductCategories();
                                                     popoverRef.current?.click();
+                                                    toast.success("Category deleted!");
+                                                },
+                                                onError: () => {
+                                                    toast.error("Category deletion failed!");
                                                 },
                                             });
                                         }}
@@ -91,7 +96,7 @@ function ProductCategories() {
             <ProductCategoriesDataTable
                 columns={columns}
                 data={productCategoriesRes?.data.categories}
-                isLoading={isLoading || isRefetching}
+                isLoading={isLoading || !isFetchedAfterMount}
             />
         </div>
     );

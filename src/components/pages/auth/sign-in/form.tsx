@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { useSignIn } from "@/services/api/staffs";
 import { signInStaffSchema } from "@/validations/staff";
 import type { SignInStaffType } from "@/types/staff";
+import { useSaleInvoiceContext } from "@/providers/sale-invoice-store-provider";
 
 const SignInForm = () => {
     const router = useRouter();
+    const { setStaffCode } = useSaleInvoiceContext((state) => state);
     const { mutate: signIn, isPending } = useSignIn();
     const {
         register,
@@ -21,11 +22,12 @@ const SignInForm = () => {
         resolver: zodResolver(signInStaffSchema),
     });
 
-    const handleSignIn = async (e: SignInStaffType) => {
-        console.log(e);
-        signIn(e, {
+    const handleSignIn = async (values: SignInStaffType) => {
+        console.log(values);
+        signIn(values, {
             onSuccess: (res) => {
                 console.log(res);
+                setStaffCode(values.staffCode);
                 router.push("/");
             },
             onError: (error) => {

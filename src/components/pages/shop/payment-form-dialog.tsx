@@ -24,7 +24,7 @@ import {
     useUpdateInvoiceAndConfirmPayment,
 } from "@/services/api/sale-invoices";
 import { useSaleInvoiceContext } from "@/providers/sale-invoice-store-provider";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next-nprogress-bar";
 
@@ -33,11 +33,11 @@ const paymentFormSchema = z.object({
     paymentType: z.string().min(1, "Payment Type is required"),
 });
 
-function PaymentFormDialog() {
+function PaymentFormDialog({ totalAmount }: { totalAmount: number }) {
     const router = useRouter();
     const { mutate: createSaleInvoice, isPending: isCreating } = useCreateSaleInvoice();
     const { mutate: confirmPayment, isPending: isUpdating } = useUpdateInvoiceAndConfirmPayment();
-    const { products, resetProduct } = useSaleInvoiceContext((state) => state);
+    const { products, resetProduct, staffCode } = useSaleInvoiceContext((state) => state);
     const dialogCloseBtnRef = useRef<HTMLButtonElement>(null);
     const form = useForm<z.infer<typeof paymentFormSchema>>({
         resolver: zodResolver(paymentFormSchema),
@@ -50,16 +50,22 @@ function PaymentFormDialog() {
     const onSubmit = (values: z.infer<typeof paymentFormSchema>) => {
         toast.info("Making the request...", { id: "info-toast" });
         createSaleInvoice(
-            // TO-DO: staff code is hardcoded for now, have to replace with logged in staff code later
-            { staffCode: "s00", products },
+            { staffCode: staffCode || "s00", products },
             {
                 onSuccess: (responseData) => {
                     console.log(responseData);
                     const voucherNo = responseData.data.saleInvoice.voucherNo;
                     const invoiceId = responseData.data.saleInvoice.saleInvoiceId;
+
+                    if (values.receiveAmount < responseData.data.saleInvoice.paymentAmount) {
+                        toast.error("Receive amount is less than the actual payment amount!");
+                        return;
+                    }
+
                     confirmPayment(
                         {
-                            ...values,
+                            receiveAmount: values.receiveAmount,
+                            paymentType: values.paymentType as "cash" | "mobileBanking",
                             voucherNo: voucherNo,
                         },
                         {
@@ -90,8 +96,6 @@ function PaymentFormDialog() {
         );
     };
 
-    useEffect(() => {}, []);
-
     return (
         <Dialog>
             <DialogTrigger asChild ref={dialogCloseBtnRef}>
@@ -102,6 +106,7 @@ function PaymentFormDialog() {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Confirm payment</DialogTitle>
+                    <DialogHeader>Total Amount - {totalAmount}</DialogHeader>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -136,8 +141,7 @@ function PaymentFormDialog() {
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}
-                                            className="flex items-center gap-2"
-                                        >
+                                            className="flex items-center gap-2">
                                             <FormItem className="flex items-center space-x-1.5 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value="cash" />
@@ -161,8 +165,7 @@ function PaymentFormDialog() {
                         <Button
                             type="submit"
                             className="w-full"
-                            disabled={isCreating || isUpdating}
-                        >
+                            disabled={isCreating || isUpdating}>
                             Finish Payment
                         </Button>
                     </form>

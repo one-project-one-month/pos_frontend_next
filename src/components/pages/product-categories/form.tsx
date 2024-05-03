@@ -18,7 +18,7 @@ import {
     useCreateProductCategory,
     useEditProductCategory,
 } from "@/services/api/product-categories";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { ProductCategory } from "@prisma/client";
 import { toast } from "sonner";
 
@@ -43,6 +43,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
         if (!isEditMode) {
             createProductCategory(values, {
                 onSuccess: () => {
+                    toast.success("New product category created!");
                     router.push("/product-categories");
                 },
                 onError: (error) => {
@@ -61,6 +62,7 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
                 },
                 {
                     onSuccess: () => {
+                        toast.success("Product category data updated!");
                         router.push("/product-categories");
                     },
                     onError: (error) => {

@@ -2,8 +2,11 @@ import prisma from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
 import { NextRequest, NextResponse } from "next/server";
 
+import { updateProductSchema } from "@/validations/product";
+
 type paramsType = { params: { productId: string } };
 
+/* GET /api/v1/products/:productId */
 export async function GET(req: NextRequest, { params }: paramsType) {
     const response = await catchAsyncError("[PRODUCT_GETONE]", async () => {
         const product = await prisma.product.findUnique({
@@ -22,25 +25,24 @@ export async function GET(req: NextRequest, { params }: paramsType) {
     return response;
 }
 
+/* PATCH /api/v1/products/:productId */
 export async function PATCH(req: NextRequest, { params }: paramsType) {
     const response = await catchAsyncError("[PRODUCT_PATCH]", async () => {
         const body = await req.json();
+
+        const validation = updateProductSchema.safeParse(body);
+
+        if (!validation.success)
+            return NextResponse.json(
+                { message: "Invalid inputs.", errors: validation.error.format() },
+                { status: 400 },
+            );
 
         const updatedProduct = await prisma.product.update({
             where: {
                 productId: params.productId,
             },
-            data: {
-                productCode: body.productCode,
-                productName: body.productName,
-                price: body.price,
-                category: {
-                    connect: {
-                        productCategoryCode: body.categoryCode,
-                    },
-                },
-                saleInvoiceDetails: body?.saleInvoiceDetails,
-            },
+            data: validation.data,
         });
 
         if (!updatedProduct) {

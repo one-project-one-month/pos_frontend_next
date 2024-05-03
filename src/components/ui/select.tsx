@@ -10,7 +10,20 @@ const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
 
-const SelectValue = SelectPrimitive.Value;
+const SelectValue = ({
+    className,
+    children,
+    ...props
+}: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Value>) => {
+    return (
+        <SelectPrimitive.Value
+            className={cn("text-muted-foreground placeholder:text-muted-foreground", className)}
+            {...props}
+        >
+            {children}
+        </SelectPrimitive.Value>
+    );
+};
 
 const SelectTrigger = React.forwardRef<
     React.ElementRef<typeof SelectPrimitive.Trigger>,

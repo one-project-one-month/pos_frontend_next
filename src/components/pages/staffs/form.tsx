@@ -13,7 +13,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { createStaffSchema } from "@/validations/staff";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { $Enums, Staff } from "@prisma/client";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCreateStaff, useUpdateStaff } from "@/services/api/staffs";
@@ -51,6 +51,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
         if (!isEditMode) {
             createStaff(values, {
                 onSuccess: () => {
+                    toast.success("New staff created!");
                     router.push("/admin/staffs");
                 },
                 onError: (error) => {
@@ -66,6 +67,7 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                 { payload: values, id: initialValues.staffId },
                 {
                     onSuccess: () => {
+                        toast.success("Staff data updated!");
                         router.push("/admin/staffs");
                     },
                     onError: (error) => {
