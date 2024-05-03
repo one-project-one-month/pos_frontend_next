@@ -2,6 +2,8 @@ import prisma from "@/db/prismaClient";
 import { catchAsyncError } from "@/lib/errorhandler";
 import { NextRequest, NextResponse } from "next/server";
 
+import { updateProductCategorySchema } from "@/validations/product-category";
+
 type paramsType = { params: { categoryId: string } };
 
 /* GET /api/v1/product-categories/:categoryId */
@@ -30,14 +32,19 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
     const response = await catchAsyncError("[CATEGORY_PATCH]", async () => {
         const body = await req.json();
 
+        const validation = updateProductCategorySchema.safeParse(body);
+
+        if (!validation.success)
+            return NextResponse.json(
+                { message: "Invalid inputs.", errors: validation.error.format() },
+                { status: 400 },
+            );
+
         const updatedCategory = await prisma.productCategory.update({
             where: {
                 productCategoryId: params.categoryId,
             },
-            data: {
-                productCategoryName: body.productCategoryName,
-                productCategoryCode: body.productCategoryCode,
-            },
+            data: validation.data,
         });
 
         if (!updatedCategory)

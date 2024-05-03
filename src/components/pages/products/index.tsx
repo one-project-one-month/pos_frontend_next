@@ -79,7 +79,8 @@ function Products() {
                                                     toast.error("Product deletion failed!");
                                                 },
                                             });
-                                        }}>
+                                        }}
+                                    >
                                         Sure
                                     </Button>
                                 </div>

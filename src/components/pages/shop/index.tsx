@@ -52,7 +52,8 @@ function ShopPage() {
                         />
                         <Select
                             onValueChange={(value) => setSelectedCategory(value)}
-                            value={selectedCategory}>
+                            value={selectedCategory}
+                        >
                             <SelectTrigger className="w-[280px]">
                                 <SelectValue
                                     className="text-muted-foreground"
@@ -67,7 +68,8 @@ function ShopPage() {
                                         productCategoriesRes.data.categories.map((pc) => (
                                             <SelectItem
                                                 key={pc.productCategoryId}
-                                                value={pc.productCategoryCode}>
+                                                value={pc.productCategoryCode}
+                                            >
                                                 {pc.productCategoryName}
                                             </SelectItem>
                                         ))
@@ -97,13 +99,15 @@ function ShopPage() {
                         <Button
                             size="lg"
                             disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(currentPage - 1)}>
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
                             Prev
                         </Button>
                         <Button
                             size="lg"
                             disabled={endSlicePoint >= (totalProductsCount ?? 0)}
-                            onClick={() => setCurrentPage(currentPage + 1)}>
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
                             Next
                         </Button>
                     </div>

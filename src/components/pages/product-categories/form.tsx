@@ -40,7 +40,6 @@ export function ProductCategoryForm({ initialValues, isEditMode }: ProductCatego
 
     function onSubmit(values: z.infer<typeof productCategoryFormSchema>) {
         toast.info("Making the request...", { id: "info-toast" });
-
         if (!isEditMode) {
             createProductCategory(values, {
                 onSuccess: () => {
