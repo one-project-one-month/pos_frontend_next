@@ -21,8 +21,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
     console.log(saleInvoiceDetailData);
 
     const paymentType =
-        saleInvoiceDetailData?.paymentType === "mobileBanking" ? "Mobile Banking" : "Cash";
-
+        saleInvoiceDetailData.paymentType === "mobileBanking" ? "Mobile Banking" : "Cash";
     return (
         <div className="pb-10">
             <div>
@@ -39,46 +38,7 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                         )}
                     />
                 </div>
-                {isLoading || !saleInvoiceDetailData ? (
-                    <div className="mt-4 h-[588px] w-[500px] animate-pulse rounded-sm bg-primary/10"></div>
-                ) : (
-                    <div className="mt-4 flex max-w-[500px] flex-col rounded-sm border border-input bg-slate-100 px-4 py-8 dark:bg-slate-900">
-                        <div className="flex w-full flex-col" ref={containerRef}>
-                            <h2 className="text-center text-xl font-semibold">Your POS Name</h2>
-                            <div className="mx-auto my-2 flex flex-col items-center border-b-2 border-dotted border-b-primary pb-2">
-                                <p className="text-sm">your shop address</p>
-                                <p className="text-sm">your shop phone numbers</p>
-                            </div>
-                            <p className="text-center text-sm">
-                                Sale made by {saleInvoiceDetailData.staff.staffName}
-                            </p>
-                            <div className="mt-8 flex flex-col gap-1">
-                                {saleInvoiceDetailData.saleInvoiceDetails.map((product, index) => {
-                                    return (
-                                        <div
-                                            key={product.productCode}
-                                            className="flex items-center justify-between">
-                                            <div className="flex items-center">
-                                                {product.productCode} &nbsp;
-                                                <span className="text-sm text-slate-800 dark:text-slate-200">
-                                                    x {product.quantity}
-                                                </span>
-                                            </div>
-                                            <p
-                                                className={cn(
-                                                    index ===
-                                                        saleInvoiceDetailData.saleInvoiceDetails
-                                                            .length -
-                                                            1 &&
-                                                        "border-b-2 border-dotted border-b-primary pb-2",
-                                                )}>
-                                                ${product.price * product.quantity}
-                                            </p>
-                                        </div>
-                                    );
-                                })}
-
-<!--                 <div className="mt-4 flex max-w-[500px] flex-col rounded-sm border border-input bg-slate-100 px-4 py-8 dark:bg-slate-900">
+                <div className="mt-4 flex max-w-[500px] flex-col rounded-sm border border-input bg-slate-100 px-4 py-8 dark:bg-slate-900">
                     <div className="flex w-full flex-col" ref={containerRef}>
                         <h2 className="text-center text-xl font-semibold">Your POS Name</h2>
                         <div className="mx-auto my-2 flex flex-col items-center border-b-2 border-dotted border-b-primary pb-2">
@@ -93,7 +53,8 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                 return (
                                     <div
                                         key={detail.product.productCode}
-                                        className="flex items-center justify-between">
+                                        className="flex items-center justify-between"
+                                    >
                                         <div className="flex items-center">
                                             {detail.product.productName} &nbsp;
                                             <span className="text-sm text-slate-800 dark:text-slate-200">
@@ -107,7 +68,8 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                                         .length -
                                                         1 &&
                                                     "border-b-2 border-dotted border-b-primary pb-2",
-                                            )}>
+                                            )}
+                                        >
                                             ${detail.amount}
                                         </p>
                                     </div>
@@ -129,54 +91,37 @@ function SaleInvoiceDetails({ id }: SaleInvoiceDetailsProps) {
                                 <p className="text-lg">
                                     ${Number(saleInvoiceDetailData.paymentAmount).toFixed(2)}
                                 </p>
-                            })} -->
-                                <div className="ml-auto flex w-1/2 items-center justify-between pt-1">
-                                    <p className="text-base">Subtotal</p>
-                                    <p className="text-base">
-                                        ${Number(saleInvoiceDetailData.totalAmount).toFixed(2)}
-                                    </p>
-                                </div>
-                                <div className="ml-auto flex w-1/2 items-center justify-between">
-                                    <p className="text-base">Tax</p>
-                                    <p className="text-base">5%</p>
-                                </div>
-                                <div className="ml-auto flex w-1/2 items-center justify-between">
-                                    <p className="text-lg">TOTAL</p>
-                                    <p className="text-lg">
-                                        ${Number(saleInvoiceDetailData.paymentAmount).toFixed(2)}
-                                    </p>
-                                </div>
                             </div>
-                            <div className="mt-8 flex flex-col gap-1">
-                                {saleInvoiceDetailData.paymentType && (
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-lg capitalize">{paymentType}</p>
-                                        <p className="text-lg">
-                                            ${saleInvoiceDetailData.receiveAmount}
-                                        </p>
-                                    </div>
-                                )}
-                                <div className="ml-auto flex w-1/2 items-center justify-between">
-                                    <p className="text-lg">CHANGE</p>
+                        </div>
+                        <div className="mt-8 flex flex-col gap-1">
+                            {saleInvoiceDetailData.paymentType && (
+                                <div className="flex items-center justify-between">
+                                    <p className="text-lg capitalize">{paymentType}</p>
                                     <p className="text-lg">
-                                        ${saleInvoiceDetailData.change?.toFixed(2) ?? "0.00"}
+                                        ${saleInvoiceDetailData.receiveAmount}
                                     </p>
                                 </div>
-                            </div>
-                            <div className="flex flex-col gap-0.5">
-                                <p className="mt-6 w-full text-center text-sm">
-                                    Voucher - {saleInvoiceDetailData.voucherNo}
-                                </p>
-                                <p className="text-center text-sm">
-                                    {formatDate(saleInvoiceDetailData.dateTime, "dd/ MM/ y, hh:mm")}
-                                </p>
-                                <p className="mt-4 text-center text-sm">
-                                    Thank you for shopping with us!
+                            )}
+                            <div className="ml-auto flex w-1/2 items-center justify-between">
+                                <p className="text-lg">CHANGE</p>
+                                <p className="text-lg">
+                                    ${saleInvoiceDetailData.change?.toFixed(2) ?? "0.00"}
                                 </p>
                             </div>
                         </div>
+                        <div className="flex flex-col gap-0.5">
+                            <p className="mt-6 w-full text-center text-sm">
+                                Voucher - {saleInvoiceDetailData.voucherNo}
+                            </p>
+                            <p className="text-center text-sm">
+                                {formatDate(saleInvoiceDetailData.dateTime, "d/ M/ y, hh:mm")}
+                            </p>
+                            <p className="mt-4 text-center text-sm">
+                                Thank you for shopping with us!
+                            </p>
+                        </div>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );

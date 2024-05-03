@@ -118,12 +118,14 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex space-x-4">
+                                    className="flex space-x-4"
+                                >
                                     {Object.values($Enums.Gender).map((gender) => {
                                         return (
                                             <FormItem
                                                 key={gender}
-                                                className="flex items-center space-x-1 space-y-0">
+                                                className="flex items-center space-x-1 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={gender} />
                                                 </FormControl>
@@ -150,12 +152,14 @@ export function StaffForm({ initialValues, isEditMode = false }: Props) {
                                 <RadioGroup
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
-                                    className="flex space-x-4">
+                                    className="flex space-x-4"
+                                >
                                     {Object.values($Enums.Position).map((position) => {
                                         return (
                                             <FormItem
                                                 key={position}
-                                                className="flex items-center space-x-1 space-y-0">
+                                                className="flex items-center space-x-1 space-y-0"
+                                            >
                                                 <FormControl>
                                                     <RadioGroupItem value={position} />
                                                 </FormControl>

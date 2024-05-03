@@ -33,7 +33,7 @@ const paymentFormSchema = z.object({
     paymentType: z.string().min(1, "Payment Type is required"),
 });
 
-function PaymentFormDialog() {
+function PaymentFormDialog({ totalAmount }: { totalAmount: number }) {
     const router = useRouter();
     const { mutate: createSaleInvoice, isPending: isCreating } = useCreateSaleInvoice();
     const { mutate: confirmPayment, isPending: isUpdating } = useUpdateInvoiceAndConfirmPayment();
@@ -64,7 +64,8 @@ function PaymentFormDialog() {
 
                     confirmPayment(
                         {
-                            ...values,
+                            receiveAmount: values.receiveAmount,
+                            paymentType: values.paymentType as "cash" | "mobileBanking",
                             voucherNo: voucherNo,
                         },
                         {
@@ -105,6 +106,7 @@ function PaymentFormDialog() {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Confirm payment</DialogTitle>
+                    <DialogHeader>Total Amount - {totalAmount}</DialogHeader>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -139,8 +141,7 @@ function PaymentFormDialog() {
                                         <RadioGroup
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}
-                                            className="flex items-center gap-2"
-                                        >
+                                            className="flex items-center gap-2">
                                             <FormItem className="flex items-center space-x-1.5 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value="cash" />
@@ -164,8 +165,7 @@ function PaymentFormDialog() {
                         <Button
                             type="submit"
                             className="w-full"
-                            disabled={isCreating || isUpdating}
-                        >
+                            disabled={isCreating || isUpdating}>
                             Finish Payment
                         </Button>
                     </form>

@@ -111,7 +111,9 @@ function CartSidebar() {
                         {Number(totalProductsPrice + totalProductsPrice * tax).toFixed(2)}
                     </p>
                 </div>
-                <PaymentFormDialog />
+                <PaymentFormDialog
+                    totalAmount={Number(totalProductsPrice + totalProductsPrice * tax)}
+                />
             </div>
         </div>
     );

@@ -72,7 +72,8 @@ function ProductCategories() {
                                                     toast.error("Category deletion failed!");
                                                 },
                                             });
-                                        }}>
+                                        }}
+                                    >
                                         Sure
                                     </Button>
                                 </div>

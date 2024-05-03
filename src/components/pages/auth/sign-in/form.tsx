@@ -48,11 +48,13 @@ const SignInForm = () => {
 
                         <form
                             className="space-y-4 md:space-y-6"
-                            onSubmit={handleSubmit(handleSignIn)}>
+                            onSubmit={handleSubmit(handleSignIn)}
+                        >
                             <div>
                                 <label
                                     htmlFor="staff_code"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                >
                                     Staff code
                                 </label>
                                 <input
@@ -68,7 +70,8 @@ const SignInForm = () => {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                >
                                     Password
                                 </label>
                                 <input
@@ -85,7 +88,8 @@ const SignInForm = () => {
                             <div className="flex items-center justify-end">
                                 <a
                                     href="#"
-                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline">
+                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
+                                >
                                     Forgot password?
                                 </a>
                             </div>
@@ -94,7 +98,8 @@ const SignInForm = () => {
                                 variant={"default"}
                                 type="submit"
                                 className="w-full"
-                                disabled={isPending}>
+                                disabled={isPending}
+                            >
                                 Sign in
                             </Button>
                         </form>
