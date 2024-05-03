@@ -12,10 +12,31 @@ export async function GET(req: NextRequest, { params }: paramsType) {
                 saleInvoiceId: params.invoiceId,
             },
             include: {
-                staff: true,
-                saleInvoiceDetails: true,
+                staff: {
+                    select: {
+                        staffId: true,
+                        staffCode: true,
+                        staffName: true,
+                    },
+                },
+                saleInvoiceDetails: {
+                    select: {
+                        quantity: true,
+                        price: true,
+                        amount: true,
+                        product: {
+                            select: {
+                                productId: true,
+                                productCode: true,
+                                productName: true,
+                            },
+                        },
+                    },
+                },
             },
         });
+
+        console.log({ ...saleInvoice });
 
         if (!saleInvoice)
             return NextResponse.json({ message: "Sale invoice not found." }, { status: 404 });
