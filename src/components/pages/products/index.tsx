@@ -7,9 +7,15 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/compone
 import Link from "next/link";
 import { useRef } from "react";
 import { ProductWithCategory } from "@/types/baseType";
+import { toast } from "sonner";
 
 function Products() {
-    const { data: productsRes, isLoading, refetch: refetchProducts } = useGetProducts();
+    const {
+        data: productsRes,
+        isLoading,
+        isFetchedAfterMount,
+        refetch: refetchProducts,
+    } = useGetProducts();
     const { mutate: deleteProduct } = useDeleteProduct();
     const popoverRef = useRef<HTMLButtonElement>(null);
     const columns: ColumnDef<ProductWithCategory>[] = [
@@ -29,8 +35,8 @@ function Products() {
             accessorKey: "category",
             header: "Category",
             cell: ({ row }) => {
-                const categoryName = row.original.category.productCategoryName;
-                return <div>{categoryName}</div>;
+                const categoryName = row.original.category?.productCategoryName;
+                return <div>{categoryName ?? "-"}</div>;
             },
         },
         {
@@ -67,6 +73,10 @@ function Products() {
                                                 onSuccess: () => {
                                                     refetchProducts();
                                                     popoverRef.current?.click();
+                                                    toast.success("Product deleted!");
+                                                },
+                                                onError: () => {
+                                                    toast.error("Product deletion failed!");
                                                 },
                                             });
                                         }}
@@ -93,7 +103,7 @@ function Products() {
             <ProductsDataTable
                 columns={columns}
                 data={productsRes?.data.products}
-                isLoading={isLoading}
+                isLoading={isLoading || !isFetchedAfterMount}
             />
         </div>
     );

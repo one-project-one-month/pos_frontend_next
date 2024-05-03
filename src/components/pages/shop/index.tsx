@@ -55,7 +55,10 @@ function ShopPage() {
                             value={selectedCategory}
                         >
                             <SelectTrigger className="w-[280px]">
-                                <SelectValue placeholder="Search by Product Category" />
+                                <SelectValue
+                                    className="text-muted-foreground"
+                                    placeholder="Search by Product Category"
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
