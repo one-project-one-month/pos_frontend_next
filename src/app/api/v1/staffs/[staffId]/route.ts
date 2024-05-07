@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, { params }: { params: { staffId: str
         return NextResponse.json({
             message: "success",
             data: {
-                staff,
+                staff: exclude(staff, "password"),
             },
         });
     });
