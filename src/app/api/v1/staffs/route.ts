@@ -8,7 +8,7 @@ import { hashPassword } from "./utils";
 /* GET /api/v1/staffs */
 export async function GET() {
     const response = await catchAsyncError("[STAFF_GETMANY]", async () => {
-        const staffs = await prisma.staff.findMany({});
+        let staffs = await prisma.staff.findMany({});
 
         if (staffs.length < 1)
             return NextResponse.json(
@@ -17,12 +17,12 @@ export async function GET() {
                     status: 404,
                 },
             );
-        const staffsData = staffs.map((staff) => exclude(staff, "password"));
+        staffs = staffs.map((staff) => exclude(staff, "password"));
         return NextResponse.json({
             message: "success",
             result: staffs.length,
             data: {
-                staffsData,
+                staffs,
             },
         });
     });
