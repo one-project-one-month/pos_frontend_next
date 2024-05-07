@@ -77,8 +77,7 @@ function Staffs() {
                                                     toast.error("Staff deletion failed!");
                                                 },
                                             });
-                                        }}
-                                    >
+                                        }}>
                                         Sure
                                     </Button>
                                 </div>
