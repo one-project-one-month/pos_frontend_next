@@ -22,7 +22,7 @@ export async function GET() {
             message: "success",
             result: staffs.length,
             data: {
-                staffs,
+                staffs: staffs.map((staff) => exclude(staff, "password")),
             },
         });
     });
