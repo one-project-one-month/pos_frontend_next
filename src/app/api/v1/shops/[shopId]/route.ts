@@ -64,6 +64,7 @@ export async function PATCH(req: NextRequest, { params }: paramsType) {
 /* DELETE /api/v1/shops/:shopId */
 export async function DELETE(req: NextRequest, { params }: paramsType) {
     const response = await catchAsyncError("[SHOP_DELETE]", async () => {
+        console.log(params.shopId);
         const deletedShop = await prisma.shop.delete({
             where: { shopId: params.shopId },
         });

@@ -68,7 +68,7 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
             return NextResponse.json({ message: "Customer not found." }, { status: 404 });
         }
 
-        return NextResponse.json({ message: "success", data: { customer } }, { status: 204 });
+        return NextResponse.json({ message: "success", data: { customer } }, { status: 202 });
     });
     return response;
 }

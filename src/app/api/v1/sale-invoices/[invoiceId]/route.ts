@@ -64,7 +64,7 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
                 message: "success",
                 data: null,
             },
-            { status: 204 },
+            { status: 202 },
         );
     });
 

@@ -69,13 +69,7 @@ export async function DELETE(req: NextRequest, { params }: paramsType) {
         if (!deletedCategory)
             return NextResponse.json({ message: "Product category not found." }, { status: 404 });
 
-        return NextResponse.json(
-            {
-                message: "success",
-                data: null,
-            },
-            { status: 204 },
-        );
+        return NextResponse.json({ message: "successful", data: null }, { status: 202 });
     });
 
     return response;
